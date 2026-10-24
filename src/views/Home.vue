@@ -149,6 +149,8 @@ onBeforeUnmount(() => {
         </button>
       </div>
 
+      <div class="group-footer">校内奖助办法对本专科适用同一套标准。</div>
+
       <div class="group-header">关于</div>
       <div class="group">
         <a class="cell cell--tappable" href="tel:02361065934">

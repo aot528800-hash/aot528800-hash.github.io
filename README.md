@@ -23,14 +23,23 @@ python -m http.server 4180 --directory site
 # 打开 http://127.0.0.1:4180
 ```
 
-### 部署到 GitHub Pages
+### 在线地址
 
-1. 仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。
-2. 推送到 `main` 或 `master` 分支，`.github/workflows/pages.yml` 会自动发布 `site/`。
-3. 首次发布完成后，仓库 Settings → Pages 顶部会显示访问地址，形如
-   `https://<用户名>.github.io/<仓库名>/`。
+**https://aot528800-hash.github.io**
 
-想让搜索引擎收录时，把 `scripts/build-site.mjs` 里的 `SITE.url` 改成上面的实际地址，重新生成即可（会同时输出 `sitemap.xml`）。
+### 部署方式
+
+仓库是 GitHub 用户站点（`aot528800-hash.github.io`），GitHub Pages 从 `gh-pages` 分支发布。
+源码留在 `master`，发布内容只推 `site/`：
+
+```bash
+npm run deploy:site
+```
+
+等价于：重新生成 `site/` → `git subtree push --prefix site origin gh-pages`。
+推送后 30–60 秒自动生效，不需要进设置页。
+
+改完政策数据后，只要跑这一条命令，网站就更新了。
 
 ### 站点结构
 

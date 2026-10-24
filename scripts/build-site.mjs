@@ -22,7 +22,7 @@ const SITE = {
   phone: '15736152295',
   updated: '2026 年 10 月 24 日',
   // 部署到 GitHub Pages 后把这里改成实际地址，例如 https://用户名.github.io/仓库名
-  url: '',
+  url: 'https://aot528800-hash.github.io',
 }
 
 const esc = (s) =>

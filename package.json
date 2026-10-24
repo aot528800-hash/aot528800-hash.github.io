@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "build:site": "node scripts/build-site.mjs",
+    "deploy:site": "node scripts/build-site.mjs && git subtree push --prefix site origin gh-pages",
     "test": "vitest run tests/unit",
     "test:unit": "vitest run tests/unit",
     "test:e2e": "node tests/e2e/run.mjs",

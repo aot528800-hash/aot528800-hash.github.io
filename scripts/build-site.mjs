@@ -83,6 +83,25 @@ function monthsOf(label) {
 // 学年视图：9 月 → 次年 8 月
 const MONTH_ORDER = [9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8]
 
+// 从 21 条审批链里抽出资助中心自己要做的步骤（学生看不到的那部分）
+const CENTER_ROLE = /中心|学生处/
+const CENTER_ACTIONS = [] // { month, policy, title, desc }
+for (const p of policyCategories) {
+  const centerSteps = []
+  for (const lvl of p.approvalChain || []) {
+    if (!CENTER_ROLE.test(lvl.role || '')) continue
+    for (const st of lvl.steps || []) centerSteps.push({ title: st.title, desc: st.desc || '' })
+  }
+  if (!centerSteps.length) continue
+  const months = new Set()
+  for (const t of p.timeline || []) for (const m of monthsOf(t.month)) months.add(m)
+  for (const m of months) {
+    for (const st of centerSteps) CENTER_ACTIONS.push({ month: m, policy: p.title, title: st.title, desc: st.desc })
+  }
+}
+const CENTER_ACTION_TOTAL = CENTER_ACTIONS.length
+const CENTER_ACTION_DISTINCT = new Set(CENTER_ACTIONS.map((a) => a.title)).size
+
 function buildYearSchedule() {
   const map = new Map(MONTH_ORDER.map((m) => [m, { month: m, student: [], staff: [] }]))
   for (const s of annualSchedule) {
@@ -99,8 +118,14 @@ function buildYearSchedule() {
   }
   for (const r of RHYTHM_ROWS) {
     for (const m of monthsOf(r[0])) {
-      map.get(m)?.staff.push({ task: r[1], cat: r[2] || '', note: r[3] || '' })
+      map.get(m)?.staff.push({ task: r[1], note: r[3] || r[2] || '', kind: 'task' })
     }
+  }
+  // 审批链里中心自己的动作，按月份挂上（同名去重）
+  for (const a of CENTER_ACTIONS) {
+    const bucket = map.get(a.month)
+    if (!bucket) continue
+    bucket.staff.push({ task: a.title, note: a.policy, kind: 'action' })
   }
   return MONTH_ORDER.map((m) => {
     const d = map.get(m)
@@ -550,15 +575,17 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
   width: 4px; height: 4px; border-radius: 50%; background: var(--line);
 }
 .month-card li span { display: block; font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+.month-card li.is-action::before { background: #ff9f0a; }
 .month-card li.more { color: var(--text-3); font-style: normal; }
 .month-card li.more::before { background: transparent; }
 .m-empty { margin: 0; font-size: 12.5px; color: var(--text-3); }
+.schedule-note { margin: 22px 0 0; font-size: 12px; line-height: 1.7; color: var(--text-3); max-width: 92ch; }
 
 /* ---------- 全年分析 ---------- */
 .analysis { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--line-2); }
 .analysis h3 { margin: 0 0 20px; font-size: 24px; letter-spacing: -.02em; }
 
-.an-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; }
+.an-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 32px; }
 @media (max-width: 1080px) { .an-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .an-grid { grid-template-columns: 1fr; } }
 .an-card { padding: 18px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--card); }
@@ -1504,6 +1531,10 @@ function renderIndex() {
   ).join('')
 
   const year = buildYearSchedule()
+  // 与月卡同口径：跨月段（如 2-3 月）在两个月中各计一次
+  const STUDENT_TOTAL = year.reduce((n, m) => n + m.student.length, 0)
+  const STAFF_TOTAL = year.reduce((n, m) => n + m.staff.length, 0)
+  const RATIO = (STAFF_TOTAL / Math.max(1, STUDENT_TOTAL)).toFixed(1)
   const peak = year.reduce((a, b) => (b.total > a.total ? b : a), year[0])
   const totalNodes = year.reduce((n, m) => n + m.total, 0)
 
@@ -1539,10 +1570,25 @@ function renderIndex() {
   const monthCards = year
     .map((m) => {
       const level = m.total >= peak.total * 0.75 ? 'high' : m.total >= peak.total * 0.4 ? 'mid' : 'low'
-      const staffList = m.staff.length
-        ? `<ul>${m.staff
-            .map((s) => `<li>${esc(s.task)}${s.note ? `<span>${esc(s.note)}</span>` : ''}</li>`)
-            .join('')}</ul>`
+      // 按动作类型归并：同类动作在多个项目上重复，重复次数本身就是工作量
+      const staffGroups = []
+      for (const s of m.staff) {
+        let g = staffGroups.find((x) => x.title === s.task)
+        if (!g) { g = { title: s.task, n: 0, from: [] }; staffGroups.push(g) }
+        g.n += 1
+        if (s.kind === 'action' && s.note && !g.from.includes(s.note)) g.from.push(s.note)
+      }
+      staffGroups.sort((a, b) => b.n - a.n)
+      const staffShown = staffGroups.slice(0, 6)
+      const staffList = staffGroups.length
+        ? `<ul>${staffShown
+            .map(
+              (g) =>
+                `<li class="${g.from.length ? 'is-action' : ''}">${esc(g.title)}${g.n > 1 ? ` × ${g.n}` : ''}${
+                  g.from.length ? `<span>${esc(g.from.slice(0, 3).join('、'))}${g.from.length > 3 ? ' 等' : ''}</span>` : ''
+                }</li>`,
+            )
+            .join('')}${staffGroups.length > staffShown.length ? `<li class="more">另有 ${staffGroups.length - staffShown.length} 类动作</li>` : ''}</ul>`
         : '<p class="m-empty">常规经办：按月发放、动态认定、随时受理</p>'
       const st = m.student
       const shown = st.slice(0, 4)
@@ -1554,10 +1600,10 @@ function renderIndex() {
       return `<article class="month-card" data-level="${level}">
         <header>
           <b>${m.month} 月</b>
-          <span class="month-total">${m.total} 件事</span>
+          <span class="month-total">学生 ${m.student.length} · 中心 ${m.staff.length}</span>
         </header>
         <div class="m-block">
-          <div class="m-label m-label--staff">资助中心</div>
+          <div class="m-label m-label--staff">背后的工作 · 中心侧环节</div>
           ${staffList}
         </div>
         <div class="m-block">
@@ -1672,10 +1718,11 @@ function renderIndex() {
 <section id="schedule">
   <div class="wrap">
     <p class="eyebrow">全年日程</p>
-    <h2>一年 12 个月，没有淡季</h2>
-    <p class="lede">按学年排（9 月到次年 8 月）。全年 ${totalNodes} 个申请与经办节点叠加，最密集的是 <strong>${peak.month} 月</strong>——${peak.staff.length} 项中心经办任务与 ${peak.student.length} 项学生事项同时推进。</p>
+    <h2>学生看到的 ${STUDENT_TOTAL} 个节点，背后是 ${STAFF_TOTAL} 次经办</h2>
+    <p class="lede">按学年排（9 月到次年 8 月）。学生能看见的 ${STUDENT_TOTAL} 个申请节点之外，资助中心还有 <strong>${STAFF_TOTAL} 项经办动作</strong>——平均每 1 个公开节点，对应 ${RATIO} 个看不见的环节。最密集的是 <strong>${peak.month} 月</strong>：学生 ${peak.student.length} 个节点、中心 ${peak.staff.length} 项动作。</p>
     <div class="load-bars">${loadBar}</div>
     <div class="month-grid">${monthCards}</div>
+    <p class="schedule-note">口径说明：中心侧环节按项目归属到其办理月份，含后续发放、归档等环节；同一环节在多个项目上重复时按次数合并（如「全校公示 × 4」表示 4 个项目各需公示一次）。学生事项与中心环节相加不等于工时。</p>
 
     <div class="analysis">
       <h3>这份表能读出什么</h3>
@@ -1697,6 +1744,11 @@ function renderIndex() {
           <p>按月发放、动态认定、随时受理这类事项每月都在跑，却不计入上面的节点数——实际工作量被低估。</p>
         </div>
         <div class="an-card">
+          <b>${STAFF_TOTAL}</b>
+          <span>项中心经办动作</span>
+          <p>审批链里由中心自己完成的步骤，同名合并后 ${CENTER_ACTION_DISTINCT} 类：复核名单、组织公示、系统录入、上报、归档。是学生可见节点的 ${RATIO} 倍。</p>
+        </div>
+        <div class="an-card">
           <b>${top3Pct}%</b>
           <span>前 3 个门类占的业务比例</span>
           <p>${sortedCats.slice(0, 3).map((x) => x.name).join('、')}，三个门类 ${top3n} 项业务，几乎覆盖全部资金与合规动作。</p>
@@ -1704,9 +1756,9 @@ function renderIndex() {
       </div>
 
       <figure class="pareto">
-        <figcaption>月份节点数（降序）与累计占比</figcaption>
+        <figcaption>每月负荷（学生节点 + 中心动作）与累计占比</figcaption>
         ${buildPareto(year, totalNodes)}
-        <p class="pf-note">前 4 个月累计 <strong>${((top4 / totalNodes) * 100).toFixed(1)}%</strong>，前 8 个月才到 80%。节点数是工作量的代理指标，不等于工时。</p>
+        <p class="pf-note">前 4 个月累计 <strong>${((top4 / totalNodes) * 100).toFixed(1)}%</strong>，前 8 个月才到 80%。负荷按「学生节点 + 中心动作」计，仍是结构量，不等于工时。</p>
       </figure>
 
       <div class="an-conclusion">

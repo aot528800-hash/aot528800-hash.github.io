@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a73e8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d47a1;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="handGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="180" height="180" rx="36" ry="36" fill="url(#bgGrad)"/>
+  <circle cx="100" cy="78" r="38" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="6"/>
+  <g fill="rgba(255,255,255,0.25)">
+    <rect x="94" y="32" width="12" height="14" rx="2"/>
+    <rect x="94" y="110" width="12" height="14" rx="2"/>
+    <rect x="54" y="72" width="14" height="12" rx="2"/>
+    <rect x="132" y="72" width="14" height="12" rx="2"/>
+    <rect x="63" y="47" width="12" height="12" rx="2" transform="rotate(-45 69 53)"/>
+    <rect x="125" y="47" width="12" height="12" rx="2" transform="rotate(45 131 53)"/>
+    <rect x="63" y="97" width="12" height="12" rx="2" transform="rotate(45 69 103)"/>
+    <rect x="125" y="97" width="12" height="12" rx="2" transform="rotate(-45 131 103)"/>
+  </g>
+  <path d="M100 58 L78 68 L78 92 Q78 102 100 108 Q122 102 122 92 L122 68 Z" fill="white" opacity="0.95"/>
+  <path d="M100 62 L100 104" stroke="#1a73e8" stroke-width="1.5" opacity="0.3"/>
+  <path d="M52 128 Q60 112 78 118 Q88 122 92 132 L92 140 Q80 138 68 142 Q56 146 52 128Z" fill="url(#handGrad)" opacity="0.95"/>
+  <path d="M148 128 Q140 112 122 118 Q112 122 108 132 L108 140 Q120 138 132 142 Q144 146 148 128Z" fill="url(#handGrad)" opacity="0.95"/>
+  <path d="M100 126 Q94 118 94 114 Q94 108 100 108 Q106 108 106 114 Q106 118 100 126Z" fill="#F59E0B"/>
+  <text x="100" y="168" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="16" font-weight="700" fill="white" letter-spacing="2">CQEVU</text>
+</svg>

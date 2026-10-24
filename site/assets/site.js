@@ -52,6 +52,24 @@
     });
   }
 
+  /* 桌面快捷键：/ 聚焦搜索，Esc 清除 */
+  var searchInput = document.getElementById('q');
+  if (searchInput) {
+    document.addEventListener('keydown', function (e) {
+      var tag = (e.target && e.target.tagName) || '';
+      var typing = /INPUT|TEXTAREA|SELECT/.test(tag) || (e.target && e.target.isContentEditable);
+      if (e.key === '/' && !typing) {
+        e.preventDefault();
+        searchInput.focus();
+        searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else if (e.key === 'Escape' && document.activeElement === searchInput) {
+        searchInput.value = '';
+        searchInput.dispatchEvent(new Event('input'));
+        searchInput.blur();
+      }
+    });
+  }
+
   /* 角色：选中后高亮对应环节 */
   var chips = [].slice.call(document.querySelectorAll('.role-chip'));
   if (chips.length) {

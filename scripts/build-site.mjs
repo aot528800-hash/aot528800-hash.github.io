@@ -26,6 +26,12 @@ const SITE = {
   reviewBy: '2027 年 9 月',
   // 部署到 GitHub Pages 后把这里改成实际地址，例如 https://用户名.github.io/仓库名
   url: 'https://aot528800-hash.github.io',
+  apk: {
+    version: '0.3.1',
+    size: '3.1 MB',
+    url: 'https://github.com/aot528800-hash/aot528800-hash.github.io/releases/latest/download/cqpue-aid.apk',
+    sha256: 'AD3F1EADFB397E7B389DF00EBCA0CCAE1D6AC0CF67AB5CAA3501AF5E06473517',
+  },
 }
 
 const esc = (s) =>
@@ -103,7 +109,7 @@ const CSS = `
   --purple: #8e44ad;
   --radius: 18px;
   --radius-sm: 12px;
-  --max: 1080px;
+  --max: 1200px;
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
     "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Noto Sans SC", "Microsoft YaHei",
     system-ui, sans-serif;
@@ -164,12 +170,12 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 .skip:focus { left: 16px; top: 12px; }
 
-.wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
 
 /* ---------- 导航 ---------- */
 .nav {
   position: sticky; top: 0; z-index: 100;
-  height: 52px;
+  height: 56px;
   display: flex; align-items: center;
   background: color-mix(in srgb, var(--bg) 78%, transparent);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -207,7 +213,7 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 /* ---------- Hero ---------- */
 .hero { padding: clamp(72px, 12vw, 132px) 0 clamp(64px, 10vw, 108px); text-align: center; }
 .hero h1 {
-  font-size: clamp(42px, 7.4vw, 86px);
+  font-size: clamp(44px, 7.4vw, 96px);
   line-height: 1.03; letter-spacing: -0.04em; font-weight: 700;
   margin: 0 auto 20px; max-width: 18ch;
 }
@@ -237,7 +243,7 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
   border-left: 1px solid var(--line-2);
 }
 .stats > div:first-child { border-left: none; }
-.stats b { display: block; font-size: clamp(24px, 3vw, 34px); letter-spacing: -0.03em; font-weight: 700; }
+.stats b { display: block; font-size: clamp(28px, 3.4vw, 40px); letter-spacing: -0.035em; font-weight: 700; }
 .stats span { font-size: 12.5px; color: var(--text-2); }
 @media (max-width: 620px) { .stats { grid-template-columns: repeat(2, 1fr); } }
 
@@ -292,6 +298,17 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
   padding: 12px; overflow: auto;
 }
 .map-frame svg { display: block; min-width: 720px; width: 100%; height: auto; }
+.mobile-note { display: none; }
+@media (max-width: 899px) {
+  .mobile-note {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; flex-wrap: wrap; padding: 10px 20px;
+    background: var(--bg-alt); border-bottom: 1px solid var(--line-2);
+    font-size: 12.5px; color: var(--text-2);
+  }
+  .mobile-note a { font-weight: 500; }
+}
+
 .map-hint { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 14px; font-size: 13px; color: var(--text-3); flex-wrap: wrap; }
 
 .deps { margin-top: 20px; padding: 18px 20px; background: var(--bg-alt); border-radius: var(--radius); }
@@ -342,10 +359,10 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 .meta { display: flex; gap: 8px; flex-wrap: wrap; font-size: 12.5px; color: var(--text-3); }
 .meta span { padding: 3px 9px; border-radius: 6px; background: var(--bg-alt); }
 
-.layout { display: grid; grid-template-columns: minmax(0, 1fr) 232px; gap: 56px; padding: 44px 0 96px; }
+.layout { display: grid; grid-template-columns: minmax(0, 780px) 248px; gap: 64px; justify-content: space-between; padding: 48px 0 104px; }
 @media (max-width: 960px) { .layout { grid-template-columns: 1fr; gap: 0; } .toc { display: none; } }
 
-.toc { position: sticky; top: 76px; align-self: start; font-size: 13.5px; }
+.toc { position: sticky; top: 84px; align-self: start; font-size: 13.5px; }
 .toc strong { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); margin-bottom: 10px; }
 .toc a { display: block; padding: 6px 0; color: var(--text-2); border-left: 2px solid transparent; padding-left: 12px; }
 .toc a:hover { color: var(--text); text-decoration: none; }
@@ -363,7 +380,7 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 .cond .mark.n { background: var(--red); }
 .cond ul { margin: 0; padding: 0; display: grid; gap: 8px; }
 
-.prose { font-size: 16px; line-height: 1.68; color: var(--text); }
+.prose { font-size: 16.5px; line-height: 1.72; color: var(--text); max-width: 72ch; }
 .prose > *:first-child { margin-top: 0; }
 .prose h3 { font-size: 18px; margin: 26px 0 8px; letter-spacing: -0.015em; }
 .prose p { margin: 12px 0; }
@@ -682,6 +699,24 @@ const SITE_JS = `(function () {
     });
   }
 
+  /* 桌面快捷键：/ 聚焦搜索，Esc 清除 */
+  var searchInput = document.getElementById('q');
+  if (searchInput) {
+    document.addEventListener('keydown', function (e) {
+      var tag = (e.target && e.target.tagName) || '';
+      var typing = /INPUT|TEXTAREA|SELECT/.test(tag) || (e.target && e.target.isContentEditable);
+      if (e.key === '/' && !typing) {
+        e.preventDefault();
+        searchInput.focus();
+        searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else if (e.key === 'Escape' && document.activeElement === searchInput) {
+        searchInput.value = '';
+        searchInput.dispatchEvent(new Event('input'));
+        searchInput.blur();
+      }
+    });
+  }
+
   /* 角色：选中后高亮对应环节 */
   var chips = [].slice.call(document.querySelectorAll('.role-chip'));
   if (chips.length) {
@@ -797,6 +832,7 @@ const footer = (base) => `<footer>
     <div class="links">
       <a href="${base}index.html">首页</a>
       <a href="${base}privacy.html">隐私政策</a>
+      <a href="${SITE.apk.url}">安卓版下载 v${SITE.apk.version}（${SITE.apk.size}）</a>
       <a href="${base}policies/difficulty-assessment.html">从困难认定开始</a>
     </div>
     <div>本站由周泽维个人整理，<strong>完全免费、无广告、无商业用途</strong>，仅用于学习与研究。</div>
@@ -834,6 +870,10 @@ ${extraHead}
 </head>
 <body>
 ${nav(base, active, home)}
+<div class="mobile-note">
+  <span>本站面向电脑浏览设计，手机上建议使用 App。</span>
+  <a href="${SITE.apk.url}">下载安卓版 ${SITE.apk.version}</a>
+</div>
 <main id="main">
 ${body}
 </main>
@@ -1041,7 +1081,8 @@ function renderIndex() {
       <h2>周泽维</h2>
       <p>独立开发者。做这个项目的起因很简单：资助政策散落在十几个文件里，学生看不懂、辅导员也记不全。于是把它整理成一份可以随时查的结构化资料，先做成安卓应用，再搬到这里。</p>
       <p>项目完全公益：没有广告、没有内购、没有付费咨询，也不收集任何个人信息。如果你所在的学校也想做一份，欢迎直接拿去改。</p>
-      <p><a href="privacy.html">隐私政策</a> · <a href="tel:15736152295">15736152295</a></p>
+      <p><a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}</a>　·　<a href="privacy.html">隐私政策</a>　·　<a href="tel:15736152295">15736152295</a></p>
+      <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">安装包 ${SITE.apk.size} · SHA256 ${SITE.apk.sha256.slice(0, 16)}…</p>
     </div>
     <div>
       <dl>
@@ -1049,7 +1090,7 @@ function renderIndex() {
         <dt>归属</dt><dd>重庆工程职业技术大学</dd>
         <dt>范围</dt><dd>21 个资助项目 · 10 个月段日程</dd>
         <dt>依据</dt><dd>13 份国家与校内政策文件</dd>
-        <dt>形态</dt><dd>安卓应用 + 本网页</dd>
+        <dt>形态</dt><dd>安卓应用 ＋ 本网页</dd>
         <dt>费用</dt><dd>完全免费，无商业用途</dd>
         <dt>更新</dt><dd>${SITE.updated}</dd>
       </dl>

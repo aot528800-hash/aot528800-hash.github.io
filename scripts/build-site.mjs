@@ -202,7 +202,37 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .nav-links a { color: var(--text-2); font-size: 13.5px; }
 .nav-links a:hover { color: var(--text); text-decoration: none; }
 .nav-links a[aria-current="page"] { color: var(--text); font-weight: 500; }
+.nav-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 14px; border-radius: 15px;
+  background: var(--accent); color: #fff;
+  font-size: 12.5px; font-weight: 500; white-space: nowrap;
+  transition: background .18s ease;
+}
+.nav-cta svg { width: 13px; height: 13px; }
+.nav-cta:hover { background: var(--accent-2); text-decoration: none; }
+@media (max-width: 900px) { .nav-cta { display: none; } }
 @media (max-width: 720px) { .nav-links { display: none; } }
+
+/* ---------- 适用范围提示条 ---------- */
+.scope-bar {
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--line-2);
+  font-size: 12px; color: var(--text-3);
+}
+.scope-bar .wrap {
+  display: flex; align-items: center; gap: 8px;
+  height: 34px; flex-wrap: nowrap; overflow: hidden;
+}
+.scope-bar strong { color: var(--text-2); font-weight: 600; }
+.scope-bar .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--line); flex: none; }
+.scope-bar a { margin-left: auto; color: var(--text-2); white-space: nowrap; }
+.scope-bar a:hover { color: var(--accent); }
+@media (max-width: 640px) { .scope-bar .wrap { gap: 6px; font-size: 11px; } }
+
+.scope-inline {
+  margin: 12px 0 10px; font-size: 12.5px; color: var(--text-3);
+}
 
 /* ---------- 通用 ---------- */
 section { padding: 112px 0; scroll-margin-top: 64px; }
@@ -418,6 +448,20 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 
 .pager { display: flex; justify-content: space-between; gap: 16px; border-top: 1px solid var(--line-2); padding: 24px 0 0; font-size: 14px; }
 .pager a { color: var(--accent); }
+
+/* ---------- 免责声明 ---------- */
+.wrap.narrow { max-width: 940px; }
+.disc-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px 40px;
+  margin: 8px 0 28px;
+}
+@media (max-width: 760px) { .disc-grid { grid-template-columns: 1fr; gap: 18px; } }
+.disc-item h3 { margin: 0 0 6px; font-size: 16px; letter-spacing: -.01em; }
+.disc-item p { margin: 0; font-size: 14.5px; line-height: 1.65; color: var(--text-2); }
+.disc-foot {
+  margin: 0; padding-top: 18px; border-top: 1px solid var(--line-2);
+  font-size: 13px; color: var(--text-3);
+}
 
 /* ---------- 作者 ---------- */
 .author { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
@@ -778,7 +822,8 @@ const SITE_JS = `(function () {
 
   /* 首页导航：滚动时高亮当前区块 */
   var navLinks = [].slice.call(document.querySelectorAll('.nav-links a')).filter(function (a) {
-    return a.getAttribute('href').charAt(0) === '#';
+    var h = a.getAttribute('href');
+    return h.charAt(0) === '#' && h !== '#top';
   });
   if (navLinks.length && 'IntersectionObserver' in window) {
     var ids = navLinks.map(function (a) { return a.getAttribute('href').slice(1); });
@@ -832,11 +877,16 @@ const nav = (base, active, home) => {
   <div class="wrap">
     <a class="nav-brand" href="${base}index.html">${ICON_SHIELD}CQPUE资助政策</a>
     <div class="nav-links">
+      ${link(home ? '#top' : base + 'index.html', '首页', 'home')}
       ${link(jump('policies'), '资助项目', 'policies')}
       ${link(jump('mindmap'), '体系全景', 'mindmap')}
       ${link(jump('schedule'), '全年日程', 'schedule')}
       ${link(jump('author'), '关于作者', 'author')}
     </div>
+    <a class="nav-cta" href="${SITE.apk.url}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+      下载 App
+    </a>
   </div>
 </nav>`
 }
@@ -850,7 +900,7 @@ const footer = (base) => `<footer>
       <a href="${base}policies/difficulty-assessment.html">从困难认定开始</a>
     </div>
     <div>本站由周泽维个人整理，<strong>完全免费、无广告、无商业用途</strong>，仅用于学习与研究。</div>
-    <div>非重庆工程职业技术大学官方发布。政策可能随年度调整，具体条件、金额与办理时间以学校学生资助管理中心当年通知为准。</div>
+    <div>非重庆工程职业技术大学官方产品，内容仅供参考，具体政策以学校资助管理中心当年通知为准。本站内容仅对应本校执行口径，不适用于其他高校。</div>
     <div>数据更新：${SITE.updated} · 21 个资助项目 · 13 份政策依据</div>
   </div>
 </footer>`
@@ -913,8 +963,16 @@ const layout = ({ title, description, base = '', active, home = false, body, ext
 <link rel="stylesheet" href="${base}assets/site.css">
 ${extraHead}
 </head>
-<body>
+<body id="top">
 ${nav(base, active, home)}
+<div class="scope-bar">
+  <div class="wrap">
+    <span>仅适用于 <strong>重庆工程职业技术大学</strong></span>
+    <span class="dot"></span>
+    <span>全部内容仅供参考，非学校官方发布</span>
+    <a href="${home ? '#disclaimer' : base + 'index.html#disclaimer'}">免责声明</a>
+  </div>
+</div>
 <main id="main">
 ${body}
 </main>
@@ -1115,6 +1173,35 @@ function renderIndex() {
   </div>
 </section>
 
+<section id="disclaimer">
+  <div class="wrap narrow">
+    <p class="eyebrow">适用范围</p>
+    <h2>只适用于重庆工程职业技术大学</h2>
+    <p class="lede">本站整理的国家与校内资助政策，对应的是重庆工程职业技术大学（原重庆工程职业技术学院）的执行口径。其他高校可以参照体例，但具体条件、比例、金额和办理时间以所在学校规定为准，不能直接套用。</p>
+
+    <div class="disc-grid">
+      <div class="disc-item">
+        <h3>非官方资料</h3>
+        <p>由周泽维个人独立整理，与学校无隶属关系，不是学校官方发布的产品。</p>
+      </div>
+      <div class="disc-item">
+        <h3>仅供参考</h3>
+        <p>全部内容仅供参考，不构成任何政策承诺或法律依据。因使用本站信息产生的后果由使用者自行承担。</p>
+      </div>
+      <div class="disc-item">
+        <h3>以当年通知为准</h3>
+        <p>政策随年度调整，具体条件、金额与办理时间以学校学生资助管理中心当年通知为准。</p>
+      </div>
+      <div class="disc-item">
+        <h3>完全免费</h3>
+        <p>无广告、无内购、无付费服务，不收集任何个人信息，也不提供付费咨询。</p>
+      </div>
+    </div>
+
+    <p class="disc-foot">内容整理：周泽维　·　核对日期：${SITE.verified}　·　建议 ${SITE.reviewBy}前复核</p>
+  </div>
+</section>
+
 <section id="author" class="alt">
   <div class="wrap author">
     <div>
@@ -1144,7 +1231,7 @@ function renderIndex() {
   return layout({
     title: `${SITE.name} · ${SITE.tagline}`,
     description: SITE.desc,
-    active: 'policies',
+    active: 'home',
     home: true,
     body,
   })
@@ -1236,6 +1323,7 @@ function renderPolicy(p, index) {
         打印
       </button>
     </div>
+    <p class="scope-inline">仅适用于重庆工程职业技术大学 · 仅供参考，非官方</p>
     <div class="meta">
       <span>${esc(p.tag)}</span>
       ${p.source ? `<span>依据 ${esc(p.source)}</span>` : ''}

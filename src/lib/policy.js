@@ -158,3 +158,58 @@ export function relatedPolicies(policy, all, limit = 4) {
 
   return picked
 }
+
+/** 把正文拆成句子，用于判断「为什么相关」 */
+function sentencesOf(policy) {
+  const corpus = [
+    policy.overview,
+    policy.description,
+    ...(policy.rules?.prerequisites || []),
+    ...(policy.rules?.exclusions || []),
+    ...(policy.rules?.disqualifiers || []),
+    ...(policy.approvalChain || []).flatMap((lvl) => (lvl.steps || []).map((s) => `${s.title} ${s.desc}`)),
+    ...(policy.timeline || []).map((t) => `${t.event} ${t.desc || ''}`),
+    ...(policy.materials || []).map((m) => `${m.name} ${m.note || ''}`),
+  ].join('\n')
+
+  return corpus.split(/\n|。|；|;/).map((s) => s.trim()).filter(Boolean)
+}
+
+function namesFor(other) {
+  const names = [other.title]
+  for (const [alias, id] of Object.entries(ALIAS_LINKS)) {
+    if (id === other.id) names.push(alias)
+  }
+  return names
+}
+
+/**
+ * 相关资助的推荐理由，尽量用原文里已有的关系，而不是泛泛的「相关」。
+ * 优先级：前置条件 > 互斥 > 可同时获得 > 流程提及 > 同属一类。
+ */
+export function relationReason(policy, other) {
+  if (!policy || !other) return ''
+  const names = namesFor(other)
+  const has = (text) => names.some((n) => n && String(text).includes(n))
+
+  if ((policy.rules?.prerequisites || []).some(has)) return '申请前置'
+
+  const negatives = [...(policy.rules?.exclusions || []), ...(policy.rules?.disqualifiers || [])]
+  if (negatives.some(has)) return '同年互斥'
+
+  const sentences = sentencesOf(policy)
+  const mentioned = sentences.filter(has)
+
+  if (mentioned.some((s) => /同时获得|可同时|不冲突|互不影响/.test(s))) return '可同时获得'
+  if (mentioned.some((s) => /不能同时|不得同时|互斥/.test(s))) return '同年互斥'
+
+  const inFlow =
+    (policy.approvalChain || []).some((lvl) => (lvl.steps || []).some((st) => has(`${st.title} ${st.desc}`))) ||
+    (policy.timeline || []).some((t) => has(`${t.event} ${t.desc || ''}`)) ||
+    (policy.materials || []).some((m) => has(`${m.name} ${m.note || ''}`))
+  if (inFlow) return '流程涉及'
+
+  if (mentioned.length) return '正文提及'
+
+  return policy.tag === other.tag ? `同属${policy.tag.replace('政策', '')}` : '相关'
+}

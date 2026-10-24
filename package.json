@@ -1,7 +1,7 @@
 {
   "name": "student-aid-app",
   "private": true,
-  "version": "0.2.5",
+  "version": "0.2.6",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -17,6 +17,7 @@
     "@capacitor/app": "^8.1.2",
     "@capacitor/cli": "^8.4.2",
     "@capacitor/core": "^8.4.2",
+    "@capacitor/share": "^8.0.3",
     "dompurify": "^3.4.17",
     "marked": "^18.1.1",
     "vue": "^3.5.39",

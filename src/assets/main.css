@@ -237,10 +237,33 @@ a {
 }
 
 .nav-action {
-  font-size: 17px;
+  position: relative;
+  z-index: 1;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   color: var(--blue);
-  padding: 0 8px;
-  min-height: 36px;
+}
+
+.nav-action svg {
+  width: 21px;
+  height: 21px;
+}
+
+.nav-action:active {
+  opacity: 0.4;
+}
+
+/* 相关资助的推荐理由，压在右侧 */
+.relation-tag {
+  flex-shrink: 0;
+  margin-right: 2px;
+  font-size: 12px;
+  color: var(--label-3);
+  letter-spacing: -0.05px;
 }
 
 /* ==========================================================================

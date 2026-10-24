@@ -251,6 +251,14 @@ try {
     return `${n} 个互链 → ${target}，返回标题「${label}」，无重叠`
   })
 
+  await test('详情页提供系统分享入口', async () => {
+    await goto('policy/national-grant')
+    const hasBtn = await ev(`!!document.querySelector('.nav-action')`)
+    assert(hasBtn, '缺少分享按钮')
+    const label = await ev(`document.querySelector('.nav-action')?.getAttribute('aria-label')`)
+    assert(label && label.length > 0, '分享按钮缺少无障碍标签')
+    return `分享按钮存在（${label}）`
+  })
   await test('相关资助分组可跳转', async () => {
     await goto('policy/work-study')
     const items = await ev(`(() => {
@@ -261,6 +269,10 @@ try {
     })()`)
     assert(items >= 3, `相关条目只有 ${items}`)
 
+    const reasons = await ev(`[...document.querySelectorAll('.relation-tag')].map(e => e.textContent.trim())`)
+    assert(reasons.length === items, `理由数 ${reasons.length} 与条目数 ${items} 不一致`)
+    assert(reasons.every((r) => r.length > 0), '存在空理由')
+
     const before = await ev(`location.hash`)
     await ev(`(() => {
       const hs = [...document.querySelectorAll('.group-header')]
@@ -270,7 +282,7 @@ try {
     await sleep(800)
     const after = await ev(`location.hash`)
     assert(before !== after, '点击相关资助没有跳转')
-    return `${items} 条相关，点击后 ${after}`
+    return `${items} 条相关（理由：${reasons.join("/")}），点击后 ${after}`
   })
   await test('材料勾选刷新后仍保留', async () => {
     await goto('policy/national-grant')

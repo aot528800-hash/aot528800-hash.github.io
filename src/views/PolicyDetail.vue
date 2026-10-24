@@ -1,10 +1,11 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
+import { Share } from '@capacitor/share'
 import { useRouter } from 'vue-router'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
 import { policyCategories } from '../data/policies.js'
-import { buildLinkMap, buildLinkRe, relatedPolicies, segments as splitByLinks, typeMeta } from '../lib/policy.js'
+import { buildLinkMap, buildLinkRe, relatedPolicies, relationReason, segments as splitByLinks, typeMeta } from '../lib/policy.js'
 import { handlePolicyLinkClick, linkifyPolicies } from '../lib/linkify.js'
 import { backLabel } from '../lib/nav.js'
 
@@ -122,10 +123,38 @@ const overviewHtml = computed(() => {
 })
 
 const previousTitle = computed(() => backLabel())
-const related = computed(() => relatedPolicies(policy.value, policyCategories, 4))
+const related = computed(() =>
+  relatedPolicies(policy.value, policyCategories, 4).map((p) => ({
+    ...p,
+    reason: relationReason(policy.value, p),
+  })),
+)
 
 function onMdClick(event) {
   handlePolicyLinkClick(event, goPolicy)
+}
+
+/* 分享：走系统分享面板（安卓上是原生 share sheet，可发给微信/QQ/同学） */
+async function sharePolicy() {
+  if (!policy.value) return
+  const text = `${policy.value.title}（${policy.value.subtitle}）\n\n来自「资助通」· 非官方，具体以学校资助中心通知为准`
+
+  try {
+    const can = await Share.canShare()
+    if (can && can.value) {
+      await Share.share({ title: policy.value.title, text, dialogTitle: '分享这条政策' })
+      return
+    }
+  } catch {
+    /* 插件不可用则继续降级 */
+  }
+
+  try {
+    if (navigator.share) await navigator.share({ title: policy.value.title, text })
+    else if (navigator.clipboard) await navigator.clipboard.writeText(text)
+  } catch {
+    /* 用户取消 */
+  }
 }
 
 const tint = (hex) => (hex || '#8e8e93') + '24'
@@ -142,6 +171,14 @@ const tint = (hex) => (hex || '#8e8e93') + '24'
         <span>{{ previousTitle }}</span>
       </button>
       <div class="nav-title">{{ policy.title }}</div>
+      <button class="nav-action" aria-label="分享这条政策" @click="sharePolicy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 15.2V3.4" />
+          <path d="M8.1 7.3 12 3.4l3.9 3.9" />
+          <path d="M5 12.6v6.1a1.9 1.9 0 0 0 1.9 1.9h10.2a1.9 1.9 0 0 0 1.9-1.9v-6.1" />
+        </svg>
+      </button>
     </header>
 
     <div class="detail-head">
@@ -230,6 +267,7 @@ const tint = (hex) => (hex || '#8e8e93') + '24'
               <span class="cell-title">{{ r.title }}</span>
               <span class="cell-subtitle">{{ r.subtitle }}</span>
             </span>
+            <span class="relation-tag">{{ r.reason }}</span>
             <svg class="chev" viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M1.5 1.5 6 6.5l-4.5 5" />

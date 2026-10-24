@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { policyCategories } from '../data/policies.js'
+import { searchPolicies } from '../lib/policy.js'
 
 const router = useRouter()
 const query = ref('')
@@ -38,40 +39,8 @@ const stats = computed(() => {
 
 const goTo = (id) => router.push('/policy/' + id)
 
-/* 搜索：标题 / 副标题 / 简介 / 标签 + 常用简称 */
-const ALIASES = {
-  国奖: '国家奖学金',
-  国励: '国家励志奖学金',
-  励志: '国家励志奖学金',
-  助学金: '国家助学金',
-  贷款: '生源地信用助学贷款',
-  国开行: '生源地信用助学贷款',
-  当兵: '服兵役',
-  入伍: '服兵役',
-  退役: '退役',
-  勤工: '勤工助学',
-  减免: '学费减免',
-  绿色通道: '绿色通道',
-  认定: '家庭经济困难学生认定',
-}
-
-const results = computed(() => {
-  const q = query.value.trim()
-  if (!q) return []
-  const lower = q.toLowerCase()
-  const expanded = Object.keys(ALIASES)
-    .filter((k) => q.includes(k))
-    .map((k) => ALIASES[k].toLowerCase())
-
-  return policyCategories.filter((p) => {
-    const hay = [p.title, p.subtitle, p.description, p.tag, p.source]
-      .filter(Boolean)
-      .join(' ')
-      .toLowerCase()
-    if (hay.includes(lower)) return true
-    return expanded.some((t) => hay.includes(t))
-  })
-})
+/* 搜索：标题 / 副标题 / 简介 / 标签 + 常用简称（逻辑见 src/lib/policy.js） */
+const results = computed(() => searchPolicies(policyCategories, query.value))
 
 const tint = (hex) => (hex || '#8e8e93') + '24'
 
@@ -145,7 +114,7 @@ onBeforeUnmount(() => {
         <button
           v-for="cat in national"
           :key="cat.id"
-          class="cell cell--tappable"
+          class="cell cell--tappable cell--policy"
           @click="goTo(cat.id)"
         >
           <span class="tile" :style="{ background: tint(cat.color) }">{{ cat.icon }}</span>
@@ -165,7 +134,7 @@ onBeforeUnmount(() => {
         <button
           v-for="cat in school"
           :key="cat.id"
-          class="cell cell--tappable"
+          class="cell cell--tappable cell--policy"
           @click="goTo(cat.id)"
         >
           <span class="tile" :style="{ background: tint(cat.color) }">{{ cat.icon }}</span>
@@ -218,7 +187,7 @@ onBeforeUnmount(() => {
         <button
           v-for="cat in results"
           :key="cat.id"
-          class="cell cell--tappable"
+          class="cell cell--tappable cell--policy"
           @click="goTo(cat.id)"
         >
           <span class="tile" :style="{ background: tint(cat.color) }">{{ cat.icon }}</span>

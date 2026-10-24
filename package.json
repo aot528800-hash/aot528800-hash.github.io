@@ -1,12 +1,16 @@
 {
   "name": "student-aid-app",
   "private": true,
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run tests/unit",
+    "test:unit": "vitest run tests/unit",
+    "test:e2e": "node tests/e2e/run.mjs",
+    "test:static": "node tests/static/checks.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.2",
@@ -20,6 +24,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.7",
-    "vite": "^8.1.1"
+    "vite": "^8.1.1",
+    "vitest": "^5.0.5"
   }
 }

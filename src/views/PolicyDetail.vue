@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
 import { policyCategories } from '../data/policies.js'
+import { buildLinkMap, buildLinkRe, segments as splitByLinks, typeMeta } from '../lib/policy.js'
 
 marked.setOptions({ breaks: true, gfm: true })
 
@@ -60,36 +61,12 @@ const materialProgress = computed(() => {
   return { done, total: list.length }
 })
 
-/* ---------- 正文里的政策互链 ---------- */
-const ALIAS_LINKS = {
-  困难认定: 'difficulty-assessment',
-  家庭经济困难: 'difficulty-assessment',
-  国开行贷款: 'student-loan',
-  校内奖学金: 'president-honor',
-  基层就业: 'grassroots-compensation',
-  服兵役: 'military-compensation',
-  退役士兵: 'military-grant',
-}
-
-const linkMap = computed(() => {
-  const map = {}
-  policyCategories.forEach((p) => { map[p.title] = p.id })
-  Object.entries(ALIAS_LINKS).forEach(([k, v]) => { map[k] = v })
-  return map
-})
-
-const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-
-const linkRe = computed(() => {
-  const terms = [...new Set([...policyCategories.map((p) => p.title), ...Object.keys(ALIAS_LINKS)])]
-    .filter((t) => t && t.length >= 4)
-    .sort((a, b) => b.length - a.length)
-    .map(escapeRe)
-  return new RegExp('(' + terms.join('|') + ')', 'g')
-})
+/* ---------- 正文里的政策互链（逻辑见 src/lib/policy.js） ---------- */
+const linkMap = computed(() => buildLinkMap(policyCategories))
+const linkRe = computed(() => buildLinkRe(policyCategories))
 
 function segments(text) {
-  return String(text || '').split(linkRe.value)
+  return splitByLinks(text, linkRe.value)
 }
 
 function linkFor(part) {
@@ -99,18 +76,6 @@ function linkFor(part) {
 function goPolicy(pid) {
   if (pid) router.push('/policy/' + pid)
 }
-
-/* ---------- 时间节点类型 ---------- */
-const TYPE_META = {
-  notice: { label: '公告通知', color: 'var(--blue)' },
-  student: { label: '学生行动', color: 'var(--orange)' },
-  counselor: { label: '辅导员审核', color: 'var(--green)' },
-  center: { label: '资助中心', color: 'var(--purple)' },
-  publicity: { label: '公示节点', color: 'var(--red)' },
-  leadership: { label: '领导小组', color: 'var(--indigo)' },
-  all: { label: '全流程', color: 'var(--gray)' },
-}
-const typeMeta = (t) => TYPE_META[t] || { label: '节点', color: 'var(--gray)' }
 
 /* ---------- 生命周期 ---------- */
 function goBack() {

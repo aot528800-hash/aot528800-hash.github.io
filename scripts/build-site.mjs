@@ -21,6 +21,8 @@ const SITE = {
   author: '周泽维',
   phone: '15736152295',
   updated: '2026 年 10 月 24 日',
+  verified: '2026 年 10 月 24 日',
+  reviewBy: '2027 年 9 月',
   // 部署到 GitHub Pages 后把这里改成实际地址，例如 https://用户名.github.io/仓库名
   url: 'https://aot528800-hash.github.io',
 }
@@ -413,12 +415,204 @@ footer .links { display: flex; gap: 20px; flex-wrap: wrap; }
 .reveal.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
 
+/* ---------- 视觉收口 ---------- */
+::selection { background: rgba(0,113,227,.18); }
+
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+.hero {
+  position: relative;
+  background:
+    radial-gradient(1100px 520px at 50% -12%, rgba(0,113,227,.09), transparent 62%),
+    radial-gradient(760px 380px at 82% 8%, rgba(175,82,222,.07), transparent 60%);
+}
+@media (prefers-color-scheme: dark) {
+  .hero { background:
+    radial-gradient(1100px 520px at 50% -12%, rgba(41,151,255,.14), transparent 62%),
+    radial-gradient(760px 380px at 82% 8%, rgba(191,90,242,.1), transparent 60%); }
+}
+
+.fresh-line {
+  margin: 18px auto 0;
+  font-size: 13px;
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.fresh-line::before {
+  content: "";
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 3px rgba(46,158,79,.15);
+}
+
+.nav-links a[aria-current="page"] {
+  color: var(--text);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+}
+
+.card {
+  padding: 22px;
+  border-radius: 20px;
+}
+.card .tile { width: 44px; height: 44px; border-radius: 12px; font-size: 22px; }
+.card:hover { box-shadow: 0 16px 40px rgba(0,0,0,.1); }
+
+.section-tight { padding-top: 72px; }
+
+/* ---------- 页面切换（View Transitions，支持的浏览器自动启用） ---------- */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: vt-out .16s ease both; }
+::view-transition-new(root) { animation: vt-in .22s cubic-bezier(.32,.72,0,1) both; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}
+
+/* ---------- 详情页头部 ---------- */
+.head-row { display: flex; align-items: flex-start; gap: 16px; }
+.head-icon {
+  flex: none; width: 56px; height: 56px; border-radius: 14px;
+  display: grid; place-items: center; font-size: 30px;
+}
+.head-text { flex: 1; min-width: 0; }
+.head-row h1 { margin: 0 0 6px; }
+.print-btn {
+  flex: none; margin-left: auto;
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 36px; padding: 0 14px; border-radius: 18px;
+  border: 1px solid var(--line); background: var(--card);
+  color: var(--text-2); font: inherit; font-size: 13.5px; cursor: pointer;
+  transition: all .18s ease;
+}
+.print-btn svg { width: 16px; height: 16px; }
+.print-btn:hover { border-color: var(--accent); color: var(--accent); }
+@media (max-width: 560px) {
+  .head-icon { width: 46px; height: 46px; font-size: 24px; }
+  .print-btn { height: 34px; padding: 0 10px; font-size: 12.5px; }
+}
+
+.meta .fresh { color: var(--green); background: rgba(46,158,79,.1); }
+
+.h2-note { font-size: 13px; font-weight: 400; color: var(--text-3); margin-left: 8px; }
+
+/* ---------- 角色 ---------- */
+.role-bar {
+  margin: 26px 0 4px;
+  padding: 18px 20px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+}
+.role-bar-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 12px; flex-wrap: wrap; margin-bottom: 12px;
+}
+.rb-label { font-size: 14.5px; font-weight: 600; letter-spacing: -.01em; }
+.rb-hint { font-size: 12.5px; color: var(--text-3); }
+
+.role-chips {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  padding-bottom: 4px;
+}
+@media (max-width: 720px) {
+  .role-chips {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: linear-gradient(to right, #000 88%, transparent 100%);
+    mask-image: linear-gradient(to right, #000 88%, transparent 100%);
+  }
+}
+.role-chips::-webkit-scrollbar { display: none; }
+.role-chip {
+  flex: none; display: inline-flex; align-items: center; gap: 7px;
+  height: 38px; padding: 0 14px; border-radius: 19px;
+  border: 1px solid var(--line); background: var(--card);
+  color: var(--text-2); font: inherit; font-size: 13.5px; cursor: pointer;
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+.role-chip:hover { border-color: var(--accent); color: var(--text); }
+.role-chip.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.rc-icon { font-size: 15px; }
+.rc-name { max-width: 148px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rc-lv { font-size: 10.5px; opacity: .7; }
+
+.role-summary { margin-top: 12px; font-size: 13.5px; color: var(--text-2); min-height: 20px; }
+
+.roles { display: grid; gap: 14px; }
+.role-block {
+  padding: 18px 20px;
+  background: var(--card);
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+.role-block.is-on {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0,113,227,.12);
+}
+.role-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.role-step {
+  font-size: 11.5px; font-weight: 600; color: var(--accent);
+  background: rgba(0,113,227,.1); padding: 2px 8px; border-radius: 6px;
+}
+.role-head h3 { margin: 0; font-size: 17px; letter-spacing: -.01em; }
+.role-count { margin-left: auto; font-size: 12px; color: var(--text-3); }
+
+.role-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.role-steps li { display: flex; gap: 12px; }
+.role-steps .n {
+  flex: none; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--accent); color: #fff; font-size: 11px; font-weight: 700;
+  display: grid; place-items: center; margin-top: 2px;
+}
+.role-steps h4 { margin: 0 0 2px; font-size: 15px; }
+.role-steps p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-2); }
+
+.role-pub {
+  margin: 12px 0 0; padding: 8px 12px; border-radius: 8px;
+  background: rgba(255,149,0,.1); font-size: 12.5px; color: #a05a00;
+}
+@media (prefers-color-scheme: dark) { .role-pub { color: #ffb340; } }
+
 /* ---------- 打印 ---------- */
+.print-head { display: none; }
+
 @media print {
-  .nav, .hero-actions, .toc, .pager, footer .links { display: none; }
-  body { font-size: 11pt; }
-  section, .block { page-break-inside: avoid; }
+  @page { margin: 16mm 14mm 14mm; }
+
+  .nav, .toc, .pager, .print-btn, .role-bar,
+  .hero-actions, .search-bar, .map-frame, .map-hint, .deps,
+  footer .links, .crumb { display: none !important; }
+
+  .print-head {
+    display: block;
+    margin-bottom: 8mm;
+    padding-bottom: 4mm;
+    border-bottom: 1px solid #999;
+  }
+  .ph-title { font-size: 15pt; font-weight: 700; }
+  .ph-meta { margin-top: 2mm; font-size: 8.5pt; color: #555; }
+
+  body { font-size: 10.5pt; color: #000; background: #fff; }
+  .wrap { max-width: none; padding: 0; }
+  .layout { display: block; }
+  .page-head, .block { break-inside: avoid; }
+  h2, h3, h4 { break-after: avoid; }
+  .block > h2 { margin-bottom: 4mm; }
+  .block { margin-bottom: 8mm; }
+
   a { color: #000; text-decoration: none; }
+  .role-block { border-color: #ccc; box-shadow: none !important; }
+  .role-chip.is-on { background: #eee; color: #000; }
+  .prose table { font-size: 9pt; }
 }
 `
 
@@ -477,6 +671,51 @@ const SITE_JS = `(function () {
       if (el) obs.observe(el);
     });
   }
+
+  /* 角色：选中后高亮对应环节 */
+  var chips = [].slice.call(document.querySelectorAll('.role-chip'));
+  if (chips.length) {
+    var blocks = [].slice.call(document.querySelectorAll('.role-block'));
+    var summary = document.getElementById('roleSummary');
+
+    function apply(i, scroll) {
+      chips.forEach(function (c, j) {
+        c.classList.toggle('is-on', j === i);
+        c.setAttribute('aria-pressed', j === i ? 'true' : 'false');
+      });
+      blocks.forEach(function (b, j) { b.classList.toggle('is-on', j === i); });
+
+      var b = blocks[i];
+      if (b && summary) {
+        var pub = b.querySelector('.role-pub');
+        var n = b.querySelectorAll('.role-steps li').length;
+        summary.textContent = b.querySelector('h3').textContent + ' · ' + n + ' 项任务' +
+          (pub ? ' · ' + pub.textContent.replace('📣', '').trim() : '');
+      }
+      if (scroll && b) b.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    chips.forEach(function (c, i) {
+      c.addEventListener('click', function () { apply(i, true); });
+    });
+
+    // 默认选中「学生本人」：按名称开头匹配，避免命中「财务处 + 学生资助管理中心」
+    var student = 0;
+    for (var i = 0; i < chips.length; i++) {
+      var nm = (chips[i].querySelector('.rc-name') || chips[i]).textContent.trim();
+      if (nm.indexOf('学生') === 0) { student = i; break; }
+    }
+    apply(student, false);
+  }
+
+  /* 打印：写入打印时间 */
+  function stampPrintDate() {
+    var d = new Date();
+    var s = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    [].slice.call(document.querySelectorAll('.ph-date')).forEach(function (el) { el.textContent = s; });
+  }
+  stampPrintDate();
+  window.addEventListener('beforeprint', stampPrintDate);
 
   /* 入场动效 */
   if (!reduce && 'IntersectionObserver' in window) {
@@ -698,6 +937,7 @@ function renderIndex() {
   <div class="wrap">
     <h1>把学生资助政策<br>讲清楚</h1>
     <p>21 个资助项目，从资格条件到材料清单，一站查完。</p>
+    <p class="fresh-line">内容核对于 ' + SITE.verified + ' · 建议 ' + SITE.reviewBy + ' 前复核</p>
     <div class="hero-actions">
       <a class="btn" href="#policies">浏览全部项目</a>
       <a class="btn ghost" href="#mindmap">看体系全景</a>
@@ -812,10 +1052,29 @@ function renderPolicy(p, index) {
        <ul>${negatives.map((r) => `<li><span class="mark n">✕</span><span>${esc(r)}</span></li>`).join('')}</ul></div>`
     : ''
 
-  const chain = (p.approvalChain || [])
+  const roles = p.approvalChain || []
+
+  const chain = roles
     .map(
-      (lvl) => `<div class="role">${esc(lvl.role)}　<span style="color:var(--text-3);font-weight:400">第 ${lvl.level} 级</span></div>
-      <ol>${lvl.steps.map((s, j) => `<li><span class="n">${j + 1}</span><div><h4>${esc(s.title)}</h4><p>${esc(s.desc)}</p>${lvl.publicity ? `<p class="pub">📣 ${esc(lvl.publicity)}</p>` : ''}</div></li>`).join('')}</ol>`,
+      (lvl, i) => `<article class="role-block" id="role-${i}" data-role="${i}">
+      <header class="role-head">
+        <span class="role-step">第 ${lvl.level} 级</span>
+        <h3>${esc(lvl.role)}</h3>
+        <span class="role-count">${lvl.steps.length} 项任务</span>
+      </header>
+      <ol class="role-steps">${lvl.steps
+        .map((s, j) => `<li><span class="n">${j + 1}</span><div><h4>${esc(s.title)}</h4><p>${esc(s.desc)}</p></div></li>`)
+        .join('')}</ol>
+      ${lvl.publicity ? `<p class="role-pub">📣 ${esc(lvl.publicity)}</p>` : ''}
+    </article>`,
+    )
+    .join('')
+
+  const roleChips = roles
+    .map(
+      (lvl, i) => `<button class="role-chip" type="button" data-role="${i}">
+        <span class="rc-icon">${esc(lvl.icon)}</span><span class="rc-name" title="${esc(lvl.role)}">${esc(lvl.role)}</span><span class="rc-lv">L${lvl.level}</span>
+      </button>`,
     )
     .join('')
 
@@ -845,15 +1104,38 @@ function renderPolicy(p, index) {
 
   const body = `
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">${esc(p.title)} · ${SITE.name}</div>
+    <div class="ph-meta">${SITE.url}/policies/${p.id}.html　·　内容核对于 ${SITE.verified}　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / ${esc(p.tag)}</div>
-    <h1>${esc(p.icon)} ${esc(p.title)}</h1>
-    <p class="sub">${esc(p.subtitle)}</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:${esc(p.color)}22">${esc(p.icon)}</span>
+      <div class="head-text">
+        <h1>${esc(p.title)}</h1>
+        <p class="sub">${esc(p.subtitle)}</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>${esc(p.tag)}</span>
       ${p.source ? `<span>依据 ${esc(p.source)}</span>` : ''}
-      <span>更新 ${SITE.updated}</span>
+      <span class="fresh">内容核对于 ${SITE.verified}</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips">${roleChips}</div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -869,8 +1151,8 @@ function renderPolicy(p, index) {
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps">${chain}</div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 ${roles.length} 级，从学生到学校</span></h2>
+        <div class="roles">${chain}</div>
       </div>
 
       <div class="block" id="s4">

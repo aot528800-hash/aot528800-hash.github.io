@@ -34,15 +34,48 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">生源地信用助学贷款 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/student-loan.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 国家政策</div>
-    <h1>🏦 生源地信用助学贷款</h1>
-    <p class="sub">最多20000元/年 · 在校期间财政贴息</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#7B68EE22">🏦</span>
+      <div class="head-text">
+        <h1>生源地信用助学贷款</h1>
+        <p class="sub">最多20000元/年 · 在校期间财政贴息</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>国家政策</span>
       <span>依据 校园地国家助学贷款及生源地信用助学贷款实施办法（2021年9月施行）</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">🧑‍🎓</span><span class="rc-name" title="学生本人+共同借款人">学生本人+共同借款人</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任">辅导员/班主任</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">📊</span><span class="rc-name" title="二级学院学生干事">二级学院学生干事</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生资助管理中心（学生处）">学生资助管理中心（学生处）</span><span class="rc-lv">L4</span>
+      </button><button class="role-chip" type="button" data-role="4">
+        <span class="rc-icon">🏫</span><span class="rc-name" title="学校学生资助工作领导小组">学校学生资助工作领导小组</span><span class="rc-lv">L5</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -66,13 +99,48 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">学生本人+共同借款人　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>网上申请</h4><p>登录国开行学生在线系统（sls.cdb.com.cn），填写信息，导出《贷款申请表》。</p></div></li><li><span class="n">2</span><div><h4>准备材料</h4><p>双方身份证+户口簿+录取通知书/学生证+贷款申请表。</p></div></li><li><span class="n">3</span><div><h4>现场签约</h4><p>和共同借款人一起到户籍地县资助中心签合同，领取《贷款受理证明》。</p></div></li><li><span class="n">4</span><div><h4>到校上交</h4><p>开学报到时将《贷款受理证明》交给学校。</p></div></li><li><span class="n">5</span><div><h4>续贷</h4><p>后续学年暑假网上办理续贷，无需跑现场。</p></div></li></ol><div class="role">辅导员/班主任　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>收取受理证明</h4><p>开学时收集后统一交资助中心。</p></div></li><li><span class="n">2</span><div><h4>提醒续贷+毕业确认</h4><p>提醒老生续贷。毕业前组织完成网上毕业确认。</p></div></li></ol><div class="role">二级学院学生干事　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>协助汇总</h4><p>协助辅导员收齐本学院受理证明。</p></div></li></ol><div class="role">学生资助管理中心（学生处）　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>录入回执</h4><p>开学10个工作日内将受理证明录入国开行系统。</p></div></li><li><span class="n">2</span><div><h4>到账核对</h4><p>11-12月贷款到学校账户后，配合财务处扣学费住宿费，剩余返还学生。</p></div></li><li><span class="n">3</span><div><h4>毕业确认+还款协助</h4><p>每年5-6月组织毕业确认，提供还款咨询。</p></div></li></ol><div class="role">学校学生资助工作领导小组　<span style="color:var(--text-3);font-weight:400">第 5 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>统筹协调+诚信教育</h4><p>协调各部门配合贷款管理，统筹诚信教育。</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 5 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>学生本人+共同借款人</h3>
+        <span class="role-count">5 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>网上申请</h4><p>登录国开行学生在线系统（sls.cdb.com.cn），填写信息，导出《贷款申请表》。</p></div></li><li><span class="n">2</span><div><h4>准备材料</h4><p>双方身份证+户口簿+录取通知书/学生证+贷款申请表。</p></div></li><li><span class="n">3</span><div><h4>现场签约</h4><p>和共同借款人一起到户籍地县资助中心签合同，领取《贷款受理证明》。</p></div></li><li><span class="n">4</span><div><h4>到校上交</h4><p>开学报到时将《贷款受理证明》交给学校。</p></div></li><li><span class="n">5</span><div><h4>续贷</h4><p>后续学年暑假网上办理续贷，无需跑现场。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>辅导员/班主任</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>收取受理证明</h4><p>开学时收集后统一交资助中心。</p></div></li><li><span class="n">2</span><div><h4>提醒续贷+毕业确认</h4><p>提醒老生续贷。毕业前组织完成网上毕业确认。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>二级学院学生干事</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>协助汇总</h4><p>协助辅导员收齐本学院受理证明。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>学生资助管理中心（学生处）</h3>
+        <span class="role-count">3 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>录入回执</h4><p>开学10个工作日内将受理证明录入国开行系统。</p></div></li><li><span class="n">2</span><div><h4>到账核对</h4><p>11-12月贷款到学校账户后，配合财务处扣学费住宿费，剩余返还学生。</p></div></li><li><span class="n">3</span><div><h4>毕业确认+还款协助</h4><p>每年5-6月组织毕业确认，提供还款咨询。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-4" data-role="4">
+      <header class="role-head">
+        <span class="role-step">第 5 级</span>
+        <h3>学校学生资助工作领导小组</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>统筹协调+诚信教育</h4><p>协调各部门配合贷款管理，统筹诚信教育。</p></div></li></ol>
+      
+    </article></div>
       </div>
 
       <div class="block" id="s4">

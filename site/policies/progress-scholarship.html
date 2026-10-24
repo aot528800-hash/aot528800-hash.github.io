@@ -34,15 +34,48 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">学习进步奖学金 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/progress-scholarship.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 校内政策</div>
-    <h1>📈 学习进步奖学金</h1>
-    <p class="sub">600元/学期 · 排名进步≥10位</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#00897B22">📈</span>
+      <div class="head-text">
+        <h1>学习进步奖学金</h1>
+        <p class="sub">600元/学期 · 排名进步≥10位</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>校内政策</span>
       <span>依据 渝工程职院发〔2019〕54号</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">👥</span><span class="rc-name" title="班级">班级</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任">辅导员/班主任</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">🏛️</span><span class="rc-name" title="二级学院">二级学院</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生处（学生资助管理中心）">学生处（学生资助管理中心）</span><span class="rc-lv">L4</span>
+      </button><button class="role-chip" type="button" data-role="4">
+        <span class="rc-icon">💳</span><span class="rc-name" title="财务处">财务处</span><span class="rc-lv">L5</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -76,13 +109,48 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">班级　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>自动评选</h4><p>对比上上学期和上学期排名，自动确定进步最大的2人。</p></div></li></ol><div class="role">辅导员/班主任　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>资格审核</h4><p>确认进步≥10名、无补考、无旷课、无处分。</p></div></li></ol><div class="role">二级学院　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>审查+学院公示</h4><p>开学两周内将获奖名单交学生处。学院公示≥3天。</p><p class="pub">📣 学院公示 ≥ 3 天（自然日）</p></div></li></ol><div class="role">学生处（学生资助管理中心）　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>复核</h4><p>复核名单。</p></div></li></ol><div class="role">财务处　<span style="color:var(--text-3);font-weight:400">第 5 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>奖金发放</h4><p>财务处通过银行转账每学期发放 600 元至学生银行卡。</p></div></li><li><span class="n">2</span><div><h4>发放失败处理</h4><p>转账失败→财务处反馈学生处→联系学生核实卡号→补发。</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 5 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>班级</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>自动评选</h4><p>对比上上学期和上学期排名，自动确定进步最大的2人。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>辅导员/班主任</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>资格审核</h4><p>确认进步≥10名、无补考、无旷课、无处分。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>二级学院</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>审查+学院公示</h4><p>开学两周内将获奖名单交学生处。学院公示≥3天。</p></div></li></ol>
+      <p class="role-pub">📣 学院公示 ≥ 3 天（自然日）</p>
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>学生处（学生资助管理中心）</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>复核</h4><p>复核名单。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-4" data-role="4">
+      <header class="role-head">
+        <span class="role-step">第 5 级</span>
+        <h3>财务处</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>奖金发放</h4><p>财务处通过银行转账每学期发放 600 元至学生银行卡。</p></div></li><li><span class="n">2</span><div><h4>发放失败处理</h4><p>转账失败→财务处反馈学生处→联系学生核实卡号→补发。</p></div></li></ol>
+      
+    </article></div>
       </div>
 
       <div class="block" id="s4">

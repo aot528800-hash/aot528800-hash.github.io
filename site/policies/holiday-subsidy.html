@@ -34,15 +34,46 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">节假日慰问金 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/holiday-subsidy.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 校内政策</div>
-    <h1>🎁 节假日慰问金</h1>
-    <p class="sub">标准每年由领导小组确定</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#C2185B22">🎁</span>
+      <div class="head-text">
+        <h1>节假日慰问金</h1>
+        <p class="sub">标准每年由领导小组确定</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>校内政策</span>
       <span>依据 学校学生资助工作领导小组讨论决定</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任">辅导员/班主任</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生资助管理中心（学生处）">学生资助管理中心（学生处）</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">🏫</span><span class="rc-name" title="学校学生资助工作领导小组">学校学生资助工作领导小组</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任 + 学生处">辅导员/班主任 + 学生处</span><span class="rc-lv">L4</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -70,12 +101,40 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">辅导员/班主任　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>关注困难学生</h4><p>在日常工作中关注困难学生情况，可向学院反映学生实际困难。</p></div></li></ol><div class="role">学生资助管理中心（学生处）　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>拟定方案</h4><p>根据困难学生档案拟定慰问金发放方案（建议名单+建议标准）。</p></div></li></ol><div class="role">学校学生资助工作领导小组　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>讨论标准+对象</h4><p>每年讨论确定节假日慰问金发放标准和最终名单。</p></div></li><li><span class="n">2</span><div><h4>审批发放</h4><p>审批后由学生处在重要节假日组织发放。</p></div></li></ol><div class="role">辅导员/班主任 + 学生处　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>送达慰问</h4><p>学生处统一组织发放。银行转账直接到卡，现金或慰问品由辅导员通知学生领取。发放失败→核实卡号→补发。</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 4 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>辅导员/班主任</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>关注困难学生</h4><p>在日常工作中关注困难学生情况，可向学院反映学生实际困难。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>学生资助管理中心（学生处）</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>拟定方案</h4><p>根据困难学生档案拟定慰问金发放方案（建议名单+建议标准）。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>学校学生资助工作领导小组</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>讨论标准+对象</h4><p>每年讨论确定节假日慰问金发放标准和最终名单。</p></div></li><li><span class="n">2</span><div><h4>审批发放</h4><p>审批后由学生处在重要节假日组织发放。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>辅导员/班主任 + 学生处</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>送达慰问</h4><p>学生处统一组织发放。银行转账直接到卡，现金或慰问品由辅导员通知学生领取。发放失败→核实卡号→补发。</p></div></li></ol>
+      
+    </article></div>
       </div>
 
       <div class="block" id="s4">

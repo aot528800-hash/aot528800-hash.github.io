@@ -34,15 +34,46 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">基层就业学费补偿贷款代偿 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/grassroots-compensation.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 国家政策</div>
-    <h1>🌾 基层就业学费补偿贷款代偿</h1>
-    <p class="sub">重庆基层服务满3年</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#8B735522">🌾</span>
+      <div class="head-text">
+        <h1>基层就业学费补偿贷款代偿</h1>
+        <p class="sub">重庆基层服务满3年</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>国家政策</span>
       <span>依据 渝财规〔2022〕6号</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">🧑‍🎓</span><span class="rc-name" title="毕业生本人">毕业生本人</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任">辅导员/班主任</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生资助管理中心（学生处）">学生资助管理中心（学生处）</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">🏫</span><span class="rc-name" title="学校学生资助工作领导小组">学校学生资助工作领导小组</span><span class="rc-lv">L4</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -72,12 +103,40 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">毕业生本人　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>确认资格+准备材料</h4><p>每年8月31日前备齐就业协议/劳动合同、身份证、毕业证、困难证明。</p></div></li><li><span class="n">2</span><div><h4>提交申请</h4><p>向就业单位所在区县学生资助管理中心提交。就业单位和毕业高校双方签字确认。</p></div></li><li><span class="n">3</span><div><h4>连续服务3年</h4><p>中途离开将被收回全部补偿。</p></div></li></ol><div class="role">辅导员/班主任　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>政策宣传+签字确认</h4><p>向毕业班宣传，协助完成学校方签字确认。</p></div></li></ol><div class="role">学生资助管理中心（学生处）　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>审核确认+上报</h4><p>审核学费缴纳和贷款情况，签字盖章。每年11月汇总上报重庆市资助中心。</p></div></li></ol><div class="role">学校学生资助工作领导小组　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>统筹宣传</h4><p>将基层就业纳入毕业生就业引导。</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 4 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>毕业生本人</h3>
+        <span class="role-count">3 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>确认资格+准备材料</h4><p>每年8月31日前备齐就业协议/劳动合同、身份证、毕业证、困难证明。</p></div></li><li><span class="n">2</span><div><h4>提交申请</h4><p>向就业单位所在区县学生资助管理中心提交。就业单位和毕业高校双方签字确认。</p></div></li><li><span class="n">3</span><div><h4>连续服务3年</h4><p>中途离开将被收回全部补偿。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>辅导员/班主任</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>政策宣传+签字确认</h4><p>向毕业班宣传，协助完成学校方签字确认。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>学生资助管理中心（学生处）</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>审核确认+上报</h4><p>审核学费缴纳和贷款情况，签字盖章。每年11月汇总上报重庆市资助中心。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>学校学生资助工作领导小组</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>统筹宣传</h4><p>将基层就业纳入毕业生就业引导。</p></div></li></ol>
+      
+    </article></div>
       </div>
 
       <div class="block" id="s4">

@@ -34,15 +34,56 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">家庭经济困难学生认定 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/difficulty-assessment.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 国家政策</div>
-    <h1>📋 家庭经济困难学生认定</h1>
-    <p class="sub">所有资助的前提基础</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#4A90D922">📋</span>
+      <div class="head-text">
+        <h1>家庭经济困难学生认定</h1>
+        <p class="sub">所有资助的前提基础</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>国家政策</span>
       <span>依据 渝工程职院发〔2019〕60号</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">🧑‍🎓</span><span class="rc-name" title="学生本人">学生本人</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">👥</span><span class="rc-name" title="班级认定评议小组">班级认定评议小组</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任">辅导员/班主任</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">📊</span><span class="rc-name" title="二级学院学生干事">二级学院学生干事</span><span class="rc-lv">L4</span>
+      </button><button class="role-chip" type="button" data-role="4">
+        <span class="rc-icon">👔</span><span class="rc-name" title="二级学院分管资助工作领导">二级学院分管资助工作领导</span><span class="rc-lv">L5</span>
+      </button><button class="role-chip" type="button" data-role="5">
+        <span class="rc-icon">🏛️</span><span class="rc-name" title="二级学院学生资助认定工作组">二级学院学生资助认定工作组</span><span class="rc-lv">L6</span>
+      </button><button class="role-chip" type="button" data-role="6">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生资助管理中心（学生处）">学生资助管理中心（学生处）</span><span class="rc-lv">L7</span>
+      </button><button class="role-chip" type="button" data-role="7">
+        <span class="rc-icon">🏫</span><span class="rc-name" title="学校学生资助工作领导小组">学校学生资助工作领导小组</span><span class="rc-lv">L8</span>
+      </button><button class="role-chip" type="button" data-role="8">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生资助管理中心（学生处）">学生资助管理中心（学生处）</span><span class="rc-lv">L9</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -85,17 +126,80 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">学生本人　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>了解政策</h4><p>9月开学前，辅导员通过班会、家长会、书面通知等方式告知认定政策。学生签写《点对点告知书》。</p></div></li><li><span class="n">2</span><div><h4>线上申请</h4><p>通过学工系统提交线上申请，填写《认定暨资助申请表》。无需开具任何证明，可自愿提交低保证、残疾证、医疗单据等佐证材料复印件。</p></div></li><li><span class="n">3</span><div><h4>七大类重点学生</h4><p>脱贫家庭、脱贫不稳定、边缘易致贫、低保、特困、孤儿、残疾等七大类学生为重点关注对象。自愿放弃的须征得家长同意，填写《自愿放弃告知书》，辅导员及分管领导签字盖章报资助中心备案。</p></div></li></ol><div class="role">班级认定评议小组　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>小组成员公示</h4><p>每学年度组建，辅导员任组长，学生代表为成员。名单在班级公示不少于 2 个工作日，报学院备案。</p><p class="pub">📣 评议小组成员名单公示 ≥ 2 个工作日</p></div></li><li><span class="n">2</span><div><h4>民主评议</h4><p>对照认定依据评议确定资格和等级。严禁当众诉苦、互相比困。对七大类重点学生重点关注。</p><p class="pub">📣 评议小组成员名单公示 ≥ 2 个工作日</p></div></li></ol><div class="role">辅导员/班主任　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>组织申请+审核</h4><p>指导线上申请，核对材料。对七大类自愿放弃的学生，征家长同意后填《自愿放弃告知书》。</p></div></li><li><span class="n">2</span><div><h4>上报学院</h4><p>将评议结果、申请表及佐证材料汇总上报学院。</p></div></li></ol><div class="role">二级学院学生干事　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>汇总整理</h4><p>汇总本学院全部申请材料。</p></div></li></ol><div class="role">二级学院分管资助工作领导　<span style="color:var(--text-3);font-weight:400">第 5 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>组织审核</h4><p>组织学院学生资助认定工作组进行审核。</p></div></li></ol><div class="role">二级学院学生资助认定工作组　<span style="color:var(--text-3);font-weight:400">第 6 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>审核认定</h4><p>由学院分管领导任组长，学生科长、辅导员为成员。对本学院申请进行审核认定。</p><p class="pub">📣 学院公示 ≥ 3 日（自然日）</p></div></li><li><span class="n">2</span><div><h4>学院公示</h4><p>在学院范围内公示不少于3个工作日。</p><p class="pub">📣 学院公示 ≥ 3 日（自然日）</p></div></li></ol><div class="role">学生资助管理中心（学生处）　<span style="color:var(--text-3);font-weight:400">第 7 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>数据比对</h4><p>通过全国系统获取建档立卡、低保、特困供养等特殊群体数据，自动比对。</p></div></li><li><span class="n">2</span><div><h4>全校汇总</h4><p>汇总各学院审核结果，编制全校拟认定名单。</p></div></li><li><span class="n">3</span><div><h4>上报审批</h4><p>将拟认定名单报学校学生资助工作领导小组审批。</p></div></li></ol><div class="role">学校学生资助工作领导小组　<span style="color:var(--text-3);font-weight:400">第 8 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>审批</h4><p>对全校认定结果进行审批。</p></div></li><li><span class="n">2</span><div><h4>安排学校公示</h4><p>审批通过后，责成学生资助管理中心在全校范围内进行不少于 3 日（自然日）的公示。公示期间如有异议，指导资助中心在 3 个工作日内处理答复。</p></div></li><li><span class="n">3</span><div><h4>监督指导</h4><p>对认定公平公正进行监督，处理重大争议。</p></div></li></ol><div class="role">学生资助管理中心（学生处）　<span style="color:var(--text-3);font-weight:400">第 9 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>学校公示</h4><p>领导小组审批通过后公示认定结果，不少于 3 日（自然日）。根据学校资助管理办法，在适当范围内公示，隐去身份证号、银行卡号等个人信息，严禁涉及学生个人隐私信息，公示期满立即去除。</p><p class="pub">📣 学校公示 ≥ 3 日（自然日）</p></div></li><li><span class="n">2</span><div><h4>异议处理</h4><p>师生对公示结果有异议，向学院工作组提出→学院 3 个工作日内书面答复。如不服，向资助中心提请复议→资助中心 3 个工作日内答复。情况属实则调整并公开。</p><p class="pub">📣 学校公示 ≥ 3 日（自然日）</p></div></li><li><span class="n">3</span><div><h4>系统建档</h4><p>公示无异议后，录入全国学生资助管理信息系统和重庆市学生资助与经费监管平台，建立家庭经济困难学生档案库。</p><p class="pub">📣 学校公示 ≥ 3 日（自然日）</p></div></li><li><span class="n">4</span><div><h4>动态管理</h4><p>每学期按实际情况动态调整。家庭情况无明显变化次年可沿用上年结果。每月对临时新增困难学生补充认定。</p><p class="pub">📣 学校公示 ≥ 3 日（自然日）</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 9 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>学生本人</h3>
+        <span class="role-count">3 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>了解政策</h4><p>9月开学前，辅导员通过班会、家长会、书面通知等方式告知认定政策。学生签写《点对点告知书》。</p></div></li><li><span class="n">2</span><div><h4>线上申请</h4><p>通过学工系统提交线上申请，填写《认定暨资助申请表》。无需开具任何证明，可自愿提交低保证、残疾证、医疗单据等佐证材料复印件。</p></div></li><li><span class="n">3</span><div><h4>七大类重点学生</h4><p>脱贫家庭、脱贫不稳定、边缘易致贫、低保、特困、孤儿、残疾等七大类学生为重点关注对象。自愿放弃的须征得家长同意，填写《自愿放弃告知书》，辅导员及分管领导签字盖章报资助中心备案。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>班级认定评议小组</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>小组成员公示</h4><p>每学年度组建，辅导员任组长，学生代表为成员。名单在班级公示不少于 2 个工作日，报学院备案。</p></div></li><li><span class="n">2</span><div><h4>民主评议</h4><p>对照认定依据评议确定资格和等级。严禁当众诉苦、互相比困。对七大类重点学生重点关注。</p></div></li></ol>
+      <p class="role-pub">📣 评议小组成员名单公示 ≥ 2 个工作日</p>
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>辅导员/班主任</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>组织申请+审核</h4><p>指导线上申请，核对材料。对七大类自愿放弃的学生，征家长同意后填《自愿放弃告知书》。</p></div></li><li><span class="n">2</span><div><h4>上报学院</h4><p>将评议结果、申请表及佐证材料汇总上报学院。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>二级学院学生干事</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>汇总整理</h4><p>汇总本学院全部申请材料。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-4" data-role="4">
+      <header class="role-head">
+        <span class="role-step">第 5 级</span>
+        <h3>二级学院分管资助工作领导</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>组织审核</h4><p>组织学院学生资助认定工作组进行审核。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-5" data-role="5">
+      <header class="role-head">
+        <span class="role-step">第 6 级</span>
+        <h3>二级学院学生资助认定工作组</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>审核认定</h4><p>由学院分管领导任组长，学生科长、辅导员为成员。对本学院申请进行审核认定。</p></div></li><li><span class="n">2</span><div><h4>学院公示</h4><p>在学院范围内公示不少于3个工作日。</p></div></li></ol>
+      <p class="role-pub">📣 学院公示 ≥ 3 日（自然日）</p>
+    </article><article class="role-block" id="role-6" data-role="6">
+      <header class="role-head">
+        <span class="role-step">第 7 级</span>
+        <h3>学生资助管理中心（学生处）</h3>
+        <span class="role-count">3 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>数据比对</h4><p>通过全国系统获取建档立卡、低保、特困供养等特殊群体数据，自动比对。</p></div></li><li><span class="n">2</span><div><h4>全校汇总</h4><p>汇总各学院审核结果，编制全校拟认定名单。</p></div></li><li><span class="n">3</span><div><h4>上报审批</h4><p>将拟认定名单报学校学生资助工作领导小组审批。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-7" data-role="7">
+      <header class="role-head">
+        <span class="role-step">第 8 级</span>
+        <h3>学校学生资助工作领导小组</h3>
+        <span class="role-count">3 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>审批</h4><p>对全校认定结果进行审批。</p></div></li><li><span class="n">2</span><div><h4>安排学校公示</h4><p>审批通过后，责成学生资助管理中心在全校范围内进行不少于 3 日（自然日）的公示。公示期间如有异议，指导资助中心在 3 个工作日内处理答复。</p></div></li><li><span class="n">3</span><div><h4>监督指导</h4><p>对认定公平公正进行监督，处理重大争议。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-8" data-role="8">
+      <header class="role-head">
+        <span class="role-step">第 9 级</span>
+        <h3>学生资助管理中心（学生处）</h3>
+        <span class="role-count">4 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>学校公示</h4><p>领导小组审批通过后公示认定结果，不少于 3 日（自然日）。根据学校资助管理办法，在适当范围内公示，隐去身份证号、银行卡号等个人信息，严禁涉及学生个人隐私信息，公示期满立即去除。</p></div></li><li><span class="n">2</span><div><h4>异议处理</h4><p>师生对公示结果有异议，向学院工作组提出→学院 3 个工作日内书面答复。如不服，向资助中心提请复议→资助中心 3 个工作日内答复。情况属实则调整并公开。</p></div></li><li><span class="n">3</span><div><h4>系统建档</h4><p>公示无异议后，录入全国学生资助管理信息系统和重庆市学生资助与经费监管平台，建立家庭经济困难学生档案库。</p></div></li><li><span class="n">4</span><div><h4>动态管理</h4><p>每学期按实际情况动态调整。家庭情况无明显变化次年可沿用上年结果。每月对临时新增困难学生补充认定。</p></div></li></ol>
+      <p class="role-pub">📣 学校公示 ≥ 3 日（自然日）</p>
+    </article></div>
       </div>
 
       <div class="block" id="s4">

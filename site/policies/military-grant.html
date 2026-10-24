@@ -34,15 +34,50 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">退役士兵国家助学金 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/military-grant.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 国家政策</div>
-    <h1>💳 退役士兵国家助学金</h1>
-    <p class="sub">3700元/年 · 所有在校退役士兵均可享受</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#004D4022">💳</span>
+      <div class="head-text">
+        <h1>退役士兵国家助学金</h1>
+        <p class="sub">3700元/年 · 所有在校退役士兵均可享受</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>国家政策</span>
       <span>依据 渝财教〔2024〕172号</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">🧑‍🎓</span><span class="rc-name" title="学生本人">学生本人</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任">辅导员/班主任</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">🏛️</span><span class="rc-name" title="二级学院（学生资助工作小组+学籍科/武装部）">二级学院（学生资助工作小组+学籍科/武装部）</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生资助管理中心（学生处）">学生资助管理中心（学生处）</span><span class="rc-lv">L4</span>
+      </button><button class="role-chip" type="button" data-role="4">
+        <span class="rc-icon">🏫</span><span class="rc-name" title="学校资助工作领导小组/校长办公会">学校资助工作领导小组/校长办公会</span><span class="rc-lv">L5</span>
+      </button><button class="role-chip" type="button" data-role="5">
+        <span class="rc-icon">💳</span><span class="rc-name" title="财务处 + 学生资助管理中心">财务处 + 学生资助管理中心</span><span class="rc-lv">L6</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -67,14 +102,56 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">学生本人　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>线上申请</h4><p>通过学工系统（助学金应用）发起申请，上传退役证扫描件或清晰照片。填写本人正确银行卡信息（开户行、账号、开户支行）。免填《国家助学金申请表》。</p></div></li><li><span class="n">2</span><div><h4>关注到账</h4><p>关注每月到账情况。如未到账及时联系资助中心。银行卡信息错误导致发放失败由本人承担。</p></div></li></ol><div class="role">辅导员/班主任　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>逐一排查通知</h4><p>每学期结合以往名单逐一排查本班退役士兵学生，确保通知到所有在校退役士兵。督促按时申报，审核学生银行卡信息。</p></div></li><li><span class="n">2</span><div><h4>提醒</h4><p>告知退役学生可同时享受学费减免+退役士兵助学金，两项不冲突。</p></div></li></ol><div class="role">二级学院（学生资助工作小组+学籍科/武装部）　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>资格审核</h4><p>与学籍管理科、武装部协同，审核退役士兵资格（核验退役证真伪、学籍异动/复学手续）。</p><p class="pub">📣 学院及部门公示 3 天</p></div></li><li><span class="n">2</span><div><h4>学院公示</h4><p>将符合资助要求的学生公示 3 天。公示信息含姓名、学号等。</p><p class="pub">📣 学院及部门公示 3 天</p></div></li><li><span class="n">3</span><div><h4>会议审议+报送</h4><p>组织学院学生资助工作小组会议审议，形成会议纪要。分管领导在汇总表签字盖章。报送退役证复印件、学籍异动审批表、汇总表等。</p><p class="pub">📣 学院及部门公示 3 天</p></div></li></ol><div class="role">学生资助管理中心（学生处）　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>汇总审查</h4><p>汇总各学院名单，审查核实。在全国学生资助管理信息系统录入服兵役高校学生国家教育资助信息。</p><p class="pub">📣 全校公示 ≥ 5 个工作日</p></div></li><li><span class="n">2</span><div><h4>全校公示</h4><p>组织全校公示不少于 5 个工作日。</p><p class="pub">📣 全校公示 ≥ 5 个工作日</p></div></li><li><span class="n">3</span><div><h4>系统发放</h4><p>公示无异议后报市教委，通过重庆市统发系统按月发放至学生银行卡。</p><p class="pub">📣 全校公示 ≥ 5 个工作日</p></div></li></ol><div class="role">学校资助工作领导小组/校长办公会　<span style="color:var(--text-3);font-weight:400">第 5 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>终审把关</h4><p>审定退役士兵国家助学金名单。校领导集体研究履行终审把关。</p></div></li></ol><div class="role">财务处 + 学生资助管理中心　<span style="color:var(--text-3);font-weight:400">第 6 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>分学期发放</h4><p>财务处通过银行转账每学期发放 1850 元（3700元/年的一半）至学生银行卡。</p></div></li><li><span class="n">2</span><div><h4>发放失败处理</h4><p>转账失败→财务处反馈资助中心→联系学生核实→当学期内补发。退役学生毕业后不再享受。</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 6 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>学生本人</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>线上申请</h4><p>通过学工系统（助学金应用）发起申请，上传退役证扫描件或清晰照片。填写本人正确银行卡信息（开户行、账号、开户支行）。免填《国家助学金申请表》。</p></div></li><li><span class="n">2</span><div><h4>关注到账</h4><p>关注每月到账情况。如未到账及时联系资助中心。银行卡信息错误导致发放失败由本人承担。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>辅导员/班主任</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>逐一排查通知</h4><p>每学期结合以往名单逐一排查本班退役士兵学生，确保通知到所有在校退役士兵。督促按时申报，审核学生银行卡信息。</p></div></li><li><span class="n">2</span><div><h4>提醒</h4><p>告知退役学生可同时享受学费减免+退役士兵助学金，两项不冲突。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>二级学院（学生资助工作小组+学籍科/武装部）</h3>
+        <span class="role-count">3 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>资格审核</h4><p>与学籍管理科、武装部协同，审核退役士兵资格（核验退役证真伪、学籍异动/复学手续）。</p></div></li><li><span class="n">2</span><div><h4>学院公示</h4><p>将符合资助要求的学生公示 3 天。公示信息含姓名、学号等。</p></div></li><li><span class="n">3</span><div><h4>会议审议+报送</h4><p>组织学院学生资助工作小组会议审议，形成会议纪要。分管领导在汇总表签字盖章。报送退役证复印件、学籍异动审批表、汇总表等。</p></div></li></ol>
+      <p class="role-pub">📣 学院及部门公示 3 天</p>
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>学生资助管理中心（学生处）</h3>
+        <span class="role-count">3 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>汇总审查</h4><p>汇总各学院名单，审查核实。在全国学生资助管理信息系统录入服兵役高校学生国家教育资助信息。</p></div></li><li><span class="n">2</span><div><h4>全校公示</h4><p>组织全校公示不少于 5 个工作日。</p></div></li><li><span class="n">3</span><div><h4>系统发放</h4><p>公示无异议后报市教委，通过重庆市统发系统按月发放至学生银行卡。</p></div></li></ol>
+      <p class="role-pub">📣 全校公示 ≥ 5 个工作日</p>
+    </article><article class="role-block" id="role-4" data-role="4">
+      <header class="role-head">
+        <span class="role-step">第 5 级</span>
+        <h3>学校资助工作领导小组/校长办公会</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>终审把关</h4><p>审定退役士兵国家助学金名单。校领导集体研究履行终审把关。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-5" data-role="5">
+      <header class="role-head">
+        <span class="role-step">第 6 级</span>
+        <h3>财务处 + 学生资助管理中心</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>分学期发放</h4><p>财务处通过银行转账每学期发放 1850 元（3700元/年的一半）至学生银行卡。</p></div></li><li><span class="n">2</span><div><h4>发放失败处理</h4><p>转账失败→财务处反馈资助中心→联系学生核实→当学期内补发。退役学生毕业后不再享受。</p></div></li></ol>
+      
+    </article></div>
       </div>
 
       <div class="block" id="s4">

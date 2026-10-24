@@ -756,6 +756,25 @@ p { text-wrap: pretty; }
 .cat-bar { margin-top: 10px; height: 3px; border-radius: 2px; background: var(--line-2); overflow: hidden; }
 .cat-bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
 
+.vis-chips { display: flex; gap: 8px; margin: 0 0 16px; }
+.vis-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 12px; border-radius: 15px;
+  border: 1px solid var(--line); background: var(--card);
+  color: var(--text-2); font: inherit; font-size: 12.5px; cursor: pointer;
+}
+.vis-chip span { font-size: 11px; color: var(--text-3); }
+.vis-chip.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.vis-chip.is-on span { color: rgba(255,255,255,.75); }
+
+.vis-tag {
+  margin-left: auto; font-style: normal; font-size: 11px; font-weight: 500;
+  padding: 2px 8px; border-radius: 5px;
+}
+.vis-tag.is-visible { color: var(--accent); background: rgba(11,79,50,.08); }
+.vis-tag.is-internal { color: var(--gold); background: rgba(138,109,47,.12); }
+@media (prefers-color-scheme: dark) { .vis-tag.is-visible { color: #74cba0; } }
+
 .cat-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
 .cat-chip {
   display: inline-flex; align-items: center; gap: 6px;

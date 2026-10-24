@@ -34,15 +34,52 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">校长荣誉奖学金 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/president-honor.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 校内政策</div>
-    <h1>👑 校长荣誉奖学金</h1>
-    <p class="sub">个人10000元 · 团队最多20000元</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#6B3FA022">👑</span>
+      <div class="head-text">
+        <h1>校长荣誉奖学金</h1>
+        <p class="sub">个人10000元 · 团队最多20000元</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>校内政策</span>
       <span>依据 渝工程职院发〔2019〕54号</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">🧑‍🎓</span><span class="rc-name" title="学生/团队">学生/团队</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">🏛️</span><span class="rc-name" title="二级学院/职能部门">二级学院/职能部门</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生处（学生资助管理中心）">学生处（学生资助管理中心）</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">👥</span><span class="rc-name" title="校长荣誉奖学金评审工作组">校长荣誉奖学金评审工作组</span><span class="rc-lv">L4</span>
+      </button><button class="role-chip" type="button" data-role="4">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生处">学生处</span><span class="rc-lv">L5</span>
+      </button><button class="role-chip" type="button" data-role="5">
+        <span class="rc-icon">⚖️</span><span class="rc-name" title="校长办公会">校长办公会</span><span class="rc-lv">L6</span>
+      </button><button class="role-chip" type="button" data-role="6">
+        <span class="rc-icon">💳</span><span class="rc-name" title="财务处 + 学生处">财务处 + 学生处</span><span class="rc-lv">L7</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -101,15 +138,64 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">学生/团队　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>个人申报或部门提名</h4><p>填写《校长荣誉奖学金申报审批表》并附事迹证明材料。也可由二级学院或部门提名推荐。</p></div></li></ol><div class="role">二级学院/职能部门　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>初选推荐</h4><p>初选后择优向学校推荐（每学院限 1 个，特别突出的可申请增加名额）。</p></div></li></ol><div class="role">学生处（学生资助管理中心）　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>复核</h4><p>复核候选人资格和材料真实性。确定正式候选人名单。</p></div></li></ol><div class="role">校长荣誉奖学金评审工作组　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>现场答辩+评审</h4><p>学校分管学生工作领导任组长，学工委委员（学生处/教务处/团委等）及相关部门负责人为成员。组织现场答辩会，综合材料、考察、答辩情况决定拟获奖名单。</p></div></li></ol><div class="role">学生处　<span style="color:var(--text-3);font-weight:400">第 5 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>全校公示</h4><p>拟获奖名单全校公示5天。</p><p class="pub">📣 全校公示 5 天（自然日）</p></div></li></ol><div class="role">校长办公会　<span style="color:var(--text-3);font-weight:400">第 6 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>最终审定</h4><p>公示无异议后提交校长办公会终审。学校最高决策层级。</p></div></li></ol><div class="role">财务处 + 学生处　<span style="color:var(--text-3);font-weight:400">第 7 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>奖金发放</h4><p>终审通过后，财务处通过银行转账将奖金（个人10000元/团队15000-20000元/提名奖2000-4000元）发放至获奖者银行卡。</p></div></li><li><span class="n">2</span><div><h4>发放失败处理</h4><p>转账失败→财务处反馈学生处→联系学生核实卡号→补发。团队奖统一发放至团队负责人账户。</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 7 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>学生/团队</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>个人申报或部门提名</h4><p>填写《校长荣誉奖学金申报审批表》并附事迹证明材料。也可由二级学院或部门提名推荐。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>二级学院/职能部门</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>初选推荐</h4><p>初选后择优向学校推荐（每学院限 1 个，特别突出的可申请增加名额）。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>学生处（学生资助管理中心）</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>复核</h4><p>复核候选人资格和材料真实性。确定正式候选人名单。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>校长荣誉奖学金评审工作组</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>现场答辩+评审</h4><p>学校分管学生工作领导任组长，学工委委员（学生处/教务处/团委等）及相关部门负责人为成员。组织现场答辩会，综合材料、考察、答辩情况决定拟获奖名单。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-4" data-role="4">
+      <header class="role-head">
+        <span class="role-step">第 5 级</span>
+        <h3>学生处</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>全校公示</h4><p>拟获奖名单全校公示5天。</p></div></li></ol>
+      <p class="role-pub">📣 全校公示 5 天（自然日）</p>
+    </article><article class="role-block" id="role-5" data-role="5">
+      <header class="role-head">
+        <span class="role-step">第 6 级</span>
+        <h3>校长办公会</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>最终审定</h4><p>公示无异议后提交校长办公会终审。学校最高决策层级。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-6" data-role="6">
+      <header class="role-head">
+        <span class="role-step">第 7 级</span>
+        <h3>财务处 + 学生处</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>奖金发放</h4><p>终审通过后，财务处通过银行转账将奖金（个人10000元/团队15000-20000元/提名奖2000-4000元）发放至获奖者银行卡。</p></div></li><li><span class="n">2</span><div><h4>发放失败处理</h4><p>转账失败→财务处反馈学生处→联系学生核实卡号→补发。团队奖统一发放至团队负责人账户。</p></div></li></ol>
+      
+    </article></div>
       </div>
 
       <div class="block" id="s4">

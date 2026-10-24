@@ -52,6 +52,51 @@
     });
   }
 
+  /* 角色：选中后高亮对应环节 */
+  var chips = [].slice.call(document.querySelectorAll('.role-chip'));
+  if (chips.length) {
+    var blocks = [].slice.call(document.querySelectorAll('.role-block'));
+    var summary = document.getElementById('roleSummary');
+
+    function apply(i, scroll) {
+      chips.forEach(function (c, j) {
+        c.classList.toggle('is-on', j === i);
+        c.setAttribute('aria-pressed', j === i ? 'true' : 'false');
+      });
+      blocks.forEach(function (b, j) { b.classList.toggle('is-on', j === i); });
+
+      var b = blocks[i];
+      if (b && summary) {
+        var pub = b.querySelector('.role-pub');
+        var n = b.querySelectorAll('.role-steps li').length;
+        summary.textContent = b.querySelector('h3').textContent + ' · ' + n + ' 项任务' +
+          (pub ? ' · ' + pub.textContent.replace('📣', '').trim() : '');
+      }
+      if (scroll && b) b.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    chips.forEach(function (c, i) {
+      c.addEventListener('click', function () { apply(i, true); });
+    });
+
+    // 默认选中「学生本人」：按名称开头匹配，避免命中「财务处 + 学生资助管理中心」
+    var student = 0;
+    for (var i = 0; i < chips.length; i++) {
+      var nm = (chips[i].querySelector('.rc-name') || chips[i]).textContent.trim();
+      if (nm.indexOf('学生') === 0) { student = i; break; }
+    }
+    apply(student, false);
+  }
+
+  /* 打印：写入打印时间 */
+  function stampPrintDate() {
+    var d = new Date();
+    var s = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    [].slice.call(document.querySelectorAll('.ph-date')).forEach(function (el) { el.textContent = s; });
+  }
+  stampPrintDate();
+  window.addEventListener('beforeprint', stampPrintDate);
+
   /* 入场动效 */
   if (!reduce && 'IntersectionObserver' in window) {
     var targets = [].slice.call(document.querySelectorAll('.card, .flow > li, .timeline > li, .author > div'));

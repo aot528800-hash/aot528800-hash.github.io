@@ -34,15 +34,50 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">勤工助学 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/work-study.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 校内政策</div>
-    <h1>🔧 勤工助学</h1>
-    <p class="sub">约400个岗位 · 按小时/月计酬</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#D9770622">🔧</span>
+      <div class="head-text">
+        <h1>勤工助学</h1>
+        <p class="sub">约400个岗位 · 按小时/月计酬</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>校内政策</span>
       <span>依据 渝工程职院学〔2021〕8号（2021年修订）</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">🧑‍🎓</span><span class="rc-name" title="学生本人">学生本人</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任">辅导员/班主任</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">🏛️</span><span class="rc-name" title="二级学院">二级学院</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="校内各用人单位">校内各用人单位</span><span class="rc-lv">L4</span>
+      </button><button class="role-chip" type="button" data-role="4">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生资助管理中心（学生处）">学生资助管理中心（学生处）</span><span class="rc-lv">L5</span>
+      </button><button class="role-chip" type="button" data-role="5">
+        <span class="rc-icon">🏫</span><span class="rc-name" title="学校学生资助工作领导小组">学校学生资助工作领导小组</span><span class="rc-lv">L6</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -73,14 +108,56 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">学生本人　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>申请</h4><p>通过学工系统或智慧工程职院 APP 申请岗位。每生只能应聘一个岗位。</p></div></li><li><span class="n">2</span><div><h4>签四方协议</h4><p>与用人单位、所在学院、资助中心签订《校内勤工助学上岗协议》（一式四份）。</p></div></li><li><span class="n">3</span><div><h4>上岗+考勤</h4><p>按协议工作，填写签到考核表记录每次时长。每月底前报送工作时长，按月装订存档 3 年。</p></div></li><li><span class="n">4</span><div><h4>领薪</h4><p>用人单位每月 1-5 日通过学工一体化平台报送上月薪酬，资助中心审核汇总报财务处发至学生银行卡。建议使用五大行储蓄卡。</p></div></li></ol><div class="role">辅导员/班主任　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>推荐+关注</h4><p>优先推荐困难学生。关注学业平衡。校外勤工安全教育。</p></div></li></ol><div class="role">二级学院　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>配合管理+四方协议</h4><p>配合资助中心和用人单位管理。作为协议丙方盖章。</p></div></li></ol><div class="role">校内各用人单位　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>招聘+管理</h4><p>申报岗位需求→公开招聘→面试→岗前培训+安全教育→日常管理。固定岗每学年末提交下学年需求，临时岗提前 5 日申请。</p></div></li><li><span class="n">2</span><div><h4>考核</h4><p>固定岗按月考核（合格/不合格），连续 2 次不合格次月辞退。临时岗按次考核。不合格情形：不服从安排、工作致损、被投诉、无故旷工 3 次及以上。</p></div></li><li><span class="n">3</span><div><h4>报送薪酬</h4><p>每月 1-5 日通过学工一体化平台报送上月薪酬数据。</p></div></li></ol><div class="role">学生资助管理中心（学生处）　<span style="color:var(--text-3);font-weight:400">第 5 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>统筹+发薪</h4><p>统筹全校岗位。审核薪酬数据，每月 10 日前通过财务处银行转账发放。优秀学生评选：每学年一次&quot;勤工助学先进个人&quot;，不超过在岗人数 30%，部门评议推荐报学生处审核。</p></div></li><li><span class="n">2</span><div><h4>发放失败处理</h4><p>个别学生转账失败→资助中心通知学生核实→下月补发。</p></div></li></ol><div class="role">学校学生资助工作领导小组　<span style="color:var(--text-3);font-weight:400">第 6 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>全面领导+审批预算</h4><p>协调各部门配合。审批经费预算和薪酬标准。</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 6 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>学生本人</h3>
+        <span class="role-count">4 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>申请</h4><p>通过学工系统或智慧工程职院 APP 申请岗位。每生只能应聘一个岗位。</p></div></li><li><span class="n">2</span><div><h4>签四方协议</h4><p>与用人单位、所在学院、资助中心签订《校内勤工助学上岗协议》（一式四份）。</p></div></li><li><span class="n">3</span><div><h4>上岗+考勤</h4><p>按协议工作，填写签到考核表记录每次时长。每月底前报送工作时长，按月装订存档 3 年。</p></div></li><li><span class="n">4</span><div><h4>领薪</h4><p>用人单位每月 1-5 日通过学工一体化平台报送上月薪酬，资助中心审核汇总报财务处发至学生银行卡。建议使用五大行储蓄卡。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>辅导员/班主任</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>推荐+关注</h4><p>优先推荐困难学生。关注学业平衡。校外勤工安全教育。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>二级学院</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>配合管理+四方协议</h4><p>配合资助中心和用人单位管理。作为协议丙方盖章。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>校内各用人单位</h3>
+        <span class="role-count">3 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>招聘+管理</h4><p>申报岗位需求→公开招聘→面试→岗前培训+安全教育→日常管理。固定岗每学年末提交下学年需求，临时岗提前 5 日申请。</p></div></li><li><span class="n">2</span><div><h4>考核</h4><p>固定岗按月考核（合格/不合格），连续 2 次不合格次月辞退。临时岗按次考核。不合格情形：不服从安排、工作致损、被投诉、无故旷工 3 次及以上。</p></div></li><li><span class="n">3</span><div><h4>报送薪酬</h4><p>每月 1-5 日通过学工一体化平台报送上月薪酬数据。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-4" data-role="4">
+      <header class="role-head">
+        <span class="role-step">第 5 级</span>
+        <h3>学生资助管理中心（学生处）</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>统筹+发薪</h4><p>统筹全校岗位。审核薪酬数据，每月 10 日前通过财务处银行转账发放。优秀学生评选：每学年一次&quot;勤工助学先进个人&quot;，不超过在岗人数 30%，部门评议推荐报学生处审核。</p></div></li><li><span class="n">2</span><div><h4>发放失败处理</h4><p>个别学生转账失败→资助中心通知学生核实→下月补发。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-5" data-role="5">
+      <header class="role-head">
+        <span class="role-step">第 6 级</span>
+        <h3>学校学生资助工作领导小组</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>全面领导+审批预算</h4><p>协调各部门配合。审批经费预算和薪酬标准。</p></div></li></ol>
+      
+    </article></div>
       </div>
 
       <div class="block" id="s4">

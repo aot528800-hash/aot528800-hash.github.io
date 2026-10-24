@@ -34,15 +34,46 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">退役复学学费减免 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/military-tuition-waiver.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 国家政策</div>
-    <h1>📝 退役复学学费减免</h1>
-    <p class="sub">退役后回校 · 逐年减免 · 每学年最多20000元</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#33691E22">📝</span>
+      <div class="head-text">
+        <h1>退役复学学费减免</h1>
+        <p class="sub">退役后回校 · 逐年减免 · 每学年最多20000元</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>国家政策</span>
       <span>依据 财教〔2024〕188号</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">🧑‍🎓</span><span class="rc-name" title="学生本人">学生本人</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任">辅导员/班主任</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生资助管理中心（学生处）">学生资助管理中心（学生处）</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">🏫</span><span class="rc-name" title="学校学生资助工作领导小组">学校学生资助工作领导小组</span><span class="rc-lv">L4</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -83,12 +114,40 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">学生本人　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>登录全国征兵网填写申请表</h4><p>退役复学/入学后登录全国征兵网（gfbzb.gov.cn），在线填写并打印《应征入伍服兵役高等学校学生国家教育资助申请表Ⅱ》。应尽早办理，不要拖延。</p></div></li><li><span class="n">2</span><div><h4>准备材料</h4><p>申请表+退役证书原件及复印件+学生证+身份证。退役证书是最关键的材料，务必保管好。</p></div></li><li><span class="n">3</span><div><h4>提交至资助中心</h4><p>将完整材料提交学校学生资助管理中心。不要等——越早提交越早享受减免。</p></div></li><li><span class="n">4</span><div><h4>每学年确认</h4><p>学费减免是逐年操作的，每学年缴费时学校自动扣除减免金额。如减免状态有异常，及时联系资助中心。</p></div></li></ol><div class="role">辅导员/班主任　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>关注通知</h4><p>退役学生复学/入学时，主动告知学费减免政策。很多退役学生不知道有这个政策。</p></div></li><li><span class="n">2</span><div><h4>协助办理</h4><p>协助退役复学学生准备材料、联系资助中心。</p></div></li></ol><div class="role">学生资助管理中心（学生处）　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>审核材料</h4><p>审核申请表信息、退役证书真伪、学费标准。核实是否重复申请（已享受过学费补偿的学制期不重复减免）。</p></div></li><li><span class="n">2</span><div><h4>逐年减免</h4><p>审批通过后直接与财务处对接。学生每学年缴费时自动扣减免金额，只需缴剩余部分（或0元）。</p></div></li><li><span class="n">3</span><div><h4>汇总上报</h4><p>将材料汇总上报重庆市学生资助管理中心→全国学生资助管理中心。</p></div></li></ol><div class="role">学校学生资助工作领导小组　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>协调联动</h4><p>协调武装部确认退役信息、教务处确认学籍状态、财务处执行减免。</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 4 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>学生本人</h3>
+        <span class="role-count">4 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>登录全国征兵网填写申请表</h4><p>退役复学/入学后登录全国征兵网（gfbzb.gov.cn），在线填写并打印《应征入伍服兵役高等学校学生国家教育资助申请表Ⅱ》。应尽早办理，不要拖延。</p></div></li><li><span class="n">2</span><div><h4>准备材料</h4><p>申请表+退役证书原件及复印件+学生证+身份证。退役证书是最关键的材料，务必保管好。</p></div></li><li><span class="n">3</span><div><h4>提交至资助中心</h4><p>将完整材料提交学校学生资助管理中心。不要等——越早提交越早享受减免。</p></div></li><li><span class="n">4</span><div><h4>每学年确认</h4><p>学费减免是逐年操作的，每学年缴费时学校自动扣除减免金额。如减免状态有异常，及时联系资助中心。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>辅导员/班主任</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>关注通知</h4><p>退役学生复学/入学时，主动告知学费减免政策。很多退役学生不知道有这个政策。</p></div></li><li><span class="n">2</span><div><h4>协助办理</h4><p>协助退役复学学生准备材料、联系资助中心。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>学生资助管理中心（学生处）</h3>
+        <span class="role-count">3 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>审核材料</h4><p>审核申请表信息、退役证书真伪、学费标准。核实是否重复申请（已享受过学费补偿的学制期不重复减免）。</p></div></li><li><span class="n">2</span><div><h4>逐年减免</h4><p>审批通过后直接与财务处对接。学生每学年缴费时自动扣减免金额，只需缴剩余部分（或0元）。</p></div></li><li><span class="n">3</span><div><h4>汇总上报</h4><p>将材料汇总上报重庆市学生资助管理中心→全国学生资助管理中心。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>学校学生资助工作领导小组</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>协调联动</h4><p>协调武装部确认退役信息、教务处确认学籍状态、财务处执行减免。</p></div></li></ol>
+      
+    </article></div>
       </div>
 
       <div class="block" id="s4">

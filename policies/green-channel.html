@@ -34,15 +34,46 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">绿色通道 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/green-channel.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 国家政策</div>
-    <h1>🟢 绿色通道</h1>
-    <p class="sub">先入学后缴费 · 仅限新生</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#16A34A22">🟢</span>
+      <div class="head-text">
+        <h1>绿色通道</h1>
+        <p class="sub">先入学后缴费 · 仅限新生</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>国家政策</span>
       <span>依据 教育部保障性制度，学校配套实施</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">🧑‍🎓</span><span class="rc-name" title="新生本人">新生本人</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任">辅导员/班主任</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生资助管理中心（学生处）">学生资助管理中心（学生处）</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">🏫</span><span class="rc-name" title="学校学生资助工作领导小组">学校学生资助工作领导小组</span><span class="rc-lv">L4</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -73,12 +104,40 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">新生本人　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>提前准备</h4><p>准备好家庭经济困难相关证明（如有）。</p></div></li><li><span class="n">2</span><div><h4>前往窗口</h4><p>报到当天直接到迎新现场绿色通道窗口。</p></div></li><li><span class="n">3</span><div><h4>填表登记+办理入学</h4><p>填表→审核→办理入学+住宿。当天完成全部手续。</p></div></li><li><span class="n">4</span><div><h4>后续配合</h4><p>入学后办理贷款/困难认定/助学金等后续资助。</p></div></li></ol><div class="role">辅导员/班主任　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>提前摸排+现场引导</h4><p>开学前了解困难新生情况。报到当天引导到绿色通道。</p></div></li><li><span class="n">2</span><div><h4>后续跟进</h4><p>入学后协助办理困难认定、贷款等。</p></div></li></ol><div class="role">学生资助管理中心（学生处）　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>现场审核+后续衔接</h4><p>报到当天快速审批。入学后跟踪协助完成全部资助申请。</p></div></li></ol><div class="role">学校学生资助工作领导小组　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>统筹部署+现场巡视</h4><p>协调迎新绿道工作，当天巡视现场。</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 4 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>新生本人</h3>
+        <span class="role-count">4 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>提前准备</h4><p>准备好家庭经济困难相关证明（如有）。</p></div></li><li><span class="n">2</span><div><h4>前往窗口</h4><p>报到当天直接到迎新现场绿色通道窗口。</p></div></li><li><span class="n">3</span><div><h4>填表登记+办理入学</h4><p>填表→审核→办理入学+住宿。当天完成全部手续。</p></div></li><li><span class="n">4</span><div><h4>后续配合</h4><p>入学后办理贷款/困难认定/助学金等后续资助。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>辅导员/班主任</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>提前摸排+现场引导</h4><p>开学前了解困难新生情况。报到当天引导到绿色通道。</p></div></li><li><span class="n">2</span><div><h4>后续跟进</h4><p>入学后协助办理困难认定、贷款等。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>学生资助管理中心（学生处）</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>现场审核+后续衔接</h4><p>报到当天快速审批。入学后跟踪协助完成全部资助申请。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>学校学生资助工作领导小组</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>统筹部署+现场巡视</h4><p>协调迎新绿道工作，当天巡视现场。</p></div></li></ol>
+      
+    </article></div>
       </div>
 
       <div class="block" id="s4">

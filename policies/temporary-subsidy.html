@@ -34,15 +34,48 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">临时困难补助 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/temporary-subsidy.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 校内政策</div>
-    <h1>🆘 临时困难补助</h1>
-    <p class="sub">200-3000元/次 · 全年随时申请</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#D8431522">🆘</span>
+      <div class="head-text">
+        <h1>临时困难补助</h1>
+        <p class="sub">200-3000元/次 · 全年随时申请</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>校内政策</span>
       <span>依据 渝工程职院学〔2017〕3号</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">🧑‍🎓</span><span class="rc-name" title="学生本人">学生本人</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任">辅导员/班主任</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">👔</span><span class="rc-name" title="二级学院分管学生工作领导">二级学院分管学生工作领导</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生处（学生资助管理中心）">学生处（学生资助管理中心）</span><span class="rc-lv">L4</span>
+      </button><button class="role-chip" type="button" data-role="4">
+        <span class="rc-icon">🏫</span><span class="rc-name" title="学校学生资助工作领导小组">学校学生资助工作领导小组</span><span class="rc-lv">L5</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -75,13 +108,48 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">学生本人　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>报告+填表</h4><p>突发困难时第一时间向辅导员报告，填写《临时困难补助申请表》，说明事由。</p></div></li></ol><div class="role">辅导员/班主任　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>调查核实</h4><p>核实困难情况是否属实。</p></div></li></ol><div class="role">二级学院分管学生工作领导　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>审核</h4><p>审核并签署意见，加盖学院公章。</p></div></li></ol><div class="role">学生处（学生资助管理中心）　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>审批</h4><p>审核申请材料和困难情况，确定补助金额（200-3000元）。</p></div></li><li><span class="n">2</span><div><h4>组织发放</h4><p>审批通过后及时发放。小额补助可由二级学院直接发放现金，大额补助通过财务处银行转账。不得无故拖延。</p></div></li><li><span class="n">3</span><div><h4>发放失败处理</h4><p>银行转账失败→核实卡号→补发。现金发放需学生本人签收确认。</p></div></li></ol><div class="role">学校学生资助工作领导小组　<span style="color:var(--text-3);font-weight:400">第 5 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>备案审查</h4><p>定期审查临时困难补助发放情况。单次超过 3000 元或学年累计超过 5000 元的特殊个案，必须提交领导小组讨论决定。</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 5 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>学生本人</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>报告+填表</h4><p>突发困难时第一时间向辅导员报告，填写《临时困难补助申请表》，说明事由。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>辅导员/班主任</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>调查核实</h4><p>核实困难情况是否属实。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>二级学院分管学生工作领导</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>审核</h4><p>审核并签署意见，加盖学院公章。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>学生处（学生资助管理中心）</h3>
+        <span class="role-count">3 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>审批</h4><p>审核申请材料和困难情况，确定补助金额（200-3000元）。</p></div></li><li><span class="n">2</span><div><h4>组织发放</h4><p>审批通过后及时发放。小额补助可由二级学院直接发放现金，大额补助通过财务处银行转账。不得无故拖延。</p></div></li><li><span class="n">3</span><div><h4>发放失败处理</h4><p>银行转账失败→核实卡号→补发。现金发放需学生本人签收确认。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-4" data-role="4">
+      <header class="role-head">
+        <span class="role-step">第 5 级</span>
+        <h3>学校学生资助工作领导小组</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>备案审查</h4><p>定期审查临时困难补助发放情况。单次超过 3000 元或学年累计超过 5000 元的特殊个案，必须提交领导小组讨论决定。</p></div></li></ol>
+      
+    </article></div>
       </div>
 
       <div class="block" id="s4">

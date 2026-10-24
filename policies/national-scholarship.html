@@ -34,15 +34,54 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">国家奖学金 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/national-scholarship.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 国家政策</div>
-    <h1>🏆 国家奖学金</h1>
-    <p class="sub">10000元/年 · 全国12万名</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#E8A83822">🏆</span>
+      <div class="head-text">
+        <h1>国家奖学金</h1>
+        <p class="sub">10000元/年 · 全国12万名</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>国家政策</span>
       <span>依据 渝工程职院学〔2023〕9号</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">🧑‍🎓</span><span class="rc-name" title="学生本人">学生本人</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任">辅导员/班主任</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">📊</span><span class="rc-name" title="二级学院学生干事+分管领导">二级学院学生干事+分管领导</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生资助管理中心（学生处）">学生资助管理中心（学生处）</span><span class="rc-lv">L4</span>
+      </button><button class="role-chip" type="button" data-role="4">
+        <span class="rc-icon">🏫</span><span class="rc-name" title="学校评审领导小组/资助工作领导小组">学校评审领导小组/资助工作领导小组</span><span class="rc-lv">L5</span>
+      </button><button class="role-chip" type="button" data-role="5">
+        <span class="rc-icon">⚖️</span><span class="rc-name" title="校长办公会">校长办公会</span><span class="rc-lv">L6</span>
+      </button><button class="role-chip" type="button" data-role="6">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生资助管理中心（学生处）">学生资助管理中心（学生处）</span><span class="rc-lv">L7</span>
+      </button><button class="role-chip" type="button" data-role="7">
+        <span class="rc-icon">💳</span><span class="rc-name" title="财务处 + 学生资助管理中心">财务处 + 学生资助管理中心</span><span class="rc-lv">L8</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -65,16 +104,72 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">学生本人　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>确认资格</h4><p>确认成绩排名前10%、无不及格、无违纪处分。</p></div></li><li><span class="n">2</span><div><h4>准备材料</h4><p>填写《国家奖学金申请审批表》（双面打印、手写签名、一式两份），撰写1500字事迹材料，准备成绩单和获奖证书复印件。</p></div></li><li><span class="n">3</span><div><h4>提交申请</h4><p>在学院截止日期前向辅导员提交。</p></div></li><li><span class="n">4</span><div><h4>参加答辩</h4><p>根据学院安排参加答辩或面试。</p></div></li></ol><div class="role">辅导员/班主任　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>资格审查</h4><p>审核成绩排名、综合考评排名、违纪情况。</p></div></li><li><span class="n">2</span><div><h4>指导材料</h4><p>指导学生规范填写申请表和撰写事迹材料。</p></div></li><li><span class="n">3</span><div><h4>上报学院</h4><p>将推荐学生材料上报学院学生干事。</p></div></li></ol><div class="role">二级学院学生干事+分管领导　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>汇总初评</h4><p>汇总本学院申请，组织学院内初评。</p><p class="pub">📣 学院公示 ≥ 3 个工作日</p></div></li><li><span class="n">2</span><div><h4>提出建议名单</h4><p>筛选候选人，提出本学院建议名单。</p><p class="pub">📣 学院公示 ≥ 3 个工作日</p></div></li><li><span class="n">3</span><div><h4>学院公示</h4><p>在学院范围内公示推荐名单，不少于 3 个工作日。</p><p class="pub">📣 学院公示 ≥ 3 个工作日</p></div></li><li><span class="n">4</span><div><h4>党政联席会通过</h4><p>学院评审委员会评议形成意见，分管学生工作领导签字，推荐名单报学院党政联席会通过。</p><p class="pub">📣 学院公示 ≥ 3 个工作日</p></div></li></ol><div class="role">学生资助管理中心（学生处）　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>复审材料</h4><p>复核成绩排名、综合表现和材料完整性。</p></div></li><li><span class="n">2</span><div><h4>组织校级评审</h4><p>组织校级评委会评审。如候选人之间差距不明显或需进一步考察，组织校级答辩。确定学校推荐名单，报评审领导小组审定。</p></div></li></ol><div class="role">学校评审领导小组/资助工作领导小组　<span style="color:var(--text-3);font-weight:400">第 5 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>审定方案</h4><p>审定年度评审方案和名额分配。</p></div></li><li><span class="n">2</span><div><h4>终审批复</h4><p>对推荐名单最终审定，签署学校意见并盖章。审定后提交校长办公会决策，通过后安排校内公示。</p></div></li></ol><div class="role">校长办公会　<span style="color:var(--text-3);font-weight:400">第 6 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>三重一大决策</h4><p>国家奖学金涉及大额资金，属于&quot;三重一大&quot;事项。校长办公会对获奖名单和资金拨付进行最终决策。决策通过后责成资助中心进行校内公示。</p></div></li></ol><div class="role">学生资助管理中心（学生处）　<span style="color:var(--text-3);font-weight:400">第 7 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>全校公示</h4><p>校长办公会审批通过后，在校内进行不少于 5 个工作日的公示。处理异议。</p><p class="pub">📣 校内公示 ≥ 5 个工作日（非自然日）</p></div></li><li><span class="n">2</span><div><h4>系统上报</h4><p>公示无异议后通过全国系统上报教育部。</p><p class="pub">📣 校内公示 ≥ 5 个工作日（非自然日）</p></div></li></ol><div class="role">财务处 + 学生资助管理中心　<span style="color:var(--text-3);font-weight:400">第 8 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>资金发放</h4><p>教育部审批通过后，财务处通过银行转账将 10000 元一次性发放至学生本人银行卡。往年多在 12 月底前完成，具体以学校通知为准。</p></div></li><li><span class="n">2</span><div><h4>发放失败处理</h4><p>如因银行卡号错误、账户冻结等原因导致转账失败，财务处将失败名单反馈资助中心 → 资助中心联系学生核实正确卡号 → 财务处重新转账补发。学生务必确保银行卡号准确且账户状态正常。</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 8 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>学生本人</h3>
+        <span class="role-count">4 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>确认资格</h4><p>确认成绩排名前10%、无不及格、无违纪处分。</p></div></li><li><span class="n">2</span><div><h4>准备材料</h4><p>填写《国家奖学金申请审批表》（双面打印、手写签名、一式两份），撰写1500字事迹材料，准备成绩单和获奖证书复印件。</p></div></li><li><span class="n">3</span><div><h4>提交申请</h4><p>在学院截止日期前向辅导员提交。</p></div></li><li><span class="n">4</span><div><h4>参加答辩</h4><p>根据学院安排参加答辩或面试。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>辅导员/班主任</h3>
+        <span class="role-count">3 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>资格审查</h4><p>审核成绩排名、综合考评排名、违纪情况。</p></div></li><li><span class="n">2</span><div><h4>指导材料</h4><p>指导学生规范填写申请表和撰写事迹材料。</p></div></li><li><span class="n">3</span><div><h4>上报学院</h4><p>将推荐学生材料上报学院学生干事。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>二级学院学生干事+分管领导</h3>
+        <span class="role-count">4 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>汇总初评</h4><p>汇总本学院申请，组织学院内初评。</p></div></li><li><span class="n">2</span><div><h4>提出建议名单</h4><p>筛选候选人，提出本学院建议名单。</p></div></li><li><span class="n">3</span><div><h4>学院公示</h4><p>在学院范围内公示推荐名单，不少于 3 个工作日。</p></div></li><li><span class="n">4</span><div><h4>党政联席会通过</h4><p>学院评审委员会评议形成意见，分管学生工作领导签字，推荐名单报学院党政联席会通过。</p></div></li></ol>
+      <p class="role-pub">📣 学院公示 ≥ 3 个工作日</p>
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>学生资助管理中心（学生处）</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>复审材料</h4><p>复核成绩排名、综合表现和材料完整性。</p></div></li><li><span class="n">2</span><div><h4>组织校级评审</h4><p>组织校级评委会评审。如候选人之间差距不明显或需进一步考察，组织校级答辩。确定学校推荐名单，报评审领导小组审定。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-4" data-role="4">
+      <header class="role-head">
+        <span class="role-step">第 5 级</span>
+        <h3>学校评审领导小组/资助工作领导小组</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>审定方案</h4><p>审定年度评审方案和名额分配。</p></div></li><li><span class="n">2</span><div><h4>终审批复</h4><p>对推荐名单最终审定，签署学校意见并盖章。审定后提交校长办公会决策，通过后安排校内公示。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-5" data-role="5">
+      <header class="role-head">
+        <span class="role-step">第 6 级</span>
+        <h3>校长办公会</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>三重一大决策</h4><p>国家奖学金涉及大额资金，属于&quot;三重一大&quot;事项。校长办公会对获奖名单和资金拨付进行最终决策。决策通过后责成资助中心进行校内公示。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-6" data-role="6">
+      <header class="role-head">
+        <span class="role-step">第 7 级</span>
+        <h3>学生资助管理中心（学生处）</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>全校公示</h4><p>校长办公会审批通过后，在校内进行不少于 5 个工作日的公示。处理异议。</p></div></li><li><span class="n">2</span><div><h4>系统上报</h4><p>公示无异议后通过全国系统上报教育部。</p></div></li></ol>
+      <p class="role-pub">📣 校内公示 ≥ 5 个工作日（非自然日）</p>
+    </article><article class="role-block" id="role-7" data-role="7">
+      <header class="role-head">
+        <span class="role-step">第 8 级</span>
+        <h3>财务处 + 学生资助管理中心</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>资金发放</h4><p>教育部审批通过后，财务处通过银行转账将 10000 元一次性发放至学生本人银行卡。往年多在 12 月底前完成，具体以学校通知为准。</p></div></li><li><span class="n">2</span><div><h4>发放失败处理</h4><p>如因银行卡号错误、账户冻结等原因导致转账失败，财务处将失败名单反馈资助中心 → 资助中心联系学生核实正确卡号 → 财务处重新转账补发。学生务必确保银行卡号准确且账户状态正常。</p></div></li></ol>
+      
+    </article></div>
       </div>
 
       <div class="block" id="s4">

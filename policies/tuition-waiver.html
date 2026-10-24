@@ -34,15 +34,50 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">学费减免 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/tuition-waiver.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 校内政策</div>
-    <h1>💳 学费减免</h1>
-    <p class="sub">最多可全免 · 不超过在校生千分之五</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#0891B222">💳</span>
+      <div class="head-text">
+        <h1>学费减免</h1>
+        <p class="sub">最多可全免 · 不超过在校生千分之五</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>校内政策</span>
       <span>依据 学费减免及新生困难补助实施办法（试行）</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">🧑‍🎓</span><span class="rc-name" title="学生本人">学生本人</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任">辅导员/班主任</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">🏛️</span><span class="rc-name" title="二级学院学生工作领导小组">二级学院学生工作领导小组</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生资助管理中心（学生处）">学生资助管理中心（学生处）</span><span class="rc-lv">L4</span>
+      </button><button class="role-chip" type="button" data-role="4">
+        <span class="rc-icon">🏫</span><span class="rc-name" title="学校学生资助工作领导小组">学校学生资助工作领导小组</span><span class="rc-lv">L5</span>
+      </button><button class="role-chip" type="button" data-role="5">
+        <span class="rc-icon">💳</span><span class="rc-name" title="财务处">财务处</span><span class="rc-lv">L6</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -116,14 +151,56 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">学生本人　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>提交申请</h4><p>每年3月提交书面申请+《学费减免申请表》+证明材料（病历/烈士证/残疾证等）。</p></div></li></ol><div class="role">辅导员/班主任　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>调查核实+初审签字</h4><p>家访/座谈会调查。审核材料真实性完整性。</p></div></li></ol><div class="role">二级学院学生工作领导小组　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>复审+学院公示</h4><p>确定减免名单和金额。学院公示≥3个工作日。</p><p class="pub">📣 学院公示 ≥ 3 个工作日</p></div></li></ol><div class="role">学生资助管理中心（学生处）　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>汇总报批+全校公示</h4><p>报领导小组审批后全校公示≥5个工作日。联系财务处办理减免。</p><p class="pub">📣 全校公示 ≥ 5 个工作日</p></div></li></ol><div class="role">学校学生资助工作领导小组　<span style="color:var(--text-3);font-weight:400">第 5 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>讨论审批</h4><p>对减免名单和金额进行审批。</p></div></li></ol><div class="role">财务处　<span style="color:var(--text-3);font-weight:400">第 6 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>学费减免执行</h4><p>财务处在学生缴费系统中直接扣除减免金额。学生只需缴纳减免后的剩余学费。如减免全部学费，学生无需缴费。</p></div></li><li><span class="n">2</span><div><h4>减免失败/异常处理</h4><p>如系统扣除异常或金额不符，财务处联系资助中心核实 → 资助中心复查审批文件 → 手工调整。学生如发现缴费金额与减免金额不符，应立即联系资助中心。</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 6 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>学生本人</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>提交申请</h4><p>每年3月提交书面申请+《学费减免申请表》+证明材料（病历/烈士证/残疾证等）。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>辅导员/班主任</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>调查核实+初审签字</h4><p>家访/座谈会调查。审核材料真实性完整性。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>二级学院学生工作领导小组</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>复审+学院公示</h4><p>确定减免名单和金额。学院公示≥3个工作日。</p></div></li></ol>
+      <p class="role-pub">📣 学院公示 ≥ 3 个工作日</p>
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>学生资助管理中心（学生处）</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>汇总报批+全校公示</h4><p>报领导小组审批后全校公示≥5个工作日。联系财务处办理减免。</p></div></li></ol>
+      <p class="role-pub">📣 全校公示 ≥ 5 个工作日</p>
+    </article><article class="role-block" id="role-4" data-role="4">
+      <header class="role-head">
+        <span class="role-step">第 5 级</span>
+        <h3>学校学生资助工作领导小组</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>讨论审批</h4><p>对减免名单和金额进行审批。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-5" data-role="5">
+      <header class="role-head">
+        <span class="role-step">第 6 级</span>
+        <h3>财务处</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>学费减免执行</h4><p>财务处在学生缴费系统中直接扣除减免金额。学生只需缴纳减免后的剩余学费。如减免全部学费，学生无需缴费。</p></div></li><li><span class="n">2</span><div><h4>减免失败/异常处理</h4><p>如系统扣除异常或金额不符，财务处联系资助中心核实 → 资助中心复查审批文件 → 手工调整。学生如发现缴费金额与减免金额不符，应立即联系资助中心。</p></div></li></ol>
+      
+    </article></div>
       </div>
 
       <div class="block" id="s4">

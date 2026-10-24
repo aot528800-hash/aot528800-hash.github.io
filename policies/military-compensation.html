@@ -34,15 +34,48 @@
 <main id="main">
 
 <div class="wrap">
+  <div class="print-head">
+    <div class="ph-title">服兵役学费补偿/贷款代偿 · CQPUE资助政策</div>
+    <div class="ph-meta">https://aot528800-hash.github.io/policies/military-compensation.html　·　内容核对于 2026 年 10 月 24 日　·　打印时间 <span class="ph-date"></span></div>
+  </div>
+
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / 国家政策</div>
-    <h1>🎖️ 服兵役学费补偿/贷款代偿</h1>
-    <p class="sub">入伍时申请 · 每学年最多20000元</p>
+    <div class="head-row">
+      <span class="head-icon" style="background:#2F4F4F22">🎖️</span>
+      <div class="head-text">
+        <h1>服兵役学费补偿/贷款代偿</h1>
+        <p class="sub">入伍时申请 · 每学年最多20000元</p>
+      </div>
+      <button class="print-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
+        打印
+      </button>
+    </div>
     <div class="meta">
       <span>国家政策</span>
       <span>依据 财教〔2024〕188号</span>
-      <span>更新 2026 年 10 月 24 日</span>
+      <span class="fresh">内容核对于 2026 年 10 月 24 日</span>
     </div>
+  </div>
+
+  <div class="role-bar" id="roles">
+    <div class="role-bar-head">
+      <span class="rb-label">你是这个流程里的哪一环</span>
+      <span class="rb-hint">点一下，看这一级要做什么</span>
+    </div>
+    <div class="role-chips"><button class="role-chip" type="button" data-role="0">
+        <span class="rc-icon">🧑‍🎓</span><span class="rc-name" title="学生本人">学生本人</span><span class="rc-lv">L1</span>
+      </button><button class="role-chip" type="button" data-role="1">
+        <span class="rc-icon">👨‍🏫</span><span class="rc-name" title="辅导员/班主任">辅导员/班主任</span><span class="rc-lv">L2</span>
+      </button><button class="role-chip" type="button" data-role="2">
+        <span class="rc-icon">🏢</span><span class="rc-name" title="学生资助管理中心（学生处）">学生资助管理中心（学生处）</span><span class="rc-lv">L3</span>
+      </button><button class="role-chip" type="button" data-role="3">
+        <span class="rc-icon">🏫</span><span class="rc-name" title="学校学生资助工作领导小组">学校学生资助工作领导小组</span><span class="rc-lv">L4</span>
+      </button><button class="role-chip" type="button" data-role="4">
+        <span class="rc-icon">💳</span><span class="rc-name" title="财务处">财务处</span><span class="rc-lv">L5</span>
+      </button></div>
+    <div class="role-summary" id="roleSummary" aria-live="polite"></div>
   </div>
 
   <div class="layout">
@@ -71,13 +104,48 @@
       </div>
 
       <div class="block" id="s3">
-        <h2><span class="num">03</span>办理流程</h2>
-        <div class="steps"><div class="role">学生本人　<span style="color:var(--text-3);font-weight:400">第 1 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>网上填报</h4><p>登录全国征兵网在线填写并打印《应征入伍服兵役高等学校学生国家教育资助申请表Ⅰ》。</p></div></li><li><span class="n">2</span><div><h4>盖章确认</h4><p>先后交学校资助中心审核盖章→入伍地县级征兵办盖章。</p></div></li><li><span class="n">3</span><div><h4>寄回学校</h4><p>将盖章后申请表+《入伍通知书》复印件寄回学校资助中心。</p></div></li></ol><div class="role">辅导员/班主任　<span style="color:var(--text-3);font-weight:400">第 2 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>政策宣传+审核信息</h4><p>向入伍学生宣传资助政策，协助审核基本信息。</p></div></li></ol><div class="role">学生资助管理中心（学生处）　<span style="color:var(--text-3);font-weight:400">第 3 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>审核盖章</h4><p>审核申请表，核实学费金额和贷款情况，加盖学校公章。</p></div></li><li><span class="n">2</span><div><h4>汇总上报</h4><p>将材料汇总上报重庆市资助中心→全国学生资助管理中心。</p></div></li><li><span class="n">3</span><div><h4>资金发放</h4><p>收到拨款后：学费补偿款发给学生，贷款代偿款直接还银行。</p></div></li></ol><div class="role">学校学生资助工作领导小组　<span style="color:var(--text-3);font-weight:400">第 4 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>协调联动</h4><p>协调武装部、教务处、财务处配合。</p></div></li></ol><div class="role">财务处　<span style="color:var(--text-3);font-weight:400">第 5 级</span></div>
-      <ol><li><span class="n">1</span><div><h4>资金发放</h4><p>收到上级拨款后，学费补偿款通过银行转账发放给学生本人银行卡；贷款代偿款直接划付给国家开发银行偿还贷款。</p></div></li><li><span class="n">2</span><div><h4>发放失败处理</h4><p>补偿款转账失败→财务处反馈资助中心→联系学生核实卡号→补发。贷款代偿失败→财务处与国开行核对贷款合同号→重新划付。</p></div></li></ol></div>
+        <h2><span class="num">03</span>办理流程 <span class="h2-note">共 5 级，从学生到学校</span></h2>
+        <div class="roles"><article class="role-block" id="role-0" data-role="0">
+      <header class="role-head">
+        <span class="role-step">第 1 级</span>
+        <h3>学生本人</h3>
+        <span class="role-count">3 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>网上填报</h4><p>登录全国征兵网在线填写并打印《应征入伍服兵役高等学校学生国家教育资助申请表Ⅰ》。</p></div></li><li><span class="n">2</span><div><h4>盖章确认</h4><p>先后交学校资助中心审核盖章→入伍地县级征兵办盖章。</p></div></li><li><span class="n">3</span><div><h4>寄回学校</h4><p>将盖章后申请表+《入伍通知书》复印件寄回学校资助中心。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-1" data-role="1">
+      <header class="role-head">
+        <span class="role-step">第 2 级</span>
+        <h3>辅导员/班主任</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>政策宣传+审核信息</h4><p>向入伍学生宣传资助政策，协助审核基本信息。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-2" data-role="2">
+      <header class="role-head">
+        <span class="role-step">第 3 级</span>
+        <h3>学生资助管理中心（学生处）</h3>
+        <span class="role-count">3 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>审核盖章</h4><p>审核申请表，核实学费金额和贷款情况，加盖学校公章。</p></div></li><li><span class="n">2</span><div><h4>汇总上报</h4><p>将材料汇总上报重庆市资助中心→全国学生资助管理中心。</p></div></li><li><span class="n">3</span><div><h4>资金发放</h4><p>收到拨款后：学费补偿款发给学生，贷款代偿款直接还银行。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-3" data-role="3">
+      <header class="role-head">
+        <span class="role-step">第 4 级</span>
+        <h3>学校学生资助工作领导小组</h3>
+        <span class="role-count">1 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>协调联动</h4><p>协调武装部、教务处、财务处配合。</p></div></li></ol>
+      
+    </article><article class="role-block" id="role-4" data-role="4">
+      <header class="role-head">
+        <span class="role-step">第 5 级</span>
+        <h3>财务处</h3>
+        <span class="role-count">2 项任务</span>
+      </header>
+      <ol class="role-steps"><li><span class="n">1</span><div><h4>资金发放</h4><p>收到上级拨款后，学费补偿款通过银行转账发放给学生本人银行卡；贷款代偿款直接划付给国家开发银行偿还贷款。</p></div></li><li><span class="n">2</span><div><h4>发放失败处理</h4><p>补偿款转账失败→财务处反馈资助中心→联系学生核实卡号→补发。贷款代偿失败→财务处与国开行核对贷款合同号→重新划付。</p></div></li></ol>
+      
+    </article></div>
       </div>
 
       <div class="block" id="s4">

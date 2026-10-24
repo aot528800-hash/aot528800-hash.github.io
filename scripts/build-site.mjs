@@ -84,6 +84,29 @@ function monthsOf(label) {
 const MONTH_ORDER = [9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8]
 
 // 从 21 条审批链里抽出资助中心自己要做的步骤（学生看不到的那部分）
+// 发放方式与时间，依据《重庆工程职业技术学院学生资助政策汇编》原文
+const PAYOUT = [
+  { name: '国家奖学金', method: '一次性', when: '每年 12 月 31 日前', basis: '教财函〔2019〕105号 第九条' },
+  { name: '国家励志奖学金', method: '一次性', when: '每年 12 月 31 日前', basis: '财教〔2024〕181号 第十一条' },
+  { name: '国家助学金', method: '按月', when: '一学年按 10 个月计，11 月起发放', basis: '财教〔2024〕181号 第十条' },
+  { name: '退役士兵国家助学金', method: '按月', when: '按月发放', basis: '财教〔2021〕310号' },
+  { name: '勤工助学', method: '按月', when: '每月底报送考核表，5 个工作日内审核后发放', basis: '勤工助学管理办法' },
+  { name: '校长荣誉奖学金', method: '一次性', when: '评审结束后发放', basis: '校长荣誉奖学金管理办法' },
+  { name: '学习综合奖学金', method: '一次性', when: '学院上报、学生处复核后发放', basis: '学习综合奖学金管理办法' },
+  { name: '学习优胜奖学金', method: '一次性', when: '学院上报、学生处复核后发放', basis: '学习单项奖学金管理办法' },
+  { name: '学习进步奖学金', method: '一次性', when: '学院上报、学生处复核后发放', basis: '学习单项奖学金管理办法' },
+  { name: '交换生专项奖学金', method: '一次性', when: '完成交流并考核合格后发放', basis: '学习单项奖学金管理办法' },
+  { name: '筑梦奖学金', method: '一次性', when: '评审公示后发放', basis: '捐资方协议' },
+  { name: '学费减免', method: '减免', when: '缴费时直接减免', basis: '学费减免实施办法' },
+  { name: '退役复学学费减免', method: '减免', when: '复学后办理冲缴', basis: '财教〔2021〕310号附7' },
+  { name: '应征入伍学费补偿 / 贷款代偿', method: '一次性', when: '11 月集中办理后发放', basis: '财教〔2021〕310号附7' },
+  { name: '基层就业学费补偿贷款代偿', method: '一次性', when: '审核通过后发放', basis: '财教〔2021〕310号附8' },
+  { name: '新生困难补助', method: '一次性', when: '公示审批后发放', basis: '学费减免及新生困难补助实施办法' },
+  { name: '临时困难补助', method: '一次性', when: '受理审核后发放', basis: '临时困难补助管理办法' },
+  { name: '绿色通道', method: '缓缴', when: '报到当天办理，先入学后补缴', basis: '绿色通道规定' },
+  { name: '生源地信用助学贷款', method: '银行发放', when: '经办银行直接划付学校', basis: '生源地贷款政策' },
+]
+
 const CENTER_ROLE = /中心|学生处/
 const CENTER_ACTIONS = [] // { month, policy, title, desc }
 for (const p of policyCategories) {
@@ -103,7 +126,7 @@ const CENTER_ACTION_TOTAL = CENTER_ACTIONS.length
 const CENTER_ACTION_DISTINCT = new Set(CENTER_ACTIONS.map((a) => a.title)).size
 
 function buildYearSchedule() {
-  const map = new Map(MONTH_ORDER.map((m) => [m, { month: m, student: [], staff: [] }]))
+  const map = new Map(MONTH_ORDER.map((m) => [m, { month: m, student: [], staff: [], projects: [] }]))
   for (const s of annualSchedule) {
     for (const m of monthsOf(s.month)) {
       map.get(m)?.student.push(
@@ -121,11 +144,16 @@ function buildYearSchedule() {
       map.get(m)?.staff.push({ task: r[1], note: r[3] || r[2] || '', kind: 'task' })
     }
   }
-  // 审批链里中心自己的动作，按月份挂上（同名去重）
-  for (const a of CENTER_ACTIONS) {
-    const bucket = map.get(a.month)
-    if (!bucket) continue
-    bucket.staff.push({ task: a.title, note: a.policy, kind: 'action' })
+  // 本月在办项目（时间线里有该月的项目）
+  for (const p of policyCategories) {
+    const months = new Set()
+    for (const t of p.timeline || []) for (const m of monthsOf(t.month)) months.add(m)
+    for (const m of months) {
+      const bucket = map.get(m)
+      if (!bucket) continue
+      bucket.projects = bucket.projects || []
+      if (!bucket.projects.includes(p.title)) bucket.projects.push(p.title)
+    }
   }
   return MONTH_ORDER.map((m) => {
     const d = map.get(m)
@@ -585,7 +613,25 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .month-card li.more { color: var(--text-3); font-style: normal; }
 .month-card li.more::before { background: transparent; }
 .m-empty { margin: 0; font-size: 12.5px; color: var(--text-3); }
-.schedule-note { margin: 22px 0 0; font-size: 12px; line-height: 1.7; color: var(--text-3); max-width: 92ch; }
+.schedule-note { margin: 18px 0 0; font-size: 12px; line-height: 1.7; color: var(--text-3); max-width: 92ch; }
+
+.payout { margin-top: 46px; padding-top: 34px; border-top: 1px solid var(--line-2); }
+.payout-lede { margin: -6px 0 18px; font-size: 14.5px; color: var(--text-2); max-width: 74ch; }
+.payout-table { display: grid; gap: 1px; background: var(--line-2); border-radius: 12px; overflow: hidden; }
+.pt-row { display: grid; grid-template-columns: 220px 110px 1fr 240px; background: var(--card); }
+.pt-row > div { padding: 11px 14px; font-size: 13px; line-height: 1.5; }
+.pt-row.pt-head > div { font-size: 11.5px; font-weight: 600; letter-spacing: .04em; color: var(--text-3); background: var(--bg-alt); }
+.pt-name { font-weight: 500; }
+.pt-when { color: var(--text-2); }
+.pt-basis { color: var(--text-3); font-size: 12px; }
+.pt-method { display: inline-block; padding: 1px 8px; border-radius: 5px; font-size: 11.5px; font-weight: 600; }
+.pt-month { color: #0b4f32; background: rgba(11,79,50,.1); }
+.pt-once { color: var(--gold); background: rgba(138,109,47,.12); }
+.pt-other { color: var(--text-2); background: var(--bg-alt); }
+@media (prefers-color-scheme: dark) { .pt-month { color: #74cba0; } }
+@media (max-width: 900px) { .pt-row { grid-template-columns: 1fr 90px; } .pt-row > div:nth-child(3), .pt-row > div:nth-child(4) { display: none; } }
+
+.m-projects { margin: 10px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--text-3); }
 
 /* ---------- 全年分析 ---------- */
 .analysis { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--line-2); }
@@ -1581,26 +1627,15 @@ function renderIndex() {
   const monthCards = year
     .map((m) => {
       const level = m.total >= peak.total * 0.75 ? 'high' : m.total >= peak.total * 0.4 ? 'mid' : 'low'
-      // 按动作类型归并：同类动作在多个项目上重复，重复次数本身就是工作量
-      const staffGroups = []
-      for (const s of m.staff) {
-        let g = staffGroups.find((x) => x.title === s.task)
-        if (!g) { g = { title: s.task, n: 0, from: [] }; staffGroups.push(g) }
-        g.n += 1
-        if (s.kind === 'action' && s.note && !g.from.includes(s.note)) g.from.push(s.note)
-      }
-      staffGroups.sort((a, b) => b.n - a.n)
-      const staffShown = staffGroups.slice(0, 6)
-      const staffList = staffGroups.length
-        ? `<ul>${staffShown
-            .map(
-              (g) =>
-                `<li class="${g.from.length ? 'is-action' : ''}">${esc(g.title)}${g.n > 1 ? ` × ${g.n}` : ''}${
-                  g.from.length ? `<span>${esc(g.from.slice(0, 3).join('、'))}${g.from.length > 3 ? ' 等' : ''}</span>` : ''
-                }</li>`,
-            )
-            .join('')}${staffGroups.length > staffShown.length ? `<li class="more">另有 ${staffGroups.length - staffShown.length} 类动作</li>` : ''}</ul>`
+      const rhythmList = m.staff.length
+        ? `<ul>${m.staff
+            .map((s) => `<li>${esc(s.task)}${s.note ? `<span>${esc(s.note)}</span>` : ''}</li>`)
+            .join('')}</ul>`
         : '<p class="m-empty">常规经办：按月发放、动态认定、随时受理</p>'
+      const projects = m.projects || []
+      const projectLine = projects.length
+        ? `<p class="m-projects">本月在办 ${projects.length} 个项目：${projects.slice(0, 6).map((x) => esc(x)).join('、')}${projects.length > 6 ? ' 等' : ''}</p>`
+        : ''
       const st = m.student
       const shown = st.slice(0, 4)
       const studentList = st.length
@@ -1611,11 +1646,12 @@ function renderIndex() {
       return `<article class="month-card" data-level="${level}">
         <header>
           <b>${m.month} 月</b>
-          <span class="month-total">学生 ${m.student.length} · 中心 ${m.staff.length}</span>
+          <span class="month-total">学生 ${m.student.length} 项 · 在办 ${(m.projects || []).length} 个项目</span>
         </header>
         <div class="m-block">
-          <div class="m-label m-label--staff">背后的工作 · 中心侧环节</div>
-          ${staffList}
+          <div class="m-label m-label--staff">资助中心经办</div>
+          ${rhythmList}
+          ${projectLine}
         </div>
         <div class="m-block">
           <div class="m-label m-label--student">学生</div>
@@ -1729,11 +1765,21 @@ function renderIndex() {
 <section id="schedule">
   <div class="wrap">
     <p class="eyebrow">全年日程</p>
-    <h2>学生看到的 ${STUDENT_TOTAL} 个节点，背后是 ${STAFF_TOTAL} 次经办</h2>
-    <p class="lede">按学年排（9 月到次年 8 月）。学生能看见的 ${STUDENT_TOTAL} 个申请节点之外，资助中心还有 <strong>${STAFF_TOTAL} 项经办动作</strong>——平均每 1 个公开节点，对应 ${RATIO} 个看不见的环节。最密集的是 <strong>${peak.month} 月</strong>：学生 ${peak.student.length} 个节点、中心 ${peak.staff.length} 项动作。</p>
+    <h2>学生看到的 ${STUDENT_TOTAL} 个节点，背后是 ${bizItems.length} 项业务、211 个审批步骤</h2>
+    <p class="lede">按学年排，9 月到次年 8 月。学生能看到的 ${STUDENT_TOTAL} 个申请节点之外，每个节点背后都是一串经办动作。最密集的是 <strong>${peak.month} 月</strong>：${peak.student.length} 项学生事项，同时在办 ${(peak.projects || []).length} 个项目。</p>
     <div class="load-bars">${loadBar}</div>
     <div class="month-grid">${monthCards}</div>
-    <p class="schedule-note">口径说明：中心侧环节按项目归属到其办理月份，含后续发放、归档等环节；同一环节在多个项目上重复时按次数合并（如「全校公示 × 4」表示 4 个项目各需公示一次）。学生事项与中心环节相加不等于工时。</p>
+    <div class="payout">
+      <h3 class="wl-sub">钱是怎么发到学生手上的</h3>
+      <p class="payout-lede">按文件里的规定：只有三项按月发放，国家奖学金和国家励志奖学金是 12 月 31 日前一次性发。</p>
+      <div class="payout-table">
+        <div class="pt-row pt-head"><div>项目</div><div>方式</div><div>时间</div><div>依据</div></div>
+        ${PAYOUT.map(
+          (p) => `<div class="pt-row"><div class="pt-name">${esc(p.name)}</div><div><span class="pt-method pt-${p.method === '按月' ? 'month' : p.method === '一次性' ? 'once' : 'other'}">${esc(p.method)}</span></div><div class="pt-when">${esc(p.when)}</div><div class="pt-basis">${esc(p.basis)}</div></div>`,
+        ).join('')}
+      </div>
+      <p class="schedule-note">发放方式与时间依据《重庆工程职业技术学院学生资助政策汇编》原文；未写明具体月份的，以学校当年通知为准。</p>
+    </div>
 
     <div class="analysis">
       <h3>这张表说明了什么</h3>
@@ -1755,9 +1801,9 @@ function renderIndex() {
           <p>按月发放、动态认定、随时受理这类事每月都在跑，不计入上面的节点数。</p>
         </div>
         <div class="an-card">
-          <b>${STAFF_TOTAL}</b>
-          <span>项中心经办动作</span>
-          <p>审批链里中心自己干的活，合并后 ${CENTER_ACTION_DISTINCT} 类：复核名单、组织公示、系统录入、上报、归档。数量是学生可见节点的 ${RATIO} 倍。</p>
+          <b>3</b>
+          <span>项按月发放</span>
+          <p>国家助学金、退役士兵国家助学金、勤工助学。其余多为一次性或减免，12 月是国奖与励志奖的发放月。</p>
         </div>
         <div class="an-card">
           <b>${top3Pct}%</b>

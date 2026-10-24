@@ -97,6 +97,24 @@
   stampPrintDate();
   window.addEventListener('beforeprint', stampPrintDate);
 
+  /* 首页导航：滚动时高亮当前区块 */
+  var navLinks = [].slice.call(document.querySelectorAll('.nav-links a')).filter(function (a) {
+    return a.getAttribute('href').charAt(0) === '#';
+  });
+  if (navLinks.length && 'IntersectionObserver' in window) {
+    var ids = navLinks.map(function (a) { return a.getAttribute('href').slice(1); });
+    var targets = ids.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        navLinks.forEach(function (a) { a.removeAttribute('aria-current'); });
+        var link = navLinks[ids.indexOf(e.target.id)];
+        if (link) link.setAttribute('aria-current', 'page');
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    targets.forEach(function (t) { spy.observe(t); });
+  }
+
   /* 入场动效 */
   if (!reduce && 'IntersectionObserver' in window) {
     var targets = [].slice.call(document.querySelectorAll('.card, .flow > li, .timeline > li, .author > div'));

@@ -123,12 +123,12 @@ onBeforeUnmount(() => {
 <template>
   <div>
     <header class="nav-bar" :class="{ 'is-solid': scrolled }">
-      <div class="nav-title" :class="{ visible: scrolled }">资助通</div>
+      <div class="nav-title" :class="{ visible: scrolled }">CQPUE资助政策</div>
     </header>
 
     <div class="large-title">
-      <h1>资助通</h1>
-      <div class="sub">重庆工程职业技术大学 · 学生资助政策</div>
+      <h1>CQPUE资助政策</h1>
+      <div class="sub">重庆工程职业技术大学 · 学生资助政策查询</div>
     </div>
 
     <div class="search">
@@ -212,11 +212,19 @@ onBeforeUnmount(() => {
           </span>
           <span class="cell-detail cell-detail--accent">拨号</span>
         </a>
+        <a class="cell cell--tappable" href="tel:15736152295">
+          <span class="tile" style="background: var(--blue-tint)">👤</span>
+          <span class="cell-body">
+            <span class="cell-title">开发者 · 周泽维</span>
+            <span class="cell-subtitle">15736152295 · 意见反馈与内容纠错</span>
+          </span>
+          <span class="cell-detail cell-detail--accent">拨号</span>
+        </a>
         <div class="cell">
           <span class="tile" style="background: var(--blue-tint)">💬</span>
           <span class="cell-body">
             <span class="cell-title">微信公众号</span>
-            <span class="cell-subtitle">停不下来的独行侠 · 政策咨询与材料指导</span>
+            <span class="cell-subtitle">停不下来的独行侠 · 政策解读与经验分享</span>
           </span>
         </div>
         <div class="cell">
@@ -235,18 +243,29 @@ onBeforeUnmount(() => {
             >{{ opt.label }}</button>
           </div>
         </div>
+        <button class="cell cell--tappable" @click="router.push('/privacy')">
+          <span class="tile" style="background: var(--gray-tint)">🔒</span>
+          <span class="cell-body">
+            <span class="cell-title">隐私政策</span>
+            <span class="cell-subtitle">不收集个人信息 · 无广告 · 完全免费</span>
+          </span>
+          <svg class="chev" viewBox="0 0 8 13" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1.5 1.5 6 6.5l-4.5 5" />
+          </svg>
+        </button>
         <div class="cell">
           <span class="tile" style="background: var(--gray-tint)">ⓘ</span>
           <span class="cell-body">
             <span class="cell-title">版本</span>
-            <span class="cell-subtitle">v{{ appVersion }} · 个人独立开发，非官方产品</span>
+            <span class="cell-subtitle">v{{ appVersion }} · 公益免费，非学校官方</span>
           </span>
         </div>
       </div>
 
       <div class="group-footer">
-        本应用非重庆工程职业技术大学官方产品，仅供信息参考，不构成政策承诺或法律依据。
-        具体政策、条件与金额以学校学生资助管理中心当年通知为准。
+        本应用由周泽维个人开发，<strong>完全免费、无广告、无内购、无付费服务</strong>，仅用于学习与研究。
+        非重庆工程职业技术大学官方产品，内容仅供参考，具体政策以学校资助管理中心当年通知为准。
       </div>
     </template>
 

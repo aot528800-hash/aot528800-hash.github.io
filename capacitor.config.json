@@ -1,6 +1,6 @@
 {
   "appId": "com.cqvie.aid",
-  "appName": "学生资助政策",
+  "appName": "CQPUE资助政策",
   "webDir": "dist",
   "server": {
     "androidScheme": "https",

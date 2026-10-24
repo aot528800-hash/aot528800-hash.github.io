@@ -390,6 +390,21 @@ try {
     assert(!hash.includes('focus'), `参数没有清除：${hash}`)
     return `已聚焦，hash 回到 ${hash}`
   })
+  await test('隐私政策页可访问且信息完整', async () => {
+    await goto('')
+    await ev(`(() => { const b=[...document.querySelectorAll('.cell--tappable')].find(e=>e.textContent.includes('隐私政策')); b.click() })()`)
+    await sleep(800)
+    const hash = await ev(`location.hash`)
+    assert(hash === '#/privacy', `跳转到 ${hash}`)
+
+    const text = await ev(`document.body.innerText`)
+    for (const kw of ['周泽维', '15736152295', '不收集', '完全免费', '生效日期']) {
+      assert(text.includes(kw), `隐私政策缺少「${kw}」`)
+    }
+    const back = await ev(`document.querySelector('.nav-back span')?.textContent`)
+    assert(!!back, '隐私页缺少返回按钮')
+    return `#/privacy，含开发者/电话/不收集声明，返回按钮「${back}」`
+  })
   /* ============ 兼容性 ============ */
 
   await test('5 种屏幕宽度无横向溢出', async () => {

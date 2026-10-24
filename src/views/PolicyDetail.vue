@@ -137,7 +137,7 @@ function onMdClick(event) {
 /* 分享：走系统分享面板（安卓上是原生 share sheet，可发给微信/QQ/同学） */
 async function sharePolicy() {
   if (!policy.value) return
-  const text = `${policy.value.title}（${policy.value.subtitle}）\n\n来自「资助通」· 非官方，具体以学校资助中心通知为准`
+  const text = `${policy.value.title}（${policy.value.subtitle}）\n\n来自「CQPUE资助政策」· 非官方，具体以学校资助中心通知为准`
 
   try {
     const can = await Share.canShare()

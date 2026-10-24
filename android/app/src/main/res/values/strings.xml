@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">学生资助政策</string>
-    <string name="title_activity_main">学生资助政策</string>
+    <string name="app_name">CQPUE资助政策</string>
+    <string name="title_activity_main">CQPUE资助政策</string>
     <string name="package_name">com.cqvie.aid</string>
     <string name="custom_url_scheme">com.cqvie.aid</string>
 

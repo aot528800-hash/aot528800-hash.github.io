@@ -2,12 +2,14 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import PolicyDetail from '../views/PolicyDetail.vue'
 import Timeline from '../views/Timeline.vue'
+import Privacy from '../views/Privacy.vue'
 import { previousRoute, routeTitle } from '../lib/nav.js'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/policy/:id', name: 'PolicyDetail', component: PolicyDetail, props: true },
   { path: '/timeline', name: 'Timeline', component: Timeline },
+  { path: '/privacy', name: 'Privacy', component: Privacy },
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ]
 

@@ -114,8 +114,10 @@ const typeMeta = (t) => TYPE_META[t] || { label: '节点', color: 'var(--gray)' 
 
 /* ---------- 生命周期 ---------- */
 function goBack() {
-  if (window.history.length > 2) router.back()
-  else router.push('/')
+  // 有应用内上一页就回退，否则（如冷启动直达详情）回首页
+  const state = window.history.state
+  if (state && state.back) router.back()
+  else router.replace('/')
 }
 
 onMounted(() => {
@@ -141,10 +143,12 @@ watch(() => props.id, () => {
   window.scrollTo(0, 0)
 })
 
-function renderMarkdown(text) {
+/* 正文只解析一次，避免每次渲染都跑一遍 marked + DOMPurify */
+const overviewHtml = computed(() => {
+  const text = policy.value?.overview
   if (!text) return ''
   return DOMPurify.sanitize(marked.parse(text))
-}
+})
 
 const tint = (hex) => (hex || '#8e8e93') + '24'
 </script>
@@ -153,7 +157,7 @@ const tint = (hex) => (hex || '#8e8e93') + '24'
   <div v-if="policy">
     <header class="nav-bar">
       <button class="nav-back" aria-label="返回" @click="goBack">
-        <span class="chev">‹</span><span>首页</span>
+        <span class="chev">‹</span><span>返回</span>
       </button>
       <div class="nav-title">{{ policy.title }}</div>
     </header>
@@ -232,7 +236,7 @@ const tint = (hex) => (hex || '#8e8e93') + '24'
 
       <div class="group-header">政策要点</div>
       <div class="group">
-        <div class="md" v-html="renderMarkdown(policy.overview)"></div>
+        <div class="md" v-html="overviewHtml"></div>
       </div>
 
       <div v-if="policy.source" class="group-footer">

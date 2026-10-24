@@ -28,11 +28,19 @@ function seasonOf(month) {
   return { key: 'winter', label: '冬季', color: 'var(--blue)' }
 }
 
+function stickyOffset() {
+  const nav = document.querySelector('.nav-bar')
+  const bar = document.querySelector('.month-bar')
+  const navH = nav ? nav.getBoundingClientRect().height : 44
+  const barH = bar ? bar.getBoundingClientRect().height : 46
+  return navH + barH + 8
+}
+
 function scrollToMonth(month) {
   activeMonth.value = month
   const el = document.getElementById('month-' + month.replace('-', '').replace('月', ''))
   if (el) {
-    const top = el.getBoundingClientRect().top + window.scrollY - 96
+    const top = el.getBoundingClientRect().top + window.scrollY - stickyOffset()
     window.scrollTo({ top, behavior: 'smooth' })
   }
 }

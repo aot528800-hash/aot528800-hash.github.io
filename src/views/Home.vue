@@ -1,11 +1,28 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { policyCategories } from '../data/policies.js'
 
 const router = useRouter()
 const query = ref('')
 const scrolled = ref(false)
+const appVersion = __APP_VERSION__
+
+/* 搜索词跨页面保留：从详情页返回时仍停在结果列表上 */
+const SEARCH_KEY = 'aid_search_query'
+try {
+  query.value = sessionStorage.getItem(SEARCH_KEY) || ''
+} catch {
+  query.value = ''
+}
+watch(query, (v) => {
+  try {
+    if (v) sessionStorage.setItem(SEARCH_KEY, v)
+    else sessionStorage.removeItem(SEARCH_KEY)
+  } catch {
+    /* 隐私模式忽略 */
+  }
+})
 
 const national = computed(() => policyCategories.filter((p) => p.tag === '国家政策'))
 const school = computed(() => policyCategories.filter((p) => p.tag === '校内政策'))
@@ -59,16 +76,27 @@ const results = computed(() => {
 const tint = (hex) => (hex || '#8e8e93') + '24'
 
 let onScroll = null
+
+/* 返回键：搜索状态下先清空搜索，而不是直接退出应用 */
+function onAppBack(e) {
+  if (query.value) {
+    e.preventDefault()
+    query.value = ''
+  }
+}
+
 onMounted(() => {
   onScroll = () => {
     scrolled.value = window.scrollY > 36
   }
   window.addEventListener('scroll', onScroll, { passive: true })
+  window.addEventListener('app:back', onAppBack)
   onScroll()
 })
 
 onBeforeUnmount(() => {
   if (onScroll) window.removeEventListener('scroll', onScroll)
+  window.removeEventListener('app:back', onAppBack)
 })
 </script>
 
@@ -80,7 +108,7 @@ onBeforeUnmount(() => {
 
     <div class="large-title">
       <h1>资助通</h1>
-      <div class="sub">重庆工程职业技术学院 · 学生资助政策</div>
+      <div class="sub">重庆工程职业技术大学 · 学生资助政策</div>
     </div>
 
     <div class="search">
@@ -173,13 +201,13 @@ onBeforeUnmount(() => {
           <span class="tile" style="background: var(--gray-tint)">ⓘ</span>
           <span class="cell-body">
             <span class="cell-title">版本</span>
-            <span class="cell-subtitle">v0.2 · 个人独立开发，非官方产品</span>
+            <span class="cell-subtitle">v{{ appVersion }} · 个人独立开发，非官方产品</span>
           </span>
         </div>
       </div>
 
       <div class="group-footer">
-        本应用非重庆工程职业技术学院官方产品，仅供信息参考，不构成政策承诺或法律依据。
+        本应用非重庆工程职业技术大学官方产品，仅供信息参考，不构成政策承诺或法律依据。
         具体政策、条件与金额以学校学生资助管理中心当年通知为准。
       </div>
     </template>

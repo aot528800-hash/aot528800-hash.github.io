@@ -32,6 +32,7 @@
 <style scoped>
 .app-shell {
   min-height: 100vh;
+  min-height: 100dvh;
   padding-bottom: calc(49px + var(--safe-bottom));
   background: var(--bg);
 }

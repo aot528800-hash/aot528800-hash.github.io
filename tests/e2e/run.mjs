@@ -349,6 +349,47 @@ try {
     return `${groups} 个月段`
   })
 
+  await test('应用内字号档位可切换并持久化', async () => {
+    await goto('')
+    await ev(`sessionStorage.clear()`)
+    await ev(`location.reload()`)
+    await sleep(1200)
+    const base = await ev(`parseFloat(getComputedStyle(document.querySelector('.cell-title')).fontSize)`)
+    await ev(`[...document.querySelectorAll('.font-seg button')].find(b => b.textContent.trim() === '大').click()`)
+    await sleep(400)
+    const large = await ev(`parseFloat(getComputedStyle(document.querySelector('.cell-title')).fontSize)`)
+    assert(large > base, `字号没有变大：${base} → ${large}`)
+
+    const attr = await ev(`document.documentElement.getAttribute('data-font')`)
+    assert(attr === 'large', `data-font=${attr}`)
+
+    await ev(`location.reload()`)
+    await sleep(1200)
+    const persisted = await ev(`document.documentElement.getAttribute('data-font')`)
+    assert(persisted === 'large', '刷新后字号设置丢失')
+
+    // 大字号 + 窄屏最容易撑破布局
+    await viewport(320)
+    await sleep(400)
+    const overflow = await ev(`document.documentElement.scrollWidth - window.innerWidth`)
+    assert(overflow <= 1, `320px 大字号横向溢出 ${overflow}px`)
+    await viewport(390)
+    await sleep(300)
+
+    await ev(`[...document.querySelectorAll('.font-seg button')].find(b => b.textContent.trim() === '标准').click()`)
+    await sleep(300)
+    return `标准 ${base}px → 大 ${large}px，刷新后仍生效`
+  })
+
+  await test('快捷方式入口 focus=search 聚焦搜索框并清除参数', async () => {
+    await send('Page.navigate', { url: BASE + '?focus=search' })
+    await sleep(1300)
+    const focused = await ev(`document.activeElement === document.querySelector('.search-input')`)
+    assert(focused, '搜索框没有获得焦点')
+    const hash = await ev(`location.hash`)
+    assert(!hash.includes('focus'), `参数没有清除：${hash}`)
+    return `已聚焦，hash 回到 ${hash}`
+  })
   /* ============ 兼容性 ============ */
 
   await test('5 种屏幕宽度无横向溢出', async () => {

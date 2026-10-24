@@ -4,4 +4,10 @@
     <string name="title_activity_main">学生资助政策</string>
     <string name="package_name">com.cqvie.aid</string>
     <string name="custom_url_scheme">com.cqvie.aid</string>
+
+    <!-- 桌面长按图标的快捷方式 -->
+    <string name="shortcut_timeline_short">全年日程</string>
+    <string name="shortcut_timeline_long">查看全年资助工作日程</string>
+    <string name="shortcut_search_short">搜索政策</string>
+    <string name="shortcut_search_long">搜索资助项目与金额</string>
 </resources>

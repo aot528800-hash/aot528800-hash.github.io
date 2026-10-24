@@ -1,13 +1,46 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { policyCategories } from '../data/policies.js'
 import { searchPolicies } from '../lib/policy.js'
 
 const router = useRouter()
+const route = useRoute()
 const query = ref('')
 const scrolled = ref(false)
 const appVersion = __APP_VERSION__
+const searchInput = ref(null)
+
+/* ---------- 字号档位（应用内，独立于系统字号） ---------- */
+const FONT_KEY = 'aid_font_size'
+const FONT_OPTIONS = [
+  { value: 'small', label: '小' },
+  { value: 'normal', label: '标准' },
+  { value: 'large', label: '大' },
+]
+const fontSize = ref('normal')
+
+function applyFont(value) {
+  document.documentElement.setAttribute('data-font', value)
+}
+
+function setFont(value) {
+  fontSize.value = value
+  applyFont(value)
+  try {
+    localStorage.setItem(FONT_KEY, value)
+  } catch {
+    /* 隐私模式忽略 */
+  }
+}
+
+try {
+  const saved = localStorage.getItem(FONT_KEY)
+  if (saved && FONT_OPTIONS.some((o) => o.value === saved)) fontSize.value = saved
+} catch {
+  /* 忽略 */
+}
+applyFont(fontSize.value)
 
 /* 搜索词跨页面保留：从详情页返回时仍停在结果列表上 */
 const SEARCH_KEY = 'aid_search_query'
@@ -54,6 +87,21 @@ function onAppBack(e) {
   }
 }
 
+/* 快捷方式「搜索政策」：冷启动走 onMounted，热启动只变 query，需要 watch */
+function focusSearch() {
+  nextTick(() => {
+    searchInput.value?.focus()
+    router.replace({ path: '/', query: {} })
+  })
+}
+
+watch(
+  () => route.query.focus,
+  (v) => {
+    if (v === 'search') focusSearch()
+  },
+)
+
 onMounted(() => {
   onScroll = () => {
     scrolled.value = window.scrollY > 36
@@ -61,6 +109,9 @@ onMounted(() => {
   window.addEventListener('scroll', onScroll, { passive: true })
   window.addEventListener('app:back', onAppBack)
   onScroll()
+
+  // 桌面快捷方式「搜索政策」会带 focus=search 进来
+  if (route.query.focus === 'search') focusSearch()
 })
 
 onBeforeUnmount(() => {
@@ -86,7 +137,7 @@ onBeforeUnmount(() => {
         <circle cx="11" cy="11" r="7" />
         <path d="m20 20-3.6-3.6" />
       </svg>
-      <input v-model="query" class="search-input" type="search" enterkeyhint="search"
+      <input v-model="query" ref="searchInput" class="search-input" type="search" enterkeyhint="search"
         placeholder="搜索项目、金额、条件" aria-label="搜索资助政策" />
       <button v-if="query" class="search-clear" aria-label="清除" @click="query = ''">✕</button>
     </div>
@@ -169,6 +220,22 @@ onBeforeUnmount(() => {
           </span>
         </div>
         <div class="cell">
+          <span class="tile" style="background: var(--gray-tint)">🔤</span>
+          <span class="cell-body">
+            <span class="cell-title">字号</span>
+            <span class="cell-subtitle">只放大正文与列表，不影响布局</span>
+          </span>
+          <div class="font-seg" role="group" aria-label="字号">
+            <button
+              v-for="opt in FONT_OPTIONS"
+              :key="opt.value"
+              :class="{ on: fontSize === opt.value }"
+              :aria-pressed="fontSize === opt.value"
+              @click="setFont(opt.value)"
+            >{{ opt.label }}</button>
+          </div>
+        </div>
+        <div class="cell">
           <span class="tile" style="background: var(--gray-tint)">ⓘ</span>
           <span class="cell-body">
             <span class="cell-title">版本</span>
@@ -240,5 +307,31 @@ onBeforeUnmount(() => {
 
 .stat-value {
   color: var(--label);
+}
+
+/* 字号档位：三段小控件 */
+.font-seg {
+  display: flex;
+  flex-shrink: 0;
+  padding: 2px;
+  background: var(--bg-fill);
+  border-radius: 8px;
+}
+
+.font-seg button {
+  min-width: 34px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--label-2);
+  transition: background 0.18s var(--ease-ios), color 0.18s linear;
+}
+
+.font-seg button.on {
+  background: var(--bg-elevated);
+  color: var(--label);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 </style>

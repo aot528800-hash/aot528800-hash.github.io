@@ -1199,3 +1199,54 @@ a {
     padding-left: 4px;
   }
 }
+
+/* ==========================================================================
+   字号档位（应用内）
+   只放大文字，不缩放布局；用 html[data-font] 提高优先级，压过组件 scoped 样式。
+   与系统字号（WebView textZoom）叠加生效。
+   ========================================================================== */
+
+html[data-font='small'] { --fs: 0.92; }
+html[data-font='normal'] { --fs: 1; }
+html[data-font='large'] { --fs: 1.14; }
+
+html[data-font] .nav-title { font-size: calc(17px * var(--fs)); }
+html[data-font] .nav-back { font-size: calc(17px * var(--fs)); }
+
+html[data-font] .large-title h1 { font-size: calc(34px * var(--fs)); }
+html[data-font] .large-title .sub { font-size: calc(15px * var(--fs)); }
+
+html[data-font] .group-header,
+html[data-font] .group-footer { font-size: calc(13px * var(--fs)); }
+
+html[data-font] .cell-title { font-size: calc(17px * var(--fs)); }
+html[data-font] .cell-subtitle { font-size: calc(13px * var(--fs)); }
+html[data-font] .cell-detail { font-size: calc(17px * var(--fs)); }
+html[data-font] .cell-text { font-size: calc(15px * var(--fs)); }
+
+html[data-font] .search-input { font-size: calc(17px * var(--fs)); }
+html[data-font] .stat-value { font-size: calc(22px * var(--fs)); }
+html[data-font] .stat-label { font-size: calc(11px * var(--fs)); }
+html[data-font] .badge { font-size: calc(11px * var(--fs)); }
+html[data-font] .relation-tag { font-size: calc(12px * var(--fs)); }
+html[data-font] .detail-source { font-size: calc(13px * var(--fs)); }
+
+html[data-font] .md { font-size: calc(15.5px * var(--fs)); }
+html[data-font] .md h1 { font-size: calc(22px * var(--fs)); }
+html[data-font] .md h2 { font-size: calc(19px * var(--fs)); }
+html[data-font] .md h3 { font-size: calc(17px * var(--fs)); }
+html[data-font] .md table { font-size: calc(14px * var(--fs)); }
+
+html[data-font] .step-title { font-size: calc(16px * var(--fs)); }
+html[data-font] .step-desc { font-size: calc(14px * var(--fs)); }
+
+html[data-font] .tl-event { font-size: calc(15.5px * var(--fs)); }
+html[data-font] .tl-month { font-size: calc(12px * var(--fs)); }
+html[data-font] .month-name { font-size: calc(15px * var(--fs)); }
+html[data-font] .ev-title { font-size: calc(15.5px * var(--fs)); }
+
+html[data-font] .mat-name { font-size: calc(15.5px * var(--fs)); }
+html[data-font] .mat-note { font-size: calc(13px * var(--fs)); }
+
+html[data-font] .detail-head h1 { font-size: calc(24px * var(--fs)); }
+html[data-font] .detail-head p { font-size: calc(14px * var(--fs)); }

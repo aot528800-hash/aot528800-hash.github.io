@@ -1,123 +1,245 @@
 <script setup>
-import { computed } from 'vue'
-import { policyCategories } from '../data/policies.js'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { policyCategories } from '../data/policies.js'
+
 const router = useRouter()
-const goTo = (id) => router.push(`/policy/${id}`)
+const query = ref('')
+const scrolled = ref(false)
 
-const nationalPolicies = computed(() => policyCategories.filter(p => p.tag === '国家政策'))
-const schoolPolicies = computed(() => policyCategories.filter(p => p.tag === '校内政策'))
+const national = computed(() => policyCategories.filter((p) => p.tag === '国家政策'))
+const school = computed(() => policyCategories.filter((p) => p.tag === '校内政策'))
 
-const heroStats = computed(() => [
-  { value: policyCategories.length, color: '#1565C0', label: '资助项目' },
-  { value: '20000', color: '#F59E0B', label: '最高贷款' },
-  { value: '413', color: '#0D904F', label: '勤工岗位' },
-  { value: '9级', color: '#C62828', label: '审批链' },
-])
+const stats = computed(() => {
+  const levels = policyCategories.map((p) => p.approvalChain?.length || 0)
+  return {
+    count: policyCategories.length,
+    maxLevel: Math.max(...levels),
+    docs: new Set(policyCategories.map((p) => p.source).filter(Boolean)).size,
+  }
+})
+
+const goTo = (id) => router.push('/policy/' + id)
+
+/* 搜索：标题 / 副标题 / 简介 / 标签 + 常用简称 */
+const ALIASES = {
+  国奖: '国家奖学金',
+  国励: '国家励志奖学金',
+  励志: '国家励志奖学金',
+  助学金: '国家助学金',
+  贷款: '生源地信用助学贷款',
+  国开行: '生源地信用助学贷款',
+  当兵: '服兵役',
+  入伍: '服兵役',
+  退役: '退役',
+  勤工: '勤工助学',
+  减免: '学费减免',
+  绿色通道: '绿色通道',
+  认定: '家庭经济困难学生认定',
+}
+
+const results = computed(() => {
+  const q = query.value.trim()
+  if (!q) return []
+  const lower = q.toLowerCase()
+  const expanded = Object.keys(ALIASES)
+    .filter((k) => q.includes(k))
+    .map((k) => ALIASES[k].toLowerCase())
+
+  return policyCategories.filter((p) => {
+    const hay = [p.title, p.subtitle, p.description, p.tag, p.source]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase()
+    if (hay.includes(lower)) return true
+    return expanded.some((t) => hay.includes(t))
+  })
+})
+
+const tint = (hex) => (hex || '#8e8e93') + '24'
+
+let onScroll = null
+onMounted(() => {
+  onScroll = () => {
+    scrolled.value = window.scrollY > 36
+  }
+  window.addEventListener('scroll', onScroll, { passive: true })
+  onScroll()
+})
+
+onBeforeUnmount(() => {
+  if (onScroll) window.removeEventListener('scroll', onScroll)
+})
 </script>
 
 <template>
   <div>
-    <div class="page-header">
-      <h1>📚 学生资助政策</h1>
-      <div class="subtitle">重庆工程职业技术学院</div>
+    <header class="nav-bar" :class="{ 'is-solid': scrolled }">
+      <div class="nav-title" :class="{ visible: scrolled }">资助通</div>
+    </header>
+
+    <div class="large-title">
+      <h1>资助通</h1>
+      <div class="sub">重庆工程职业技术学院 · 学生资助政策</div>
     </div>
 
-    <!-- Disclaimer -->
-    <div style="margin:0 16px 8px;background:#FFF3E0;border:1px solid #FFB74D;border-radius:10px;padding:10px 12px;">
-      <div style="display:flex;align-items:flex-start;gap:8px;">
-        <span style="font-size:18px;flex-shrink:0;">⚠️</span>
-        <div style="font-size:11px;color:#BF360C;line-height:1.5;">
-          <strong>本应用非重庆工程职业技术学院官方产品</strong>，系个人独立开发，仅供信息参考。<strong>不构成任何政策承诺或法律依据</strong>。具体资助政策、申请条件及金额以学校学生资助管理中心官方通知为准。开发者<strong>不承担</strong>因使用本应用信息产生的任何法律责任。如有疑问请直接联系学校资助中心。
-        </div>
-      </div>
+    <div class="search">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.6-3.6" />
+      </svg>
+      <input v-model="query" class="search-input" type="search" enterkeyhint="search"
+        placeholder="搜索项目、金额、条件" aria-label="搜索资助政策" />
+      <button v-if="query" class="search-clear" aria-label="清除" @click="query = ''">✕</button>
     </div>
 
-    <!-- Hero stats -->
-    <div style="padding:4px 16px 12px;">
-      <div style="display:flex;gap:8px;">
-        <div v-for="s in heroStats" :key="s.label" style="flex:1;background:#fff;border-radius:10px;padding:10px;box-shadow:var(--shadow);text-align:center;">
-          <div :style="{fontSize:'20px',fontWeight:'800',color:s.color}">{{ s.value }}</div>
-          <div style="font-size:10px;color:#999;">{{ s.label }}</div>
+    <template v-if="!query">
+      <div class="group stat-group">
+        <div class="stat-strip">
+          <div class="stat">
+            <div class="stat-value">{{ stats.count }}</div>
+            <div class="stat-label">资助项目</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">{{ stats.maxLevel }}</div>
+            <div class="stat-label">最高审批层级</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">{{ stats.docs }}</div>
+            <div class="stat-label">政策依据文件</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- 国家政策 -->
-    <div style="padding: 12px 16px 4px;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
-        <span style="font-size:13px;color:#9e9e9e;font-weight:600;">🇨🇳 国家政策</span>
-        <span style="flex:1;height:1px;background:#e0e0e0;"></span>
+      <div class="group-header">国家政策</div>
+      <div class="group">
+        <button
+          v-for="cat in national"
+          :key="cat.id"
+          class="cell cell--tappable"
+          @click="goTo(cat.id)"
+        >
+          <span class="tile" :style="{ background: tint(cat.color) }">{{ cat.icon }}</span>
+          <span class="cell-body">
+            <span class="cell-title">{{ cat.title }}</span>
+            <span class="cell-subtitle">{{ cat.subtitle }}</span>
+          </span>
+          <svg class="chev" viewBox="0 0 8 13" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1.5 1.5 6 6.5l-4.5 5" />
+          </svg>
+        </button>
       </div>
-    </div>
-    <div class="category-grid">
-      <div v-for="cat in nationalPolicies" :key="cat.id" class="category-card" :style="{ borderLeftColor: cat.color }" @click="goTo(cat.id)">
-        <span class="card-tag card-tag-national">国家</span>
-        <div class="card-icon">{{ cat.icon }}</div>
-        <div class="card-title">{{ cat.title }}</div>
-        <div class="card-subtitle">{{ cat.subtitle }}</div>
-      </div>
-    </div>
 
-    <!-- 校内政策 -->
-    <div style="padding: 8px 16px 4px;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
-        <span style="font-size:13px;color:#9e9e9e;font-weight:600;">🏫 校内政策</span>
-        <span style="flex:1;height:1px;background:#e0e0e0;"></span>
+      <div class="group-header">校内政策</div>
+      <div class="group">
+        <button
+          v-for="cat in school"
+          :key="cat.id"
+          class="cell cell--tappable"
+          @click="goTo(cat.id)"
+        >
+          <span class="tile" :style="{ background: tint(cat.color) }">{{ cat.icon }}</span>
+          <span class="cell-body">
+            <span class="cell-title">{{ cat.title }}</span>
+            <span class="cell-subtitle">{{ cat.subtitle }}</span>
+          </span>
+          <svg class="chev" viewBox="0 0 8 13" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1.5 1.5 6 6.5l-4.5 5" />
+          </svg>
+        </button>
       </div>
-    </div>
-    <div class="category-grid">
-      <div v-for="cat in schoolPolicies" :key="cat.id" class="category-card" :style="{ borderLeftColor: cat.color }" @click="goTo(cat.id)">
-        <span class="card-tag card-tag-school">校内</span>
-        <div class="card-icon">{{ cat.icon }}</div>
-        <div class="card-title">{{ cat.title }}</div>
-        <div class="card-subtitle">{{ cat.subtitle }}</div>
-      </div>
-    </div>
 
-    <!-- Footer -->
-    <div style="text-align:center;padding:20px 16px 30px;color:#999;font-size:11px;">
-      <div style="background:#fff;border-radius:12px;padding:14px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);text-align:left;">
-        <div style="font-weight:700;font-size:13px;color:#333;margin-bottom:6px;">📞 学生资助管理中心</div>
-        <div style="font-size:13px;color:#1a73e8;font-weight:600;margin-bottom:4px;">023-61065934</div>
-        <div style="font-size:12px;color:#666;">重庆工程职业技术学院 · 学生处学生资助管理中心</div>
-        <div style="font-size:11px;color:#999;margin-top:2px;">如有政策疑问或申请困难，请来电咨询</div>
-      </div>
-      <div style="background:#FFEBEE;border:2px solid #EF5350;border-radius:10px;padding:12px 14px;margin-bottom:14px;text-align:left;">
-        <div style="font-weight:700;font-size:13px;color:#C62828;margin-bottom:6px;">⚡ 法律免责声明</div>
-        <div style="font-size:11px;color:#B71C1C;line-height:1.7;">
-          1. 本应用<strong>非重庆工程职业技术学院官方开发</strong>，系个人独立制作。<br/>
-          2. 所有内容<strong>仅供参考</strong>，不构成任何政策承诺或法律依据。<br/>
-          3. 具体政策以<strong>学校学生资助管理中心官方通知</strong>为准。<br/>
-          4. 开发者<strong>不承担</strong>因使用本应用信息产生的任何直接或间接责任。<br/>
-          5. 如有疑问，请直接联系学校资助中心：<strong>023-61065934</strong>。
+      <div class="group-header">关于</div>
+      <div class="group">
+        <a class="cell cell--tappable" href="tel:02361065934">
+          <span class="tile" style="background: var(--green-tint)">📞</span>
+          <span class="cell-body">
+            <span class="cell-title">学生资助管理中心</span>
+            <span class="cell-subtitle">政策疑问、申请受阻，直接打电话</span>
+          </span>
+          <span class="cell-detail cell-detail--accent">拨号</span>
+        </a>
+        <div class="cell">
+          <span class="tile" style="background: var(--blue-tint)">💬</span>
+          <span class="cell-body">
+            <span class="cell-title">微信公众号</span>
+            <span class="cell-subtitle">停不下来的独行侠 · 政策咨询与材料指导</span>
+          </span>
+        </div>
+        <div class="cell">
+          <span class="tile" style="background: var(--gray-tint)">ⓘ</span>
+          <span class="cell-body">
+            <span class="cell-title">版本</span>
+            <span class="cell-subtitle">v0.2 · 个人独立开发，非官方产品</span>
+          </span>
         </div>
       </div>
-      <div style="background:#E8F5E9;border:1px solid #81C784;border-radius:10px;padding:12px 14px;margin-bottom:14px;text-align:left;">
-        <div style="font-weight:700;font-size:13px;color:#2E7D32;margin-bottom:6px;">📱 微信公众号</div>
-        <div style="font-size:12px;color:#1B5E20;line-height:1.6;margin-bottom:6px;">
-          关注微信公众号 <strong style="font-size:14px;">停不下来的独行侠</strong>
-        </div>
-        <div style="font-size:11px;color:#388E3C;line-height:1.6;">
-          提供学生资助政策咨询 · 申请流程指导 · 材料准备建议<br/>
-          另有<strong>付费有偿指导服务</strong>，欢迎添加了解
-        </div>
+
+      <div class="group-footer">
+        本应用非重庆工程职业技术学院官方产品，仅供信息参考，不构成政策承诺或法律依据。
+        具体政策、条件与金额以学校学生资助管理中心当年通知为准。
       </div>
-      <div style="font-size:12px;color:#666;margin-bottom:4px;">由 <span style="font-weight:700;color:#1565C0;">停不下来的独行侠</span> 独立开发</div>
-      <div style="font-size:11px;color:#999;">开发日期：2026年7月19日 · 金额更新至2024年标准</div>
-    </div>
+    </template>
+
+    <template v-else>
+      <div class="group-header">搜索结果 · {{ results.length }}</div>
+      <div v-if="results.length" class="group">
+        <button
+          v-for="cat in results"
+          :key="cat.id"
+          class="cell cell--tappable"
+          @click="goTo(cat.id)"
+        >
+          <span class="tile" :style="{ background: tint(cat.color) }">{{ cat.icon }}</span>
+          <span class="cell-body">
+            <span class="cell-title">{{ cat.title }}</span>
+            <span class="cell-subtitle">{{ cat.subtitle }}</span>
+          </span>
+          <span class="badge" :class="cat.tag === '国家政策' ? 'badge--national' : 'badge--school'">
+            {{ cat.tag === '国家政策' ? '国家' : '校内' }}
+          </span>
+        </button>
+      </div>
+      <div v-else class="empty">
+        没有找到「{{ query }}」<br />试试「国奖」「贷款」「勤工」「退役」
+      </div>
+    </template>
+
+    <div class="push-bottom"></div>
   </div>
 </template>
 
 <style scoped>
-.card-tag {
-  position: absolute;
-  top: 8px; right: 8px;
-  font-size: 10px;
-  padding: 2px 7px;
-  border-radius: 6px;
-  font-weight: 600;
+.nav-bar {
+  background: transparent;
+  border-bottom-color: transparent;
+  transition: background 0.25s linear, border-color 0.25s linear;
 }
-.card-tag-national { background: #e8f0fe; color: #1a73e8; }
-.card-tag-school { background: #f3e8ff; color: #6B3FA0; }
+
+.nav-bar.is-solid {
+  background: var(--bar-bg);
+  border-bottom-color: var(--bar-border);
+}
+
+.nav-title {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s linear, transform 0.2s var(--ease-ios);
+}
+
+.nav-title.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.stat-group {
+  margin-top: 2px;
+}
+
+.stat-value {
+  color: var(--label);
+}
 </style>

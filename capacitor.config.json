@@ -7,7 +7,7 @@
     "hostname": "localhost"
   },
   "android": {
-    "backgroundColor": "#0D47A1",
+    "backgroundColor": "#F2F2F7",
     "captureInput": true,
     "webContentsDebuggingEnabled": false,
     "allowMixedContent": false

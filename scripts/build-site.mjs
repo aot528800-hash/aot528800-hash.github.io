@@ -165,7 +165,7 @@ const GROUPS = [
 const MINDMAP = [
   {
     label: '国家政策',
-    color: '#0071e3',
+    color: '#0b4f32',
     groups: [
       { label: '奖优', ids: ['national-scholarship', 'encouragement-scholarship'] },
       { label: '助困', ids: ['national-grant'] },
@@ -177,7 +177,7 @@ const MINDMAP = [
   },
   {
     label: '校内政策',
-    color: '#af52de',
+    color: '#8a6d2f',
     groups: [
       { label: '奖学金', ids: ['president-honor', 'comprehensive-scholarship', 'excellence-scholarship', 'progress-scholarship', 'exchange-scholarship'] },
       { label: '减免与补助', ids: ['tuition-waiver', 'freshman-subsidy', 'temporary-subsidy', 'holiday-subsidy'] },
@@ -186,7 +186,7 @@ const MINDMAP = [
   },
   {
     label: '社会捐资',
-    color: '#f59e0b',
+    color: '#b7791f',
     groups: [{ label: '基金会项目', ids: ['zhumeng-scholarship'] }],
   },
 ]
@@ -204,18 +204,21 @@ const FLOW = [
 const CSS = `
 :root {
   --bg: #ffffff;
-  --bg-alt: #f5f5f7;
+  --bg-alt: #f4f6f4;
   --card: #ffffff;
-  --text: #1d1d1f;
-  --text-2: #6e6e73;
-  --text-3: #86868b;
-  --line: #d2d2d7;
-  --line-2: #e8e8ed;
-  --accent: #0071e3;
-  --accent-2: #0077ed;
-  --green: #2e9e4f;
-  --red: #d70015;
-  --purple: #8e44ad;
+  --text: #14201a;
+  --text-2: #58655f;
+  --text-3: #8a938d;
+  --line: #d7dfd9;
+  --line-2: #e8eeea;
+  --accent: #0b4f32;
+  --accent-2: #0a4429;
+  --accent-soft: #7fa891;
+  --gold: #8a6d2f;
+  --amber: #b7791f;
+  --green: #1f7a4d;
+  --red: #9b1c1c;
+  --purple: #6b5b95;
   --radius: 18px;
   --radius-sm: 12px;
   --max: 1200px;
@@ -227,19 +230,22 @@ const CSS = `
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #000000;
-    --bg-alt: #0a0a0a;
-    --card: #1d1d1f;
-    --text: #f5f5f7;
-    --text-2: #a1a1a6;
-    --text-3: #86868b;
-    --line: #2d2d2f;
-    --line-2: #242426;
-    --accent: #2997ff;
-    --accent-2: #4aa8ff;
-    --green: #30d158;
-    --red: #ff453a;
-    --purple: #bf5af2;
+    --bg: #07110c;
+    --bg-alt: #0b1711;
+    --card: #10201a;
+    --text: #eef3ef;
+    --text-2: #a8b5ae;
+    --text-3: #7d8a83;
+    --line: #22332b;
+    --line-2: #1a2a22;
+    --accent: #5cbb8a;
+    --accent-2: #74cba0;
+    --accent-soft: #2f6b4c;
+    --gold: #d4b46a;
+    --amber: #e0a94f;
+    --green: #4ade80;
+    --red: #f87171;
+    --purple: #b39ddb;
   }
 }
 
@@ -337,7 +343,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 
 /* ---------- 通用 ---------- */
-section { padding: 112px 0; scroll-margin-top: 64px; }
+section { padding: 120px 0; scroll-margin-top: 64px; }
 [id] { scroll-margin-top: 64px; }
 section.alt { background: var(--bg-alt); }
 @media (max-width: 720px) { section { padding: 64px 0; } }
@@ -346,8 +352,8 @@ section.alt { background: var(--bg-alt); }
   font-size: 13px; font-weight: 600; letter-spacing: .08em;
   text-transform: uppercase; color: var(--accent); margin: 0 0 12px;
 }
-h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.025em; margin: 0 0 12px; font-weight: 700; }
-.lede { font-size: clamp(17px, 1.6vw, 21px); color: var(--text-2); max-width: 62ch; margin: 0 0 40px; }
+h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.025em; margin: 0 0 14px; font-weight: 700; }
+.lede { font-size: clamp(17px, 1.6vw, 20px); line-height: 1.65; color: var(--text-2); max-width: 60ch; margin: 0 0 44px; }
 
 /* ---------- Hero ---------- */
 .hero { padding: clamp(72px, 12vw, 132px) 0 clamp(64px, 10vw, 108px); text-align: center; }
@@ -387,7 +393,7 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 @media (max-width: 720px) { .stats { grid-template-columns: repeat(3, 1fr); } .stats > div:nth-child(3n+1) { border-left: none; } }
 
 /* ---------- 卡片 ---------- */
-.grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); }
 .card {
   display: flex; gap: 14px; align-items: flex-start;
   background: var(--card); border: 1px solid var(--line-2);
@@ -415,9 +421,9 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
   content: ""; width: 5px; height: 5px; border-radius: 50%;
   background: var(--line); flex: none;
 }
-.badge.n::before { background: #0071e3; }
-.badge.s::before { background: #8e44ad; }
-.badge.soc::before { background: #f59e0b; }
+.badge.n::before { background: var(--accent); }
+.badge.s::before { background: var(--gold); }
+.badge.soc::before { background: var(--amber); }
 
 /* ---------- 下载 ---------- */
 .dl-section { padding: 96px 0; }
@@ -536,7 +542,7 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
   background: var(--line);
   transition: background .2s ease;
 }
-.lb-col[data-level="mid"] i { background: #7fb2e8; }
+.lb-col[data-level="mid"] i { background: var(--accent-soft); }
 .lb-col[data-level="high"] i { background: var(--accent); }
 .lb-count { font-size: 11px; color: var(--text-3); margin-bottom: 4px; font-variant-numeric: tabular-nums; }
 .lb-month { position: absolute; bottom: -22px; font-size: 11.5px; color: var(--text-3); white-space: nowrap; }
@@ -550,7 +556,7 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
   border: 1px solid var(--line-2); border-radius: var(--radius);
   padding: 16px 18px; background: var(--card);
 }
-.month-card[data-level="high"] { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,113,227,.08); }
+.month-card[data-level="high"] { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(11,79,50,.08); }
 .month-card header {
   display: flex; align-items: baseline; justify-content: space-between;
   gap: 10px; margin-bottom: 12px; padding-bottom: 10px;
@@ -562,7 +568,7 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 
 .m-block + .m-block { margin-top: 12px; }
 .m-label { font-size: 11px; font-weight: 600; letter-spacing: .04em; margin-bottom: 6px; }
-.m-label--staff { color: #b25000; }
+.m-label--staff { color: var(--amber); }
 .m-label--student { color: var(--text-3); }
 @media (prefers-color-scheme: dark) { .m-label--staff { color: #ffb340; } }
 
@@ -575,7 +581,7 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
   width: 4px; height: 4px; border-radius: 50%; background: var(--line);
 }
 .month-card li span { display: block; font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
-.month-card li.is-action::before { background: #ff9f0a; }
+.month-card li.is-action::before { background: var(--gold); }
 .month-card li.more { color: var(--text-3); font-style: normal; }
 .month-card li.more::before { background: transparent; }
 .m-empty { margin: 0; font-size: 12.5px; color: var(--text-3); }
@@ -597,15 +603,15 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 .pareto figcaption { font-size: 13px; color: var(--text-3); margin-bottom: 10px; }
 .pareto-svg { display: block; width: 100%; height: auto; }
 .pf-bar { fill: var(--accent); }
-.pf-line { fill: none; stroke: #ff9f0a; stroke-width: 2; }
-.pf-dot { fill: #ff9f0a; }
+.pf-line { fill: none; stroke: var(--gold); stroke-width: 2; }
+.pf-dot { fill: var(--gold); }
 .pf-num { font-size: 11px; fill: var(--text-3); }
 .pf-month { font-size: 11.5px; fill: var(--text); }
-.pf-cum { font-size: 11px; fill: #b25000; font-weight: 600; }
+.pf-cum { font-size: 11px; fill: var(--gold); font-weight: 600; }
 .pf-axis { stroke: var(--line); stroke-width: 1; }
-.pf-guide { stroke: #ff9f0a; stroke-width: 1; stroke-dasharray: 4 4; opacity: .5; }
-.pf-guide-label { font-size: 10.5px; fill: #b25000; }
-@media (prefers-color-scheme: dark) { .pf-cum, .pf-guide-label { fill: #ffb340; } }
+.pf-guide { stroke: var(--gold); stroke-width: 1; stroke-dasharray: 4 4; opacity: .5; }
+.pf-guide-label { font-size: 10.5px; fill: var(--gold); }
+
 .pf-note { margin: 0; font-size: 12px; color: var(--text-3); line-height: 1.6; }
 
 .an-conclusion {
@@ -743,17 +749,17 @@ footer .links { display: flex; gap: 20px; flex-wrap: wrap; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
 
 /* ---------- 视觉收口 ---------- */
-::selection { background: rgba(0,113,227,.18); }
+::selection { background: rgba(11,79,50,.16); }
 
 h1, h2, h3 { text-wrap: balance; }
 p { text-wrap: pretty; }
 
 .hero {
   position: relative;
-  background: radial-gradient(1000px 460px at 50% -18%, rgba(0,113,227,.06), transparent 62%);
+  background: radial-gradient(1000px 460px at 50% -18%, rgba(11,79,50,.05), transparent 62%);
 }
 @media (prefers-color-scheme: dark) {
-  .hero { background: radial-gradient(1000px 460px at 50% -18%, rgba(41,151,255,.1), transparent 62%); }
+  .hero { background: radial-gradient(1000px 460px at 50% -18%, rgba(92,187,138,.08), transparent 62%); }
 }
 
 .fresh-line {
@@ -882,12 +888,12 @@ p { text-wrap: pretty; }
 }
 .role-block.is-on {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(0,113,227,.12);
+  box-shadow: 0 0 0 3px rgba(11,79,50,.12);
 }
 .role-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .role-step {
   font-size: 11.5px; font-weight: 600; color: var(--accent);
-  background: rgba(0,113,227,.1); padding: 2px 8px; border-radius: 6px;
+  background: rgba(11,79,50,.09); padding: 2px 8px; border-radius: 6px;
 }
 .role-head h3 { margin: 0; font-size: 17px; letter-spacing: -.01em; }
 .role-count { margin-left: auto; font-size: 12px; color: var(--text-3); }
@@ -965,10 +971,15 @@ p { text-wrap: pretty; }
   font-variant-numeric: tabular-nums; margin-top: 1px;
 }
 .biz-body { min-width: 0; }
-.biz-title { font-size: 15.5px; font-weight: 600; letter-spacing: -.01em; margin-bottom: 4px; }
+.biz-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+.biz-title { margin: 0; font-size: 15.5px; font-weight: 600; letter-spacing: -.01em; }
+.biz-seg { font-size: 11.5px; color: var(--accent); background: rgba(11,79,50,.08); padding: 1px 7px; border-radius: 5px; }
+.biz-tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 8px; }
+.btag { font-size: 11px; color: var(--text-2); background: var(--bg-alt); border: 1px solid var(--line-2); padding: 1px 7px; border-radius: 5px; }
+.biz-store { color: var(--text-3); background: var(--bg-alt); padding: 2px 8px; border-radius: 6px; }
 .biz-desc { margin: 0 0 8px; font-size: 14px; line-height: 1.6; color: var(--text-2); max-width: 88ch; }
 .biz-meta { display: flex; gap: 8px; flex-wrap: wrap; font-size: 11.5px; }
-.biz-freq { color: var(--accent); background: rgba(0,113,227,.1); padding: 2px 8px; border-radius: 6px; }
+.biz-freq { color: var(--accent); background: rgba(11,79,50,.09); padding: 2px 8px; border-radius: 6px; }
 .biz-basis { color: var(--text-3); background: var(--bg-alt); padding: 2px 8px; border-radius: 6px; }
 
 .rhythm .e { display: grid; gap: 6px; }
@@ -1247,7 +1258,7 @@ const SITE_JS = `(function () {
 /* ------------------------------------------------------------------ 组件 */
 
 const ICON_SHIELD = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" aria-hidden="true">
-  <rect width="200" height="200" rx="44" fill="#0071e3"/>
+  <rect width="200" height="200" rx="44" fill="#0b4f32"/>
   <path d="M100 46 L74 57 L74 88 Q74 104 100 112 Q126 104 126 88 L126 57 Z" fill="#fff" opacity=".97"/>
   <path d="M44 132 Q54 112 76 119 Q88 123 93 135 L93 145 Q80 143 66 147 Q50 152 44 132Z" fill="#f59e0b"/>
   <path d="M156 132 Q146 112 124 119 Q112 123 107 135 L107 145 Q120 143 134 147 Q150 152 156 132Z" fill="#f97316"/>
@@ -1480,7 +1491,7 @@ function buildMindmap() {
     .mm-cat{font:700 15px var(--font,system-ui);fill:#fff}
     .mm-grp{font:600 13px var(--font,system-ui);fill:#86868b}
     .mm-leaf{font:400 13.5px var(--font,system-ui);fill:#1d1d1f}
-    .mm-leaf:hover{fill:#0071e3}
+    .mm-leaf:hover{fill:#0b4f32}
     .mm-link{fill:none;stroke:#d2d2d7;stroke-width:1.4}
     .mm-link2{fill:none;stroke:#e0e0e5;stroke-width:1.1}
     @media (prefers-color-scheme: dark){
@@ -1618,7 +1629,7 @@ function renderIndex() {
 <header class="hero">
   <div class="wrap">
     <h1>把学生资助政策<br>讲清楚</h1>
-    <p>21 个资助项目，从资格条件到材料清单，一站查完。</p>
+    <p>21 个资助项目。条件、流程、材料，一页看完。</p>
     <p class="fresh-line">内容核对于 ${SITE.verifiedShort} · 建议 ${SITE.reviewBy}前复核</p>
     <div class="hero-actions">
       <a class="btn" href="#policies">浏览全部项目</a>
@@ -1675,7 +1686,7 @@ function renderIndex() {
   <div class="wrap">
     <p class="eyebrow">资助项目</p>
     <h2>按类别找到你要的项目</h2>
-    <p class="lede">国家政策覆盖奖、助、贷、补、免；校内政策按学年与学期评定。不确定从哪开始，先看「家庭经济困难学生认定」——它是大多数资助的前置条件。</p>
+    <p class="lede">国家政策 10 项，覆盖奖、助、贷、补、免。校内政策 10 项，按学年和学期评。社会捐资 1 项。不知道从哪看起，先读「家庭经济困难学生认定」，多数项目要它当前置。</p>
 
     <div class="search-bar">
       <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
@@ -1694,7 +1705,7 @@ function renderIndex() {
   <div class="wrap">
     <p class="eyebrow">体系全景</p>
     <h2>一张图看懂资助体系</h2>
-    <p class="lede">左边是国家政策，右边是校内政策。按用途归类，点任一节点可直接进入该项目。</p>
+    <p class="lede">三支：国家政策、校内政策、社会捐资。按用途分类，点节点进对应项目。</p>
     <div class="map-frame">${mindmap}</div>
     <div class="map-hint">
       <span>点节点可直接进入对应项目</span>
@@ -1708,7 +1719,7 @@ function renderIndex() {
   <div class="wrap">
     <p class="eyebrow">办理流程</p>
     <h2>一份申请，要过五道关</h2>
-    <p class="lede">不同项目的细节不同，但主线一致：学生申请、班级评议、学院审核、学校审定、资金发放。每一级都有公示环节。</p>
+    <p class="lede">各项目细节不一样，主线相同：学生申请，班级评议，学院审核，学校审定，然后发放。每一级都要公示。</p>
     <ul class="flow">
       ${FLOW.map((f) => `<li><h4>${esc(f.t)}</h4><p>${esc(f.d)}</p></li>`).join('')}
     </ul>
@@ -1725,33 +1736,33 @@ function renderIndex() {
     <p class="schedule-note">口径说明：中心侧环节按项目归属到其办理月份，含后续发放、归档等环节；同一环节在多个项目上重复时按次数合并（如「全校公示 × 4」表示 4 个项目各需公示一次）。学生事项与中心环节相加不等于工时。</p>
 
     <div class="analysis">
-      <h3>这份表能读出什么</h3>
+      <h3>这张表说明了什么</h3>
 
       <div class="an-grid">
         <div class="an-card">
           <b>${ratio} 倍</b>
           <span>最忙与最闲的差距</span>
-          <p>${busiest.month} 月 ${busiest.total} 个节点，${quietest.month} 月 ${quietest.total} 个。同样是"一个月"，工作量差一个数量级。</p>
+          <p>${busiest.month} 月 ${busiest.total} 个节点，${quietest.month} 月 ${quietest.total} 个。同是一个月，差着 ${ratio} 倍。</p>
         </div>
         <div class="an-card">
           <b>${top4Pct}%</b>
           <span>前 4 个月承担的节点占比</span>
-          <p>9—12 月四个月占了全年三分之一的节点、一半以上的工作量，秋季学期是硬仗。</p>
+          <p>9 到 12 月这四个月，占全年三分之一的节点。秋季学期最紧。</p>
         </div>
         <div class="an-card">
           <b>${routine.length} 项</b>
           <span>常态业务（${routinePct}%）</span>
-          <p>按月发放、动态认定、随时受理这类事项每月都在跑，却不计入上面的节点数——实际工作量被低估。</p>
+          <p>按月发放、动态认定、随时受理这类事每月都在跑，不计入上面的节点数。</p>
         </div>
         <div class="an-card">
           <b>${STAFF_TOTAL}</b>
           <span>项中心经办动作</span>
-          <p>审批链里由中心自己完成的步骤，同名合并后 ${CENTER_ACTION_DISTINCT} 类：复核名单、组织公示、系统录入、上报、归档。是学生可见节点的 ${RATIO} 倍。</p>
+          <p>审批链里中心自己干的活，合并后 ${CENTER_ACTION_DISTINCT} 类：复核名单、组织公示、系统录入、上报、归档。数量是学生可见节点的 ${RATIO} 倍。</p>
         </div>
         <div class="an-card">
           <b>${top3Pct}%</b>
           <span>前 3 个门类占的业务比例</span>
-          <p>${sortedCats.slice(0, 3).map((x) => x.name).join('、')}，三个门类 ${top3n} 项业务，几乎覆盖全部资金与合规动作。</p>
+          <p>${sortedCats.slice(0, 3).map((x) => x.name).join('、')}。三个门类 ${top3n} 项，资金和合规的事基本都在这。</p>
         </div>
       </div>
 
@@ -1762,9 +1773,7 @@ function renderIndex() {
       </figure>
 
       <div class="an-conclusion">
-        <strong>二八怎么看：</strong>把节点数当工作量代理，集中度并不极端——真正符合二八的是
-        <em>风险与责任</em>：${bizItems.length} 项业务里，评审、资金发放、监督核查三个门类 ${top3n} 项占了三成不到，却承担了全部公示、发放与追回环节；而 ${routine.length} 项常态业务每天都在跑，却从不出现在"重要节点"里。
-        这就是资助工作被低估的地方。
+        <strong>关于二八：</strong>按节点数算，集中度没那么极端。真正集中的是责任。评审、发放、监督三个门类共 ${top3n} 项，不到总数一半，却把关乎钱和合规的环节全包了。另有 ${routine.length} 项常态业务天天在跑，从不出现在任何"重要节点"里。
         <a class="an-link" href="center.html#workload">看完整的工作量说明 →</a>
       </div>
     </div>
@@ -1775,7 +1784,7 @@ function renderIndex() {
   <div class="wrap narrow">
     <p class="eyebrow">适用范围</p>
     <h2>只适用于重庆工程职业技术大学</h2>
-    <p class="lede">本站整理的国家与校内资助政策，对应的是重庆工程职业技术大学（原重庆工程职业技术学院）的执行口径。其他高校可以参照体例，但具体条件、比例、金额和办理时间以所在学校规定为准，不能直接套用。</p>
+    <p class="lede">这些内容对应重庆工程职业技术大学的执行口径（原重庆工程职业技术学院）。别的学校可以拿体例去改，条件和金额不能照搬。</p>
 
     <div class="disc-grid">
       <div class="disc-item">
@@ -1805,8 +1814,8 @@ function renderIndex() {
     <div>
       <p class="eyebrow">关于作者</p>
       <h2>周泽维</h2>
-      <p>独立开发者。做这个项目的起因很简单：资助政策散落在十几个文件里，学生看不懂、辅导员也记不全。于是把它整理成一份可以随时查的结构化资料，先做成安卓应用，再搬到这里。</p>
-      <p>项目完全公益：没有广告、没有内购、没有付费咨询，也不收集任何个人信息。如果你所在的学校也想做一份，欢迎直接拿去改。</p>
+      <p>我做这个项目的原因很直接：政策散在十几个文件里，学生找不到，辅导员也记不住全。整理成能查的资料，先做成安卓应用，后来又搬到网页上。</p>
+      <p>没有广告，没有内购，也不收集个人信息。别的学校想做一份，直接拿去改就行。</p>
       <p><a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}</a>　·　<a href="privacy.html">隐私政策</a>　·　<a href="tel:15736152295">15736152295</a></p>
       <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">安装包 ${SITE.apk.size}　·　仅支持安卓手机，不支持 iPhone / iPad</p>
     </div>
@@ -2045,21 +2054,38 @@ function renderCenter() {
   const groupHtml = groups
     .map(
       (g, i) => `<div class="biz-group" id="cat-${i}" data-cat="${i}">
-      <h3 class="biz-group-head">${esc(g.name)}<span>${g.items.length} 项</span></h3>
+      <h3 class="biz-group-head">${esc(g.name)}<span>${g.items.length} 项 · ${g.items.reduce((n, it) => n + String(it.desc || '').split(/→|;|；/).filter((x) => x.trim()).length, 0)} 个环节</span></h3>
       ${g.items
-        .map(
-          (it) => `<article class="biz-row">
+        .map((it) => {
+          const segments = String(it.desc || '').split(/→|;|；/).filter((x) => x.trim()).length
+          const TAG_RULES = [
+            [/审核|复核|评审|审查/, '审核'],
+            [/公示/, '公示'],
+            [/发放|拨付/, '发放'],
+            [/系统|录入|上报|报送|导入/, '系统'],
+            [/归档|存档|台账/, '归档'],
+            [/核查|检查|审计|巡查|自查|追回/, '核查'],
+            [/认定/, '认定'],
+            [/宣传|培训|解答/, '宣传'],
+          ]
+          const tags = TAG_RULES.filter(([re]) => re.test(`${it.desc || ''} ${it.freq || ''}`)).map(([, t]) => t).slice(0, 4)
+          return `<article class="biz-row">
           <div class="biz-no">${esc(it.no)}</div>
           <div class="biz-body">
-            <div class="biz-title">${esc(it.title.replace(/^\d+\s*/, ''))}</div>
+            <div class="biz-head">
+              <h4 class="biz-title">${esc(it.title.replace(/^\d+\s*/, ''))}</h4>
+              ${segments > 1 ? `<span class="biz-seg">${segments} 个环节</span>` : ''}
+            </div>
             <p class="biz-desc">${esc(it.desc)}</p>
+            ${tags.length ? `<div class="biz-tags">${tags.map((t) => `<span class="btag">${esc(t)}</span>`).join('')}</div>` : ''}
             <div class="biz-meta">
               <span class="biz-freq">${esc(it.freq)}</span>
               ${it.basis ? `<span class="biz-basis">依据 ${esc(it.basis)}</span>` : ''}
+              ${it.store ? `<span class="biz-store">归档 ${esc(it.store)}</span>` : ''}
             </div>
           </div>
-        </article>`,
-        )
+        </article>`
+        })
         .join('')}
     </div>`,
     )
@@ -2147,10 +2173,10 @@ function renderCenter() {
     </div>
 
     <div class="wl-close">
-      <p>这些工作没有一件能省：少一级公示是程序违规，晚一天上报是通报，错一个名单要全额追回。</p>
-      <p>做对了，是"应该的"；做慢了，是"怎么还没好"；出错了，是"谁负责"。</p>
-      <p>把体量写出来，不是抱怨，只是希望"资助工作"这四个字，被看见得准确一点。</p>
-      <p class="wl-note">以上数字来自本校业务梳理（数据截至 2026-10-14），用于说明工作量结构，不针对任何部门或个人。如有出入，以学校当年文件为准。</p>
+      <p>少一级公示算程序违规。晚一天上报要写情况说明。名单错了，钱要追回来。</p>
+      <p>这些事做对了没人提，做错了要有人担责。所以很多人只看见"收表发钱"那一步。</p>
+      <p>把流程摊开写，是想让"资助工作"这四个字有个具体的分量。不是诉苦。</p>
+      <p class="wl-note">数字来自本校业务梳理，数据截至 2026-10-14。用于说明工作量结构，不针对任何部门或个人。有出入以学校当年文件为准。</p>
     </div>
   </section>
 

@@ -46,7 +46,7 @@ describe('相关资助', () => {
 })
 
 describe('相关资助的推荐理由', () => {
-  const ALLOWED = ['申请前置', '同年互斥', '可同时获得', '流程涉及', '正文提及', '同属国家', '同属校内', '相关']
+  const ALLOWED = ['申请前置', '同年互斥', '可同时获得', '流程涉及', '文中提到', '同属国家', '同属校内', '相关']
 
   it('国家助学金 → 困难认定：申请前置', () => {
     expect(relationReason(byId('national-grant'), byId('difficulty-assessment'))).toBe('申请前置')

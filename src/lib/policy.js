@@ -209,7 +209,7 @@ export function relationReason(policy, other) {
     (policy.materials || []).some((m) => has(`${m.name} ${m.note || ''}`))
   if (inFlow) return '流程涉及'
 
-  if (mentioned.length) return '正文提及'
+  if (mentioned.length) return '文中提到'
 
   return policy.tag === other.tag ? `同属${policy.tag.replace('政策', '')}` : '相关'
 }

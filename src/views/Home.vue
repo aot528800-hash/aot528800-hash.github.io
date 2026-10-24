@@ -208,7 +208,7 @@ onBeforeUnmount(() => {
           <span class="tile" style="background: var(--green-tint)">📞</span>
           <span class="cell-body">
             <span class="cell-title">学生资助管理中心</span>
-            <span class="cell-subtitle">政策疑问、申请受阻，直接打电话</span>
+            <span class="cell-subtitle">政策疑问、申请遇到问题，直接打电话</span>
           </span>
           <span class="cell-detail cell-detail--accent">拨号</span>
         </a>

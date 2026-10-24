@@ -36,8 +36,8 @@ const SITE = {
   apk: {
     version: '0.3.1',
     size: '3.1 MB',
-    url: 'https://github.com/aot528800-hash/aot528800-hash.github.io/releases/latest/download/cqpue-aid.apk',
-    sha256: 'AD3F1EADFB397E7B389DF00EBCA0CCAE1D6AC0CF67AB5CAA3501AF5E06473517',
+    // 不公开下载：安装包仅由开发者本人发放
+    contact: '15736152295',
   },
 }
 
@@ -202,16 +202,6 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .nav-links a { color: var(--text-2); font-size: 13.5px; }
 .nav-links a:hover { color: var(--text); text-decoration: none; }
 .nav-links a[aria-current="page"] { color: var(--text); font-weight: 500; }
-.nav-cta {
-  display: inline-flex; align-items: center; gap: 6px;
-  height: 30px; padding: 0 14px; border-radius: 15px;
-  background: var(--accent); color: #fff;
-  font-size: 12.5px; font-weight: 500; white-space: nowrap;
-  transition: background .18s ease;
-}
-.nav-cta svg { width: 13px; height: 13px; }
-.nav-cta:hover { background: var(--accent-2); text-decoration: none; }
-@media (max-width: 900px) { .nav-cta { display: none; } }
 @media (max-width: 720px) { .nav-links { display: none; } }
 
 /* ---------- 适用范围提示条 ---------- */
@@ -883,10 +873,6 @@ const nav = (base, active, home) => {
       ${link(jump('schedule'), '全年日程', 'schedule')}
       ${link(jump('author'), '关于作者', 'author')}
     </div>
-    <a class="nav-cta" href="${SITE.apk.url}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
-      下载 App
-    </a>
   </div>
 </nav>`
 }
@@ -896,7 +882,7 @@ const footer = (base) => `<footer>
     <div class="links">
       <a href="${base}index.html">首页</a>
       <a href="${base}privacy.html">隐私政策</a>
-      <a href="${SITE.apk.url}">安卓版下载 v${SITE.apk.version}（${SITE.apk.size}）</a>
+      <a href="tel:15736152295">获取安卓安装包：15736152295</a>
       <a href="${base}policies/difficulty-assessment.html">从困难认定开始</a>
     </div>
     <div>本站由周泽维个人整理，<strong>完全免费、无广告、无商业用途</strong>，仅用于学习与研究。</div>
@@ -1209,8 +1195,8 @@ function renderIndex() {
       <h2>周泽维</h2>
       <p>独立开发者。做这个项目的起因很简单：资助政策散落在十几个文件里，学生看不懂、辅导员也记不全。于是把它整理成一份可以随时查的结构化资料，先做成安卓应用，再搬到这里。</p>
       <p>项目完全公益：没有广告、没有内购、没有付费咨询，也不收集任何个人信息。如果你所在的学校也想做一份，欢迎直接拿去改。</p>
-      <p><a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}</a>　·　<a href="privacy.html">隐私政策</a>　·　<a href="tel:15736152295">15736152295</a></p>
-      <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">安装包 ${SITE.apk.size} · SHA256 ${SITE.apk.sha256.slice(0, 16)}…</p>
+      <p><a href="privacy.html">隐私政策</a>　·　联系开发者 <a href="tel:15736152295">15736152295</a></p>
+      <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">安卓安装包不公开下载，需要请通过上面的电话联系本人获取。</p>
     </div>
     <div>
       <dl>

@@ -52,6 +52,21 @@
     });
   }
 
+  /* 资助中心：按门类筛选 */
+  var catChips = [].slice.call(document.querySelectorAll('.cat-chip'));
+  if (catChips.length) {
+    var catGroups = [].slice.call(document.querySelectorAll('.biz-group'));
+    catChips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var target = chip.getAttribute('data-cat');
+        catChips.forEach(function (x) { x.classList.toggle('is-on', x === chip); });
+        catGroups.forEach(function (g) {
+          g.style.display = target === 'all' || g.getAttribute('data-cat') === target ? '' : 'none';
+        });
+      });
+    });
+  }
+
   /* 桌面快捷键：/ 聚焦搜索，Esc 清除 */
   var searchInput = document.getElementById('q');
   if (searchInput) {

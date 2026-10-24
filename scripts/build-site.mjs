@@ -5,7 +5,7 @@
  * 运行：npm run build:site
  * 输出：site/
  */
-import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { join } from 'node:path'
 import { marked } from 'marked'
@@ -13,6 +13,11 @@ import { annualSchedule, policyCategories } from '../src/data/policies.js'
 import { relatedPolicies, relationReason } from '../src/lib/policy.js'
 
 marked.setOptions({ gfm: true, breaks: true })
+
+// 资助中心业务数据（由 学生资助管理中心业务全景总表.xlsx 导出）
+const CENTER = JSON.parse(readFileSync('src/data/center.json', 'utf8'))
+const CENTER_KEYS = Object.keys(CENTER)
+const [BIZ_LIST, BIZ_DIST, BIZ_RHYTHM, BIZ_ARCHIVE, BIZ_RISK] = CENTER_KEYS.map((k) => CENTER[k])
 
 const OUT = 'site'
 const SITE = {
@@ -711,6 +716,95 @@ p { text-wrap: pretty; }
 }
 @media (prefers-color-scheme: dark) { .role-pub { color: #ffb340; } }
 
+/* ---------- 资助中心 ---------- */
+.center-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  margin: 28px 0 8px; padding: 0 0 24px;
+  border-bottom: 1px solid var(--line-2);
+}
+.center-stats > div { text-align: center; border-left: 1px solid var(--line-2); }
+.center-stats > div:first-child { border-left: none; }
+.center-stats b { display: block; font-size: 34px; letter-spacing: -.03em; font-weight: 700; }
+.center-stats span { font-size: 12.5px; color: var(--text-2); }
+
+.block-lede { margin: -4px 0 20px; font-size: 14.5px; color: var(--text-2); max-width: 78ch; }
+
+.cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.cat-card {
+  display: block; padding: 16px 18px; border: 1px solid var(--line-2);
+  border-radius: 14px; color: inherit; background: var(--card);
+  transition: border-color .2s ease, transform .2s ease;
+}
+.cat-card:hover { border-color: var(--accent); text-decoration: none; transform: translateY(-1px); }
+.cat-name { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+.cat-num { font-size: 12.5px; color: var(--text-3); display: flex; align-items: baseline; gap: 6px; }
+.cat-num strong { font-size: 22px; color: var(--text); font-weight: 700; letter-spacing: -.02em; }
+.cat-num span { margin-left: auto; }
+.cat-bar { margin-top: 10px; height: 3px; border-radius: 2px; background: var(--line-2); overflow: hidden; }
+.cat-bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+.cat-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+.cat-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 32px; padding: 0 12px; border-radius: 16px;
+  border: 1px solid var(--line); background: var(--card);
+  color: var(--text-2); font: inherit; font-size: 13px; cursor: pointer;
+  transition: all .18s ease;
+}
+.cat-chip span { font-size: 11px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.cat-chip:hover { border-color: var(--accent); color: var(--text); }
+.cat-chip.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.cat-chip.is-on span { color: rgba(255,255,255,.75); }
+
+.biz-wrap { display: grid; gap: 34px; }
+.biz-group-head {
+  display: flex; align-items: baseline; gap: 10px;
+  margin: 0 0 14px; font-size: 17px; letter-spacing: -.01em;
+  padding-bottom: 10px; border-bottom: 1px solid var(--line-2);
+}
+.biz-group-head span { font-size: 12.5px; color: var(--text-3); font-weight: 400; }
+
+.biz-row { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px dashed var(--line-2); }
+.biz-row:last-child { border-bottom: none; }
+.biz-no {
+  flex: none; width: 28px; height: 28px; border-radius: 8px;
+  background: var(--bg-alt); color: var(--text-3);
+  display: grid; place-items: center; font-size: 12px; font-weight: 600;
+  font-variant-numeric: tabular-nums; margin-top: 1px;
+}
+.biz-body { min-width: 0; }
+.biz-title { font-size: 15.5px; font-weight: 600; letter-spacing: -.01em; margin-bottom: 4px; }
+.biz-desc { margin: 0 0 8px; font-size: 14px; line-height: 1.6; color: var(--text-2); max-width: 88ch; }
+.biz-meta { display: flex; gap: 8px; flex-wrap: wrap; font-size: 11.5px; }
+.biz-freq { color: var(--accent); background: rgba(0,113,227,.1); padding: 2px 8px; border-radius: 6px; }
+.biz-basis { color: var(--text-3); background: var(--bg-alt); padding: 2px 8px; border-radius: 6px; }
+
+.rhythm .e { display: grid; gap: 6px; }
+.rhythm-cat { font-size: 12px; color: var(--text-3); }
+.rhythm-note { font-size: 12.5px; color: var(--text-2); }
+
+.risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 900px) { .risk-grid { grid-template-columns: 1fr; } }
+.risk-item { border: 1px solid var(--line-2); border-radius: 14px; padding: 16px 18px; background: var(--card); }
+.risk-cat {
+  display: inline-block; font-size: 11.5px; font-weight: 600;
+  color: #a05a00; background: rgba(255,149,0,.12);
+  padding: 2px 8px; border-radius: 6px; margin-bottom: 10px;
+}
+@media (prefers-color-scheme: dark) { .risk-cat { color: #ffb340; } }
+.risk-desc { margin: 0 0 10px; font-size: 14px; line-height: 1.6; }
+.risk-fix { font-size: 13px; line-height: 1.6; color: var(--text-2); }
+.risk-fix span {
+  display: inline-block; font-size: 11px; font-weight: 600; color: var(--green);
+  background: rgba(46,158,79,.12); padding: 1px 7px; border-radius: 5px; margin-right: 6px;
+}
+
+.archive-note {
+  padding: 16px 18px; border-radius: 14px; background: var(--bg-alt);
+  font-size: 14px; line-height: 1.65; color: var(--text-2);
+}
+.center-foot { margin: 8px 0 96px; font-size: 12px; color: var(--text-3); line-height: 1.7; }
+
 /* ---------- 打印 ---------- */
 .print-head { display: none; }
 
@@ -798,6 +892,21 @@ const SITE_JS = `(function () {
     Object.keys(map).forEach(function (id) {
       var el = document.getElementById(id);
       if (el) obs.observe(el);
+    });
+  }
+
+  /* 资助中心：按门类筛选 */
+  var catChips = [].slice.call(document.querySelectorAll('.cat-chip'));
+  if (catChips.length) {
+    var catGroups = [].slice.call(document.querySelectorAll('.biz-group'));
+    catChips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var target = chip.getAttribute('data-cat');
+        catChips.forEach(function (x) { x.classList.toggle('is-on', x === chip); });
+        catGroups.forEach(function (g) {
+          g.style.display = target === 'all' || g.getAttribute('data-cat') === target ? '' : 'none';
+        });
+      });
     });
   }
 
@@ -925,6 +1034,7 @@ const nav = (base, active, home) => {
       ${link(jump('policies'), '资助项目', 'policies')}
       ${link(jump('mindmap'), '体系全景', 'mindmap')}
       ${link(jump('schedule'), '全年日程', 'schedule')}
+      ${link(base + 'center.html', '资助中心', 'center')}
       ${link(jump('author'), '关于作者', 'author')}
     </div>
     <a class="nav-cta" href="${SITE.apk.url}" title="仅支持安卓手机">
@@ -939,6 +1049,7 @@ const footer = (base) => `<footer>
   <div class="wrap">
     <div class="links">
       <a href="${base}index.html">首页</a>
+      <a href="${base}center.html">资助中心业务全景</a>
       <a href="${base}privacy.html">隐私政策</a>
       <a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}（仅安卓）</a>
       <a href="${base}policies/difficulty-assessment.html">从困难认定开始</a>
@@ -1011,9 +1122,9 @@ ${extraHead}
 ${nav(base, active, home)}
 <div class="scope-bar">
   <div class="wrap">
-    <span>仅适用于 <strong>重庆工程职业技术大学</strong></span>
+    <span>只面向 <strong>重庆工程职业技术大学</strong></span>
     <span class="dot"></span>
-    <span>全部内容仅供参考，非学校官方发布</span>
+    <span>不适用于其他高校 · 非官方，仅供参考</span>
     <a href="${home ? '#disclaimer' : base + 'index.html#disclaimer'}">免责声明</a>
   </div>
 </div>
@@ -1493,6 +1604,139 @@ function renderMapPage(mindmap) {
   })
 }
 
+function renderCenter() {
+  const bizRows = BIZ_LIST.slice(2).filter((r) => r[0] && !String(r[0]).startsWith('说明'))
+  const distRows = BIZ_DIST.slice(2).filter((r) => r[0] && !String(r[1]).startsWith('合计') && !String(r[0]).startsWith('说明'))
+  const rhythmRows = BIZ_RHYTHM.slice(2).filter((r) => r[0] && !String(r[0]).startsWith('说明'))
+  const riskRows = BIZ_RISK.slice(2).filter((r) => r[0] && !String(r[0]).startsWith('说明'))
+  const archiveRows = BIZ_ARCHIVE.slice(2).filter((r) => r[0] && !String(r[0]).startsWith('说明'))
+
+  // 按门类归并业务
+  const groups = []
+  for (const r of bizRows) {
+    let g = groups.find((x) => x.name === r[1])
+    if (!g) { g = { name: r[1], items: [] }; groups.push(g) }
+    g.items.push({ no: r[0], title: r[2], desc: r[3], freq: r[4], basis: r[5], store: r[6] })
+  }
+  const distMap = {}
+  for (const d of distRows) distMap[d[1]] = { count: d[2], share: Number(d[3]) }
+
+  const chips =
+    `<button class="cat-chip is-on" type="button" data-cat="all">全部<span>${bizRows.length}</span></button>` +
+    groups
+      .map((g, i) => `<button class="cat-chip" type="button" data-cat="${i}">${esc(g.name.replace(/^[一二三四五六七八九十]+、/, ''))}<span>${g.items.length}</span></button>`)
+      .join('')
+
+  const groupHtml = groups
+    .map(
+      (g, i) => `<div class="biz-group" id="cat-${i}" data-cat="${i}">
+      <h3 class="biz-group-head">${esc(g.name)}<span>${g.items.length} 项</span></h3>
+      ${g.items
+        .map(
+          (it) => `<article class="biz-row">
+          <div class="biz-no">${esc(it.no)}</div>
+          <div class="biz-body">
+            <div class="biz-title">${esc(it.title.replace(/^\d+\s*/, ''))}</div>
+            <p class="biz-desc">${esc(it.desc)}</p>
+            <div class="biz-meta">
+              <span class="biz-freq">${esc(it.freq)}</span>
+              ${it.basis ? `<span class="biz-basis">依据 ${esc(it.basis)}</span>` : ''}
+            </div>
+          </div>
+        </article>`,
+        )
+        .join('')}
+    </div>`,
+    )
+    .join('')
+
+  const distHtml = distRows
+    .map((d, i) => {
+      const name = d[1].replace(/^[一二三四五六七八九十]+、/, '')
+      const share = (Number(d[3]) * 100).toFixed(1)
+      return `<a class="cat-card" href="#cat-${i}">
+      <div class="cat-name">${esc(name)}</div>
+      <div class="cat-num"><strong>${esc(d[2])}</strong> 项<span>${share}%</span></div>
+      <div class="cat-bar"><i style="width:${share}%"></i></div>
+    </a>`
+    })
+    .join('')
+
+  const rhythmHtml = rhythmRows
+    .map((r) => `<li><div class="m">${esc(r[0])}</div><div class="e"><div>${esc(r[1])}</div><span class="rhythm-cat">${esc(r[2])}</span>${r[3] ? `<span class="rhythm-note">${esc(r[3])}</span>` : ''}</div></li>`)
+    .join('')
+
+  const riskHtml = riskRows
+    .map((r) => `<div class="risk-item">
+      <div class="risk-cat">${esc(r[0])}</div>
+      <p class="risk-desc">${esc(r[1])}</p>
+      <div class="risk-fix"><span>防控</span>${esc(r[2])}</div>
+    </div>`)
+    .join('')
+
+  const body = `
+<div class="wrap">
+  <div class="page-head">
+    <div class="crumb"><a href="index.html">首页</a> / 资助中心</div>
+    <h1>学生资助管理中心 · 业务全景</h1>
+    <p class="sub">10 个门类、${bizRows.length} 项业务，以及全年工作节奏与风险防控要点</p>
+    <p class="scope-inline">本页只适用于重庆工程职业技术大学，不适用于其他高校</p>
+    <div class="meta">
+      <span>校内业务梳理</span>
+      <span>数据截至 2026-10-14</span>
+      <span>面向资助工作者</span>
+    </div>
+  </div>
+
+  <div class="center-stats">
+    <div><b>${distRows.length}</b><span>业务门类</span></div>
+    <div><b>${bizRows.length}</b><span>业务事项</span></div>
+    <div><b>${rhythmRows.length}</b><span>全年节点</span></div>
+    <div><b>${riskRows.length}</b><span>风险防控点</span></div>
+  </div>
+
+  <div class="block" id="c1">
+    <h2><span class="num">01</span>十个门类</h2>
+    <div class="cat-grid">${distHtml}</div>
+  </div>
+
+  <div class="block" id="c2">
+    <h2><span class="num">02</span>${bizRows.length} 项业务清单</h2>
+    <div class="cat-chips">${chips}</div>
+    <div class="biz-wrap">${groupHtml}</div>
+  </div>
+
+  <div class="block" id="c3">
+    <h2><span class="num">03</span>全年工作节奏</h2>
+    <p class="block-lede">按学年周期梳理的常规节奏，供年度计划编制与任务提醒参考；具体时间以当年上级通知和校内便笺为准。</p>
+    <ul class="timeline rhythm">${rhythmHtml}</ul>
+  </div>
+
+  <div class="block" id="c4">
+    <h2><span class="num">04</span>风险与防控</h2>
+    <p class="block-lede">来自历年巡视审计、清退统计与重复发放追回记录，评审与发放前应逐项对照。</p>
+    <div class="risk-grid">${riskHtml}</div>
+  </div>
+
+  <div class="block" id="c5">
+    <h2><span class="num">05</span>材料归档</h2>
+    <p class="block-lede">业务材料按门类分册归档，纸质与电子双套留存。当前工作区共 ${archiveRows.length} 个已编号业务文件夹，另有历史备份目录单独存放。</p>
+    <div class="archive-note">
+      评审材料、发放清册、公示影像、会议记录均需留痕，检查时以归档材料为佐证。
+    </div>
+  </div>
+
+  <p class="center-foot">数据来源：学生资助管理中心业务全景总表（G 盘全目录结构实地扫描，2026-10-14）。业务依据：财教〔2021〕310号、渝财规〔2022〕6号、渝财教〔2024〕172号及校本级制度。</p>
+</div>`
+
+  return layout({
+    title: `资助中心业务全景 · ${SITE.name}`,
+    description: '重庆工程职业技术大学学生资助管理中心 10 大门类、47 项业务的全景梳理，含全年工作节奏与风险防控要点。',
+    active: 'center',
+    body,
+  })
+}
+
 function renderPrivacy() {
   const md = `本站不收集任何个人信息，不使用 Cookie，不接入统计或广告服务。所有页面均为静态文件，托管在 GitHub Pages 上。
 
@@ -1558,12 +1802,13 @@ writeFileSync(join(OUT, 'index.html'), renderIndex(), 'utf8')
 writeFileSync(join(OUT, '404.html'), render404(), 'utf8')
 writeFileSync(join(OUT, 'privacy.html'), renderPrivacy(), 'utf8')
 writeFileSync(join(OUT, 'map.html'), renderMapPage(buildMindmap()), 'utf8')
+writeFileSync(join(OUT, 'center.html'), renderCenter(), 'utf8')
 
 policyCategories.forEach((p, i) => {
   writeFileSync(join(OUT, 'policies', `${p.id}.html`), renderPolicy(p, i), 'utf8')
 })
 
-const pages = ['index.html', 'map.html', 'privacy.html'].concat(
+const pages = ['index.html', 'map.html', 'center.html', 'privacy.html'].concat(
   policyCategories.map((p) => `policies/${p.id}.html`),
 )
 
@@ -1585,4 +1830,4 @@ ${pages.map((u) => `  <url><loc>${SITE.url}/${u}</loc></url>`).join('\n')}
 }
 
 console.log(`站点已生成：${OUT}/`)
-console.log(`  首页 1 · 政策页 ${policyCategories.length} · 导图页 1 · 隐私 1 · 404 1`)
+console.log(`  首页 1 · 政策页 ${policyCategories.length} · 导图页 1 · 资助中心 1 · 隐私 1 · 404 1`)

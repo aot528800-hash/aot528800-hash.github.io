@@ -856,8 +856,8 @@ const footer = (base) => `<footer>
 </footer>`
 
 const WECHAT_LABELS = [
-  { test: /dev|开发|personal|me/i, title: '开发者微信', hint: '扫码添加，注明来意' },
-  { test: /mp|公众号|account/i, title: '微信公众号', hint: '政策解读与经验分享' },
+  { test: /gongzhonghao|公众号|mp-|account/i, title: '微信公众号', hint: SITE.wechat.id },
+  { test: /dev|开发|personal/i, title: '开发者微信', hint: '扫码添加，注明来意' },
 ]
 
 function contactBlock() {
@@ -878,10 +878,11 @@ function contactBlock() {
       </figure>`
     })
     .join('')
+  const hasMp = wechatFiles.some((n) => /gongzhonghao|公众号|mp-|account/i.test(n))
   return `<div class="contact">
     <div class="contact-head">联系开发者</div>
     <div class="qr-row">${cards}</div>
-    <p class="contact-id">微信：<strong>${esc(SITE.wechat.id)}</strong></p>
+    ${hasMp ? '' : `<p class="contact-id">微信：<strong>${esc(SITE.wechat.id)}</strong></p>`}
   </div>`
 }
 

@@ -587,6 +587,7 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 }
 .an-conclusion strong { color: var(--text); }
 .an-conclusion em { font-style: normal; color: var(--accent); font-weight: 600; }
+.an-link { display: inline-block; margin-top: 10px; font-size: 13.5px; }
 
 /* ---------- 详情页 ---------- */
 .page-head { padding: 56px 0 28px; border-bottom: 1px solid var(--line-2); }
@@ -968,6 +969,50 @@ p { text-wrap: pretty; }
   font-size: 14px; line-height: 1.65; color: var(--text-2);
 }
 .center-foot { margin: 8px 0 96px; font-size: 12px; color: var(--text-3); line-height: 1.7; }
+
+/* ---------- 工作量说明 ---------- */
+.workload {
+  margin: 8px 0 56px; padding: 32px 0 8px;
+  border-top: 1px solid var(--line-2);
+}
+.workload h2 { margin-bottom: 10px; }
+
+.wl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 24px 0 34px; }
+@media (max-width: 1000px) { .wl-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .wl-grid { grid-template-columns: 1fr; } }
+.wl-card { padding: 18px 20px; border: 1px solid var(--line-2); border-radius: 16px; background: var(--card); }
+.wl-card b { display: block; font-size: 34px; line-height: 1.05; letter-spacing: -.035em; font-weight: 700; }
+.wl-card span { display: block; margin: 6px 0 8px; font-size: 12.5px; color: var(--text-3); }
+.wl-card p { margin: 0; font-size: 13px; line-height: 1.65; color: var(--text-2); }
+
+.wl-sub { margin: 0 0 14px; font-size: 17px; letter-spacing: -.01em; }
+
+.wl-flow {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  margin-bottom: 34px;
+}
+.wl-flow span {
+  padding: 7px 12px; border-radius: 8px; background: var(--bg-alt);
+  font-size: 13px; color: var(--text); white-space: nowrap;
+}
+.wl-flow i { color: var(--text-3); font-style: normal; font-size: 12px; }
+
+.wl-compare { display: grid; gap: 1px; background: var(--line-2); border-radius: 14px; overflow: hidden; margin-bottom: 30px; }
+.wl-row { display: grid; grid-template-columns: 220px 1fr; gap: 0; background: var(--card); }
+@media (max-width: 680px) { .wl-row { grid-template-columns: 1fr; } }
+.wl-row > div { padding: 13px 16px; font-size: 14px; line-height: 1.6; }
+.wl-row > div:first-child { color: var(--text-3); }
+.wl-row > div:last-child { color: var(--text); border-left: 1px solid var(--line-2); }
+@media (max-width: 680px) { .wl-row > div:last-child { border-left: none; border-top: 1px solid var(--line-2); } }
+.wl-row.wl-head > div { font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--text-3); background: var(--bg-alt); }
+
+.wl-close {
+  padding: 22px 24px; border-radius: 16px;
+  background: var(--bg-alt); border: 1px solid var(--line-2);
+}
+.wl-close p { margin: 0 0 10px; font-size: 14.5px; line-height: 1.75; color: var(--text-2); }
+.wl-close p:last-of-type { margin-bottom: 14px; font-weight: 600; color: var(--text); }
+.wl-note { margin: 0 !important; padding-top: 12px; border-top: 1px solid var(--line-2); font-size: 12px !important; font-weight: 400 !important; color: var(--text-3) !important; }
 
 /* ---------- 打印 ---------- */
 .print-head { display: none; }
@@ -1668,6 +1713,7 @@ function renderIndex() {
         <strong>二八怎么看：</strong>把节点数当工作量代理，集中度并不极端——真正符合二八的是
         <em>风险与责任</em>：${bizItems.length} 项业务里，评审、资金发放、监督核查三个门类 ${top3n} 项占了三成不到，却承担了全部公示、发放与追回环节；而 ${routine.length} 项常态业务每天都在跑，却从不出现在"重要节点"里。
         这就是资助工作被低估的地方。
+        <a class="an-link" href="center.html#workload">看完整的工作量说明 →</a>
       </div>
     </div>
   </div>
@@ -1991,6 +2037,13 @@ function renderCenter() {
     </div>`)
     .join('')
 
+  // 工作量指标
+  const COMPLIANCE = /审核|复核|核对|公示|归档|上报|录入|统计|核查|自查|报送|留痕|追回|校验/
+  const complianceCount = bizRows.filter((r) => COMPLIANCE.test(r[3] || '')).length
+  const compliancePct = ((complianceCount / bizRows.length) * 100).toFixed(0)
+  const routineCount = bizRows.filter((r) => /常态|随时|按需|按月|动态|实时/.test(r[4] || '')).length
+  const routinePct = ((routineCount / bizRows.length) * 100).toFixed(0)
+
   const body = `
 <div class="wrap">
   <div class="page-head">
@@ -2011,6 +2064,43 @@ function renderCenter() {
     <div><b>${rhythmRows.length}</b><span>全年节点</span></div>
     <div><b>${riskRows.length}</b><span>风险防控点</span></div>
   </div>
+
+  <section class="workload" id="workload">
+    <p class="eyebrow">工作量说明</p>
+    <h2>资助工作不只是"收表、发钱"</h2>
+    <p class="lede">把 ${bizRows.length} 项业务的流程拆开看：${complianceCount} 项（${compliancePct}%）的日常就是审核、公示、核对、归档。下面这些数字，都是可以逐项核对的。</p>
+
+    <div class="wl-grid">
+      <div class="wl-card"><b>211</b><span>审批步骤</span><p>21 条审批链合计 211 步，平均每个项目 10 步，每一步都要会议记录、签字与留痕。</p></div>
+      <div class="wl-card"><b>80</b><span>处公示要求</span><p>21 个政策共 80 处公示，累计 278 个公示日；班级 2 个工作日、学院 3 个、全校 5 个，逐级公示并拍照归档。</p></div>
+      <div class="wl-card"><b>4</b><span>个系统</span><p>全国学生资助管理信息系统、重庆统发系统、智慧职教平台、全国征兵网，同一批数据要重复录入与双向核对。</p></div>
+      <div class="wl-card"><b>53</b><span>个归档文件夹</span><p>评审材料、发放清册、公示影像、会议记录分册归档，纸质与电子双套留存，检查时以归档材料为佐证。</p></div>
+      <div class="wl-card"><b>${routineCount}</b><span>项常态业务（${routinePct}%）</span><p>按月发放、动态认定、随时受理投诉举报——每月都在跑，却从不出现在"重要节点"里。</p></div>
+      <div class="wl-card"><b>10</b><span>条风险防控点</span><p>资格审核、重复资助、学籍异动、信息安全、资金安全……每条背后都是一套核验动作，漏一项就要追回。</p></div>
+    </div>
+
+    <h3 class="wl-sub">一件奖助学金，从交表到到账要过多少手</h3>
+    <div class="wl-flow">
+      <span>学生提交</span><i>→</i><span>班级评议</span><i>→</i><span>辅导员核实</span><i>→</i><span>学院审核</span><i>→</i><span>学院公示</span><i>→</i><span>中心复核</span><i>→</i><span>领导小组审定</span><i>→</i><span>校长办公会</span><i>→</i><span>全校公示</span><i>→</i><span>财务发放</span><i>→</i><span>系统录入</span><i>→</i><span>材料归档</span>
+    </div>
+
+    <h3 class="wl-sub">被看见的，和实际发生的</h3>
+    <div class="wl-compare">
+      <div class="wl-row wl-head"><div>外面看到的</div><div>实际要做的</div></div>
+      <div class="wl-row"><div>收一张申请表</div><div>核验困难认定等级、成绩排名、贷款记录、学籍状态、处分情况，任一项不符都要退回重来</div></div>
+      <div class="wl-row"><div>盖章走流程</div><div>平均 10 个审批步骤，每一级都要有会议记录、签字和留痕，任何一环缺失都算程序瑕疵</div></div>
+      <div class="wl-row"><div>公示 5 天</div><div>21 个政策共 80 处公示要求，三级公示天数分别累计，公示照片、异议处理记录全部归档</div></div>
+      <div class="wl-row"><div>发一笔钱</div><div>全国系统与重庆统发系统双录入，银行流水逐笔核对，重复发放、学籍异动当月就要停发或追回</div></div>
+      <div class="wl-row"><div>年底交个表</div><div>53 个归档文件夹、纸质电子双套、10 条风险防控点逐项自查，巡视审计时逐条对账</div></div>
+    </div>
+
+    <div class="wl-close">
+      <p>这些工作没有一件能省：少一级公示是程序违规，晚一天上报是通报，错一个名单要全额追回。</p>
+      <p>做对了，是"应该的"；做慢了，是"怎么还没好"；出错了，是"谁负责"。</p>
+      <p>把体量写出来，不是抱怨，只是希望"资助工作"这四个字，被看见得准确一点。</p>
+      <p class="wl-note">以上数字来自本校业务梳理（数据截至 2026-10-14），用于说明工作量结构，不针对任何部门或个人。如有出入，以学校当年文件为准。</p>
+    </div>
+  </section>
 
   <div class="block" id="c1">
     <h2><span class="num">01</span>十个门类</h2>

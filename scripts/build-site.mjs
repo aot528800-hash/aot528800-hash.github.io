@@ -40,12 +40,12 @@ const SITE = {
     dir: 'assets/wechat',
   },
   apk: {
-    version: '0.3.2',
-    versionCode: 14,
+    version: '0.3.3',
+    versionCode: 15,
     size: '3.1 MB',
     platform: 'Android 7.0 及以上',
     url: 'https://github.com/aot528800-hash/aot528800-hash.github.io/releases/latest/download/cqpue-aid.apk',
-    sha256: '0FF84F95A829985F8623E35D92E5D5E41841FB051C25265A0AAC374C2B9C07EF',
+    sha256: '711085978F95CFFB22CA0A78288DF0A600AD8DE9B3785D918EFF259E7E2DD28E',
     contact: '15736152295',
   },
 }
@@ -553,6 +553,40 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 .month-card li.more { color: var(--text-3); font-style: normal; }
 .month-card li.more::before { background: transparent; }
 .m-empty { margin: 0; font-size: 12.5px; color: var(--text-3); }
+
+/* ---------- 全年分析 ---------- */
+.analysis { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--line-2); }
+.analysis h3 { margin: 0 0 20px; font-size: 24px; letter-spacing: -.02em; }
+
+.an-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; }
+@media (max-width: 1080px) { .an-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .an-grid { grid-template-columns: 1fr; } }
+.an-card { padding: 18px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--card); }
+.an-card b { display: block; font-size: 30px; letter-spacing: -.03em; font-weight: 700; line-height: 1.1; }
+.an-card span { display: block; margin: 6px 0 8px; font-size: 12px; color: var(--text-3); }
+.an-card p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--text-2); }
+
+.pareto { margin: 0 0 26px; padding: 20px 20px 8px; border: 1px solid var(--line-2); border-radius: var(--radius); background: var(--card); }
+.pareto figcaption { font-size: 13px; color: var(--text-3); margin-bottom: 10px; }
+.pareto-svg { display: block; width: 100%; height: auto; }
+.pf-bar { fill: var(--accent); }
+.pf-line { fill: none; stroke: #ff9f0a; stroke-width: 2; }
+.pf-dot { fill: #ff9f0a; }
+.pf-num { font-size: 11px; fill: var(--text-3); }
+.pf-month { font-size: 11.5px; fill: var(--text); }
+.pf-cum { font-size: 11px; fill: #b25000; font-weight: 600; }
+.pf-axis { stroke: var(--line); stroke-width: 1; }
+.pf-guide { stroke: #ff9f0a; stroke-width: 1; stroke-dasharray: 4 4; opacity: .5; }
+.pf-guide-label { font-size: 10.5px; fill: #b25000; }
+@media (prefers-color-scheme: dark) { .pf-cum, .pf-guide-label { fill: #ffb340; } }
+.pf-note { margin: 0; font-size: 12px; color: var(--text-3); line-height: 1.6; }
+
+.an-conclusion {
+  padding: 18px 20px; border-radius: 14px; background: var(--bg-alt);
+  font-size: 14px; line-height: 1.75; color: var(--text-2);
+}
+.an-conclusion strong { color: var(--text); }
+.an-conclusion em { font-style: normal; color: var(--accent); font-weight: 600; }
 
 /* ---------- 详情页 ---------- */
 .page-head { padding: 56px 0 28px; border-bottom: 1px solid var(--line-2); }
@@ -1277,6 +1311,52 @@ const card = (p, base) => `<a class="card" href="${base}policies/${p.id}.html">
 
 /* ------------------------------------------------------------------ 思维导图 */
 
+/* 帕累托：月份节点降序柱状 + 累计占比曲线 */
+function buildPareto(year, total) {
+  const sorted = [...year].sort((a, b) => b.total - a.total)
+  const W = 760, H = 300, padX = 18, top = 26, bottom = 58
+  const bw = (W - padX * 2) / sorted.length
+  const plotH = H - top - bottom
+  const maxN = sorted[0].total
+  let acc = 0
+  const pts = []
+  const bars = sorted
+    .map((m, i) => {
+      acc += m.total
+      const pct = acc / total
+      const x = padX + i * bw
+      const bh = (m.total / maxN) * plotH
+      const y = top + plotH - bh
+      pts.push([x + bw / 2, top + plotH - pct * plotH])
+      return (
+        `<rect class="pf-bar" x="${(x + bw * 0.18).toFixed(1)}" y="${y.toFixed(1)}" width="${(bw * 0.64).toFixed(1)}" height="${bh.toFixed(1)}" rx="3" opacity="${(0.32 + 0.68 * (m.total / maxN)).toFixed(2)}"/>` +
+        `<text class="pf-num" x="${(x + bw / 2).toFixed(1)}" y="${(y - 7).toFixed(1)}" text-anchor="middle">${m.total}</text>` +
+        `<text class="pf-month" x="${(x + bw / 2).toFixed(1)}" y="${H - 34}" text-anchor="middle">${m.month}月</text>`
+      )
+    })
+    .join('')
+
+  const line = pts.map((p, i) => `${i ? 'L' : 'M'}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ')
+  const dots = pts
+    .map((p, i) => {
+      const cum = sorted.slice(0, i + 1).reduce((s, m) => s + m.total, 0)
+      const pct = Math.round((cum / total) * 100)
+      return `<circle class="pf-dot" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.6"/>` +
+        (i === 3 ? `<text class="pf-cum" x="${p[0].toFixed(1)}" y="${(p[1] - 10).toFixed(1)}" text-anchor="middle">${pct}%</text>` : '')
+    })
+    .join('')
+
+  const y80 = top + plotH - 0.8 * plotH
+  return `<svg class="pareto-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="月份节点数帕累托图：按事项数降序排列，并标注累计占比">
+    <line class="pf-guide" x1="${padX}" y1="${y80}" x2="${W - padX}" y2="${y80}"/>
+    <text class="pf-guide-label" x="${W - padX}" y="${y80 - 6}" text-anchor="end">累计 80%</text>
+    ${bars}
+    <path class="pf-line" d="${line}"/>
+    ${dots}
+    <line class="pf-axis" x1="${padX}" y1="${top + plotH}" x2="${W - padX}" y2="${top + plotH}"/>
+  </svg>`
+}
+
 function buildMindmap() {
   const ROW = 32
   const PAD_TOP = 40
@@ -1393,6 +1473,23 @@ function renderIndex() {
       </div>`
     })
     .join('')
+
+  // 集中度指标
+  const sortedYear = [...year].sort((a, b) => b.total - a.total)
+  const busiest = sortedYear[0]
+  const quietest = sortedYear[sortedYear.length - 1]
+  const ratio = (busiest.total / Math.max(1, quietest.total)).toFixed(0)
+  const top4 = sortedYear.slice(0, 4).reduce((s, m) => s + m.total, 0)
+  const top4Pct = ((top4 / totalNodes) * 100).toFixed(0)
+
+  const bizItems = BIZ_LIST.slice(2).filter((r) => r[0] && !String(r[0]).startsWith('说明'))
+  const routine = bizItems.filter((r) => /常态|随时|按需|按月|动态|实时/.test(r[4] || ''))
+  const routinePct = ((routine.length / bizItems.length) * 100).toFixed(0)
+
+  const distRows2 = BIZ_DIST.slice(2).filter((r) => r[0] && !String(r[1]).startsWith('合计') && !String(r[0]).startsWith('说明'))
+  const sortedCats = distRows2.map((d) => ({ name: d[1].replace(/^[一二三四五六七八九十]+、/, ''), n: Number(d[2]) })).sort((a, b) => b.n - a.n)
+  const top3n = sortedCats.slice(0, 3).reduce((s, x) => s + x.n, 0)
+  const top3Pct = ((top3n / bizItems.length) * 100).toFixed(0)
 
   const monthCards = year
     .map((m) => {
@@ -1534,6 +1631,45 @@ function renderIndex() {
     <p class="lede">按学年排（9 月到次年 8 月）。全年 ${totalNodes} 个申请与经办节点叠加，最密集的是 <strong>${peak.month} 月</strong>——${peak.staff.length} 项中心经办任务与 ${peak.student.length} 项学生事项同时推进。</p>
     <div class="load-bars">${loadBar}</div>
     <div class="month-grid">${monthCards}</div>
+
+    <div class="analysis">
+      <h3>这份表能读出什么</h3>
+
+      <div class="an-grid">
+        <div class="an-card">
+          <b>${ratio} 倍</b>
+          <span>最忙与最闲的差距</span>
+          <p>${busiest.month} 月 ${busiest.total} 个节点，${quietest.month} 月 ${quietest.total} 个。同样是"一个月"，工作量差一个数量级。</p>
+        </div>
+        <div class="an-card">
+          <b>${top4Pct}%</b>
+          <span>前 4 个月承担的节点占比</span>
+          <p>9—12 月四个月占了全年三分之一的节点、一半以上的工作量，秋季学期是硬仗。</p>
+        </div>
+        <div class="an-card">
+          <b>${routine.length} 项</b>
+          <span>常态业务（${routinePct}%）</span>
+          <p>按月发放、动态认定、随时受理这类事项每月都在跑，却不计入上面的节点数——实际工作量被低估。</p>
+        </div>
+        <div class="an-card">
+          <b>${top3Pct}%</b>
+          <span>前 3 个门类占的业务比例</span>
+          <p>${sortedCats.slice(0, 3).map((x) => x.name).join('、')}，三个门类 ${top3n} 项业务，几乎覆盖全部资金与合规动作。</p>
+        </div>
+      </div>
+
+      <figure class="pareto">
+        <figcaption>月份节点数（降序）与累计占比</figcaption>
+        ${buildPareto(year, totalNodes)}
+        <p class="pf-note">前 4 个月累计 <strong>${((top4 / totalNodes) * 100).toFixed(1)}%</strong>，前 8 个月才到 80%。节点数是工作量的代理指标，不等于工时。</p>
+      </figure>
+
+      <div class="an-conclusion">
+        <strong>二八怎么看：</strong>把节点数当工作量代理，集中度并不极端——真正符合二八的是
+        <em>风险与责任</em>：${bizItems.length} 项业务里，评审、资金发放、监督核查三个门类 ${top3n} 项占了三成不到，却承担了全部公示、发放与追回环节；而 ${routine.length} 项常态业务每天都在跑，却从不出现在"重要节点"里。
+        这就是资助工作被低估的地方。
+      </div>
+    </div>
   </div>
 </section>
 

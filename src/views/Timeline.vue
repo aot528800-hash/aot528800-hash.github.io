@@ -1,8 +1,74 @@
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { annualSchedule } from '../data/policies.js'
+import centerData from '../data/center.json'
 
 const months = ['1月', '2-3月', '4月', '5月', '6月', '7-8月', '9月', '10月', '11月', '12月']
+
+/* ---------- 视角：学生 / 工作 ---------- */
+const VIEW_KEY = 'aid_timeline_view'
+const view = ref('student')
+
+function setView(v) {
+  view.value = v
+  try { localStorage.setItem(VIEW_KEY, v) } catch {}
+}
+
+/* 资助中心全年节奏（业务总表第 3 页） */
+const RHYTHM = (() => {
+  const keys = Object.keys(centerData)
+  const sheet = centerData[keys[2]] || []
+  return sheet.slice(2).filter((r) => r[0] && !String(r[0]).startsWith('说明'))
+})()
+
+const MONTH_BUCKET = {
+  1: '1月', 2: '2-3月', 3: '2-3月', 4: '4月', 5: '5月', 6: '6月',
+  7: '7-8月', 8: '7-8月', 9: '9月', 10: '10月', 11: '11月', 12: '12月',
+}
+
+function monthBuckets(label) {
+  const t = String(label)
+  if (/暑期|暑假/.test(t) && !/\d/.test(t)) return ['7-8月']
+  const nums = [...new Set([...t.matchAll(/(\d{1,2})/g)].map((m) => Number(m[1])).filter((n) => n >= 1 && n <= 12))]
+  return [...new Set(nums.map((n) => MONTH_BUCKET[n]))]
+}
+
+// 属于「常态」而非具体月份的经办事项
+const ROUTINE_KEYWORDS = /每月|每学期|随时|常态|按需|动态/
+
+const staffByBucket = {}
+for (const r of RHYTHM) {
+  const title = r[1]
+  const cat = r[2] || ''
+  const note = r[3] || ''
+  if (ROUTINE_KEYWORDS.test(String(r[0]))) continue
+  for (const b of monthBuckets(r[0])) {
+    ;(staffByBucket[b] = staffByBucket[b] || []).push({ title, desc: note || cat, source: 'staff' })
+  }
+}
+
+const routine = RHYTHM.filter((r) => ROUTINE_KEYWORDS.test(String(r[0])))
+  .map((r) => ({ title: r[1], note: r[3] || r[2] || '' }))
+
+const studentRows = annualSchedule.map((m) => ({
+  month: m.month,
+  events: m.events.map((e) => ({ ...e, source: 'student' })),
+}))
+
+const workRows = annualSchedule.map((m) => ({
+  month: m.month,
+  events: [
+    ...(staffByBucket[m.month] || []),
+    ...m.events.map((e) => ({ ...e, source: 'student' })),
+  ],
+}))
+
+const rows = computed(() => (view.value === 'work' ? workRows : studentRows))
+
+// 中心经办任务去重计数（同一任务可能跨两个月）
+const staffTasks = new Set(RHYTHM.filter((r) => !ROUTINE_KEYWORDS.test(String(r[0]))).map((r) => r[1])).size
+const studentNodes = annualSchedule.reduce((n, m) => n + m.events.length, 0)
+const peak = workRows.reduce((a, b) => (b.events.length > a.events.length ? b : a), workRows[0])
 const activeMonth = ref('')
 const scrolled = ref(false)
 
@@ -49,6 +115,11 @@ const isWarn = (ev) => !!(ev.desc && (ev.desc.includes('⚠️') || ev.desc.incl
 
 let onScroll = null
 onMounted(() => {
+  try {
+    const saved = localStorage.getItem(VIEW_KEY)
+    if (saved === 'work' || saved === 'student') view.value = saved
+  } catch {}
+
   onScroll = () => { scrolled.value = window.scrollY > 36 }
   window.addEventListener('scroll', onScroll, { passive: true })
   onScroll()
@@ -70,6 +141,18 @@ onBeforeUnmount(() => {
       <div class="sub">1月到12月，资助工作不中断</div>
     </div>
 
+    <div class="view-switch">
+      <div class="seg" role="group" aria-label="查看视角">
+        <button :class="{ on: view === 'student' }" :aria-pressed="view === 'student'" @click="setView('student')">学生视角</button>
+        <button :class="{ on: view === 'work' }" :aria-pressed="view === 'work'" @click="setView('work')">工作视角</button>
+      </div>
+    </div>
+
+    <div v-if="view === 'work'" class="work-summary">
+      全年 {{ staffTasks }} 项中心经办任务、{{ studentNodes }} 个学生申请节点；
+      最忙的是 <strong>{{ peak.month }}</strong>（{{ peak.events.length }} 项），另有 {{ routine.length }} 项常态业务每月运行。
+    </div>
+
     <div class="month-bar">
       <div class="chip-scroll">
         <button
@@ -85,9 +168,11 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <div class="group-header">共 {{ annualSchedule.length }} 个月段</div>
+    <div class="group-header">
+      {{ view === 'student' ? `共 ${annualSchedule.length} 个月段` : `共 ${rows.length} 个月段 · 学生与中心并列` }}
+    </div>
 
-    <template v-for="(mc, i) in annualSchedule" :key="i">
+    <template v-for="(mc, i) in rows" :key="i">
       <div
         class="month-head"
         :id="'month-' + mc.month.replace('-', '').replace('月', '')"
@@ -101,17 +186,33 @@ onBeforeUnmount(() => {
 
       <div class="group">
         <div v-for="(ev, j) in mc.events" :key="j" class="cell cell--event">
-          <span class="ev-dot" :class="{ 'is-warn': isWarn(ev) }"></span>
+          <span class="ev-dot" :class="{ 'is-warn': isWarn(ev), 'is-staff': view === 'work' && ev.source === 'staff' }"></span>
           <span class="cell-body">
-            <span class="ev-title">{{ ev.title }}</span>
+            <span class="ev-title">
+              <span v-if="view === 'work'" class="src-tag" :class="ev.source">{{ ev.source === 'staff' ? '中心' : '学生' }}</span>
+              {{ ev.title }}
+            </span>
             <span v-if="ev.desc" class="cell-subtitle cell-subtitle--wrap">{{ ev.desc }}</span>
           </span>
         </div>
       </div>
     </template>
 
+    <template v-if="view === 'work' && routine.length">
+      <div class="group-header">常规经办 · 每月都在跑</div>
+      <div class="group">
+        <div v-for="(r, i) in routine" :key="i" class="cell cell--event">
+          <span class="ev-dot is-staff"></span>
+          <span class="cell-body">
+            <span class="ev-title">{{ r.title }}</span>
+            <span v-if="r.note" class="cell-subtitle cell-subtitle--wrap">{{ r.note }}</span>
+          </span>
+        </div>
+      </div>
+    </template>
+
     <div class="group-footer">
-      红点标记公示类关键节点。具体日期以学校当年通知为准。
+      {{ view === 'work' ? '「中心」为资助中心经办事项，「学生」为学生申请节点；红点标记公示类关键节点。' : '红点标记公示类关键节点。具体日期以学校当年通知为准。' }}
     </div>
 
     <div class="push-bottom"></div>
@@ -119,6 +220,75 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+.view-switch {
+  padding: 4px 16px 10px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.seg {
+  display: flex;
+  padding: 3px;
+  background: var(--bg-fill);
+  border-radius: 10px;
+}
+
+.seg button {
+  min-width: 78px;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--label-2);
+  transition: background 0.18s var(--ease-ios), color 0.18s linear;
+}
+
+.seg button.on {
+  background: var(--bg-elevated);
+  color: var(--label);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.work-summary {
+  margin: 0 16px 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg-fill);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--label-2);
+}
+
+.work-summary strong {
+  color: var(--label);
+}
+
+.src-tag {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: 10.5px;
+  font-weight: 600;
+  vertical-align: 1px;
+}
+
+.src-tag.staff {
+  color: #b25000;
+  background: rgba(255, 149, 0, 0.16);
+}
+
+.src-tag.student {
+  color: var(--label-3);
+  background: var(--bg-fill);
+}
+
+.ev-dot.is-staff {
+  background: var(--orange, #ff9500);
+}
+
 .nav-bar {
   background: transparent;
   border-bottom-color: transparent;

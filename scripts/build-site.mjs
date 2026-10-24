@@ -70,8 +70,16 @@ const POLICY_OVERRIDES = {
 
 const byId = (id) => policyCategories.find((p) => p.id === id)
 
+// 学生碰不到的门类：资金与发放管理、监督核查、系统与数据、综合事务
+const INTERNAL_CAT = /^[七八九十]、/
+
 // 资助中心全年节奏（业务总表第 3 页）
 const RHYTHM_ROWS = BIZ_RHYTHM.slice(2).filter((r) => r[0] && !String(r[0]).startsWith('说明'))
+
+// 学生接触不到的业务数（七八九十 四个门类）
+const BIZ_ROWS_ALL = BIZ_LIST.slice(2).filter((r) => r[0] && !String(r[0]).startsWith('说明'))
+const INTERNAL_BIZ_COUNT = BIZ_ROWS_ALL.filter((r) => /^[七八九十]、/.test(r[1])).length
+const VISIBLE_BIZ_COUNT = BIZ_ROWS_ALL.length - INTERNAL_BIZ_COUNT
 
 // 从「9月-10月」「7月、10月」「暑期」这类标签里取出月份
 function monthsOf(label) {
@@ -987,6 +995,25 @@ p { text-wrap: pretty; }
 .cat-bar { margin-top: 10px; height: 3px; border-radius: 2px; background: var(--line-2); overflow: hidden; }
 .cat-bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
 
+.vis-chips { display: flex; gap: 8px; margin: 0 0 16px; }
+.vis-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 12px; border-radius: 15px;
+  border: 1px solid var(--line); background: var(--card);
+  color: var(--text-2); font: inherit; font-size: 12.5px; cursor: pointer;
+}
+.vis-chip span { font-size: 11px; color: var(--text-3); }
+.vis-chip.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.vis-chip.is-on span { color: rgba(255,255,255,.75); }
+
+.vis-tag {
+  margin-left: auto; font-style: normal; font-size: 11px; font-weight: 500;
+  padding: 2px 8px; border-radius: 5px;
+}
+.vis-tag.is-visible { color: var(--accent); background: rgba(11,79,50,.08); }
+.vis-tag.is-internal { color: var(--gold); background: rgba(138,109,47,.12); }
+@media (prefers-color-scheme: dark) { .vis-tag.is-visible { color: #74cba0; } }
+
 .cat-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
 .cat-chip {
   display: inline-flex; align-items: center; gap: 6px;
@@ -1185,6 +1212,22 @@ const SITE_JS = `(function () {
     Object.keys(map).forEach(function (id) {
       var el = document.getElementById(id);
       if (el) obs.observe(el);
+    });
+  }
+
+  /* 资助中心：按接触范围筛选 */
+  var visChips = [].slice.call(document.querySelectorAll('.vis-chip'));
+  if (visChips.length) {
+    var bizGroups = [].slice.call(document.querySelectorAll('.biz-group'));
+    visChips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var v = chip.getAttribute('data-vis');
+        visChips.forEach(function (x) { x.classList.toggle('is-on', x === chip); });
+        bizGroups.forEach(function (g) {
+          var show = v === 'all' || g.getAttribute('data-vis') === v;
+          g.style.display = show ? '' : 'none';
+        });
+      });
     });
   }
 
@@ -1765,8 +1808,8 @@ function renderIndex() {
 <section id="schedule">
   <div class="wrap">
     <p class="eyebrow">全年日程</p>
-    <h2>学生看到的 ${STUDENT_TOTAL} 个节点，背后是 ${bizItems.length} 项业务、211 个审批步骤</h2>
-    <p class="lede">按学年排，9 月到次年 8 月。学生能看到的 ${STUDENT_TOTAL} 个申请节点之外，每个节点背后都是一串经办动作。最密集的是 <strong>${peak.month} 月</strong>：${peak.student.length} 项学生事项，同时在办 ${(peak.projects || []).length} 个项目。</p>
+    <h2>学生只碰到一半：${BIZ_ROWS_ALL.length} 项业务里，${INTERNAL_BIZ_COUNT} 项他们从没见过</h2>
+    <p class="lede">学生在日历上能看到的是 40 多个申请节点。中心这边 ${BIZ_ROWS_ALL.length} 项业务，有 ${INTERNAL_BIZ_COUNT} 项跟学生没有交接：迎巡视审计、重复发放核查、系统数据报送、材料归档、自查报告。最密集的是 <strong>${peak.month} 月</strong>，${peak.student.length} 项学生事项、${(peak.projects || []).length} 个项目同时在办。</p>
     <div class="load-bars">${loadBar}</div>
     <div class="month-grid">${monthCards}</div>
     <div class="payout">
@@ -2092,15 +2135,26 @@ function renderCenter() {
   for (const d of distRows) distMap[d[1]] = { count: d[2], share: Number(d[3]) }
 
   const chips =
-    `<button class="cat-chip is-on" type="button" data-cat="all">全部<span>${bizRows.length}</span></button>` +
+    `<button class="cat-chip is-on" type="button" data-cat="all">全部门类<span>${bizRows.length}</span></button>` +
     groups
       .map((g, i) => `<button class="cat-chip" type="button" data-cat="${i}">${esc(g.name.replace(/^[一二三四五六七八九十]+、/, ''))}<span>${g.items.length}</span></button>`)
       .join('')
 
+  let internalCount = 0
+  let visibleCount = 0
+  for (const g of groups) {
+    g.internal = INTERNAL_CAT.test(g.name)
+    if (g.internal) internalCount += g.items.length
+    else visibleCount += g.items.length
+  }
+
   const groupHtml = groups
     .map(
-      (g, i) => `<div class="biz-group" id="cat-${i}" data-cat="${i}">
-      <h3 class="biz-group-head">${esc(g.name)}<span>${g.items.length} 项 · ${g.items.reduce((n, it) => n + String(it.desc || '').split(/→|;|；/).filter((x) => x.trim()).length, 0)} 个环节</span></h3>
+      (g, i) => `<div class="biz-group" id="cat-${i}" data-cat="${i}" data-vis="${g.internal ? 'internal' : 'visible'}">
+      <h3 class="biz-group-head">${esc(g.name)}
+        <span>${g.items.length} 项 · ${g.items.reduce((n, it) => n + String(it.desc || '').split(/→|;|；/).filter((x) => x.trim()).length, 0)} 个环节</span>
+        <em class="vis-tag ${g.internal ? 'is-internal' : 'is-visible'}">${g.internal ? '学生接触不到' : '学生可见'}</em>
+      </h3>
       ${g.items
         .map((it) => {
           const segments = String(it.desc || '').split(/→|;|；/).filter((x) => x.trim()).length
@@ -2233,6 +2287,12 @@ function renderCenter() {
 
   <div class="block" id="c2">
     <h2><span class="num">02</span>${bizRows.length} 项业务清单</h2>
+    <p class="block-lede">${visibleCount} 项学生能看到——申请、领取、认定。另外 <strong>${internalCount} 项学生一次也不会接触</strong>：迎巡视审计、重复发放核查、系统数据报送、材料归档、自查报告。这些同样要人做，只是不出现在学生日历上。</p>
+    <div class="vis-chips" role="group" aria-label="按接触范围筛选">
+      <button class="vis-chip is-on" data-vis="all">全部 <span>${bizRows.length}</span></button>
+      <button class="vis-chip" data-vis="visible">学生可见 <span>${visibleCount}</span></button>
+      <button class="vis-chip" data-vis="internal">内部经办 <span>${internalCount}</span></button>
+    </div>
     <div class="cat-chips">${chips}</div>
     <div class="biz-wrap">${groupHtml}</div>
   </div>

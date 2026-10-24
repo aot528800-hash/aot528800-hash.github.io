@@ -52,6 +52,22 @@
     });
   }
 
+  /* 资助中心：按接触范围筛选 */
+  var visChips = [].slice.call(document.querySelectorAll('.vis-chip'));
+  if (visChips.length) {
+    var bizGroups = [].slice.call(document.querySelectorAll('.biz-group'));
+    visChips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var v = chip.getAttribute('data-vis');
+        visChips.forEach(function (x) { x.classList.toggle('is-on', x === chip); });
+        bizGroups.forEach(function (g) {
+          var show = v === 'all' || g.getAttribute('data-vis') === v;
+          g.style.display = show ? '' : 'none';
+        });
+      });
+    });
+  }
+
   /* 资助中心：按门类筛选 */
   var catChips = [].slice.call(document.querySelectorAll('.cat-chip'));
   if (catChips.length) {

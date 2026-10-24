@@ -572,53 +572,47 @@
     </div>
 
     <div class="analysis">
-      <h3>这张表说明了什么</h3>
+      <h3>学生的日历，量不出中心的工作量</h3>
+      <p class="an-lede">学生的申请集中在 9 月和 10 月。中心这边，18 项常态业务全年每月都在跑，24 项业务学生一次也不会接触。三条线不在同一个节奏上。</p>
 
-      <div class="an-grid">
-        <div class="an-card">
-          <b>10 倍</b>
-          <span>最忙与最闲的差距</span>
-          <p>10 月 10 个节点，1 月 1 个。同是一个月，差着 10 倍。</p>
+      <div class="tracks">
+        <div class="track-row">
+          <span class="tr-label">学生事项</span>
+          <div class="tr-cells">
+            <div class="tr-cell"><i style="height:100%"></i><em style="bottom:calc(100% + 4px)">7</em></div><div class="tr-cell"><i style="height:86%"></i><em style="bottom:calc(86% + 4px)">6</em></div><div class="tr-cell"><i style="height:71%"></i><em style="bottom:calc(71% + 4px)">5</em></div><div class="tr-cell"><i style="height:86%"></i><em style="bottom:calc(86% + 4px)">6</em></div><div class="tr-cell"><i style="height:14%"></i><em style="bottom:calc(14% + 4px)">1</em></div><div class="tr-cell"><i style="height:57%"></i><em style="bottom:calc(57% + 4px)">4</em></div><div class="tr-cell"><i style="height:57%"></i><em style="bottom:calc(57% + 4px)">4</em></div><div class="tr-cell"><i style="height:43%"></i><em style="bottom:calc(43% + 4px)">3</em></div><div class="tr-cell"><i style="height:43%"></i><em style="bottom:calc(43% + 4px)">3</em></div><div class="tr-cell"><i style="height:29%"></i><em style="bottom:calc(29% + 4px)">2</em></div><div class="tr-cell"><i style="height:43%"></i><em style="bottom:calc(43% + 4px)">3</em></div><div class="tr-cell"><i style="height:43%"></i><em style="bottom:calc(43% + 4px)">3</em></div>
+          </div>
         </div>
+        <div class="track-row track-flat-row">
+          <span class="tr-label">中心常态业务</span>
+          <div class="tr-flat"><span>18 项，每月都在跑：按月发放、动态认定、随时受理</span></div>
+        </div>
+        <div class="track-row track-axis">
+          <span class="tr-label"></span>
+          <div class="tr-cells">
+            <div class="tr-cell"><b>9</b></div><div class="tr-cell"><b>10</b></div><div class="tr-cell"><b>11</b></div><div class="tr-cell"><b>12</b></div><div class="tr-cell"><b>1</b></div><div class="tr-cell"><b>2</b></div><div class="tr-cell"><b>3</b></div><div class="tr-cell"><b>4</b></div><div class="tr-cell"><b>5</b></div><div class="tr-cell"><b>6</b></div><div class="tr-cell"><b>7</b></div><div class="tr-cell"><b>8</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="an-grid an-grid-3">
         <div class="an-card">
-          <b>52%</b>
-          <span>前 4 个月承担的节点占比</span>
-          <p>9 到 12 月这四个月，占全年三分之一的节点。秋季学期最紧。</p>
+          <b>13 / 47</b>
+          <span>9、10 两个月占学生事项的 28%</span>
+          <p>学生的事有淡旺季，10 月最多，1 月几乎没有。错过这两个月，剩下的基本是补办。</p>
         </div>
         <div class="an-card">
           <b>18 项</b>
-          <span>常态业务（38%）</span>
-          <p>按月发放、动态认定、随时受理这类事每月都在跑，不计入上面的节点数。</p>
+          <span>常态业务，不按月份计</span>
+          <p>按月发放、动态认定、随时受理、台账登记。这些每月都要做，但不会出现在任何一份申请通知里。</p>
         </div>
         <div class="an-card">
-          <b>3</b>
-          <span>项按月发放</span>
-          <p>国家助学金、退役士兵国家助学金、勤工助学。其余多为一次性或减免，12 月是国奖与励志奖的发放月。</p>
-        </div>
-        <div class="an-card">
-          <b>45%</b>
-          <span>前 3 个门类占的业务比例</span>
-          <p>综合事务与队伍建设、助学帮扶与补助、监督核查与整改。三个门类 21 项，资金和合规的事基本都在这。</p>
+          <b>24 项</b>
+          <span>学生接触不到的业务</span>
+          <p>迎巡视审计、重复发放核查、系统数据报送、材料归档、自查报告。占全部业务的 51%。</p>
         </div>
       </div>
 
-      <figure class="pareto">
-        <figcaption>每月负荷（学生节点 + 中心动作）与累计占比</figcaption>
-        <svg class="pareto-svg" viewBox="0 0 760 300" role="img" aria-label="月份节点数帕累托图：按事项数降序排列，并标注累计占比">
-    <line class="pf-guide" x1="18" y1="69.19999999999999" x2="742" y2="69.19999999999999"/>
-    <text class="pf-guide-label" x="742" y="63.19999999999999" text-anchor="end">累计 80%</text>
-    <rect class="pf-bar" x="28.9" y="26.0" width="38.6" height="216.0" rx="3" opacity="1.00"/><text class="pf-num" x="48.2" y="19.0" text-anchor="middle">10</text><text class="pf-month" x="48.2" y="266" text-anchor="middle">10月</text><rect class="pf-bar" x="89.2" y="47.6" width="38.6" height="194.4" rx="3" opacity="0.93"/><text class="pf-num" x="108.5" y="40.6" text-anchor="middle">9</text><text class="pf-month" x="108.5" y="266" text-anchor="middle">9月</text><rect class="pf-bar" x="149.5" y="90.8" width="38.6" height="151.2" rx="3" opacity="0.80"/><text class="pf-num" x="168.8" y="83.8" text-anchor="middle">7</text><text class="pf-month" x="168.8" y="266" text-anchor="middle">11月</text><rect class="pf-bar" x="209.9" y="90.8" width="38.6" height="151.2" rx="3" opacity="0.80"/><text class="pf-num" x="229.2" y="83.8" text-anchor="middle">7</text><text class="pf-month" x="229.2" y="266" text-anchor="middle">12月</text><rect class="pf-bar" x="270.2" y="134.0" width="38.6" height="108.0" rx="3" opacity="0.66"/><text class="pf-num" x="289.5" y="127.0" text-anchor="middle">5</text><text class="pf-month" x="289.5" y="266" text-anchor="middle">3月</text><rect class="pf-bar" x="330.5" y="134.0" width="38.6" height="108.0" rx="3" opacity="0.66"/><text class="pf-num" x="349.8" y="127.0" text-anchor="middle">5</text><text class="pf-month" x="349.8" y="266" text-anchor="middle">7月</text><rect class="pf-bar" x="390.9" y="155.6" width="38.6" height="86.4" rx="3" opacity="0.59"/><text class="pf-num" x="410.2" y="148.6" text-anchor="middle">4</text><text class="pf-month" x="410.2" y="266" text-anchor="middle">2月</text><rect class="pf-bar" x="451.2" y="155.6" width="38.6" height="86.4" rx="3" opacity="0.59"/><text class="pf-num" x="470.5" y="148.6" text-anchor="middle">4</text><text class="pf-month" x="470.5" y="266" text-anchor="middle">4月</text><rect class="pf-bar" x="511.5" y="155.6" width="38.6" height="86.4" rx="3" opacity="0.59"/><text class="pf-num" x="530.8" y="148.6" text-anchor="middle">4</text><text class="pf-month" x="530.8" y="266" text-anchor="middle">5月</text><rect class="pf-bar" x="571.9" y="155.6" width="38.6" height="86.4" rx="3" opacity="0.59"/><text class="pf-num" x="591.2" y="148.6" text-anchor="middle">4</text><text class="pf-month" x="591.2" y="266" text-anchor="middle">8月</text><rect class="pf-bar" x="632.2" y="177.2" width="38.6" height="64.8" rx="3" opacity="0.52"/><text class="pf-num" x="651.5" y="170.2" text-anchor="middle">3</text><text class="pf-month" x="651.5" y="266" text-anchor="middle">6月</text><rect class="pf-bar" x="692.5" y="220.4" width="38.6" height="21.6" rx="3" opacity="0.39"/><text class="pf-num" x="711.8" y="213.4" text-anchor="middle">1</text><text class="pf-month" x="711.8" y="266" text-anchor="middle">1月</text>
-    <path class="pf-line" d="M48.2 207.7 L108.5 176.9 L168.8 152.9 L229.2 128.9 L289.5 111.7 L349.8 94.6 L410.2 80.9 L470.5 67.1 L530.8 53.4 L591.2 39.7 L651.5 29.4 L711.8 26.0"/>
-    <circle class="pf-dot" cx="48.2" cy="207.7" r="2.6"/><circle class="pf-dot" cx="108.5" cy="176.9" r="2.6"/><circle class="pf-dot" cx="168.8" cy="152.9" r="2.6"/><circle class="pf-dot" cx="229.2" cy="128.9" r="2.6"/><text class="pf-cum" x="229.2" y="118.9" text-anchor="middle">52%</text><circle class="pf-dot" cx="289.5" cy="111.7" r="2.6"/><circle class="pf-dot" cx="349.8" cy="94.6" r="2.6"/><circle class="pf-dot" cx="410.2" cy="80.9" r="2.6"/><circle class="pf-dot" cx="470.5" cy="67.1" r="2.6"/><circle class="pf-dot" cx="530.8" cy="53.4" r="2.6"/><circle class="pf-dot" cx="591.2" cy="39.7" r="2.6"/><circle class="pf-dot" cx="651.5" cy="29.4" r="2.6"/><circle class="pf-dot" cx="711.8" cy="26.0" r="2.6"/>
-    <line class="pf-axis" x1="18" y1="242" x2="742" y2="242"/>
-  </svg>
-        <p class="pf-note">前 4 个月累计 <strong>52.4%</strong>，前 8 个月才到 80%。负荷按「学生节点 + 中心动作」计，仍是结构量，不等于工时。</p>
-      </figure>
-
-      <div class="an-conclusion">
-        <strong>关于二八：</strong>按节点数算，集中度没那么极端。真正集中的是责任。评审、发放、监督三个门类共 21 项，不到总数一半，却把关乎钱和合规的环节全包了。另有 18 项常态业务天天在跑，从不出现在任何"重要节点"里。
-        <a class="an-link" href="center.html#workload">看完整的工作量说明 →</a>
-      </div>
+      <p class="an-close">所以按申请通知的节奏看资助工作，只能看见一半。另一半在审计、核查、报送和归档里，没有节点，也没有截止日期，但每天都要做。<a class="an-link" href="center.html#workload">看完整的工作量说明 →</a></p>
     </div>
   </div>
 </section>

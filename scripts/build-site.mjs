@@ -645,7 +645,28 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .analysis { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--line-2); }
 .analysis h3 { margin: 0 0 20px; font-size: 24px; letter-spacing: -.02em; }
 
-.an-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 32px; }
+.an-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 26px; }
+.an-lede { margin: -6px 0 22px; font-size: 15.5px; line-height: 1.7; color: var(--text-2); max-width: 78ch; }
+.an-close { margin: 0; font-size: 14.5px; line-height: 1.8; color: var(--text-2); max-width: 88ch; }
+.an-close .an-link { margin: 0 0 0 6px; }
+
+.tracks { margin: 0 0 26px; padding: 18px 20px 12px; border: 1px solid var(--line-2); border-radius: 16px; background: var(--card); }
+.track-row { display: grid; grid-template-columns: 92px 1fr; gap: 16px; align-items: center; }
+.track-row + .track-row { margin-top: 8px; }
+.tr-label { font-size: 12px; color: var(--text-3); text-align: right; }
+.tr-cells { display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px; align-items: end; height: 92px; }
+.tr-cell { position: relative; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
+.tr-cell i { display: block; width: 100%; border-radius: 4px 4px 0 0; background: var(--accent); opacity: .85; }
+.tr-cell em { position: absolute; font-size: 10.5px; color: var(--text-3); font-style: normal; line-height: 1; }
+.track-flat-row .tr-flat { height: 26px; display: flex; align-items: center; border-radius: 6px; background: rgba(11,79,50,.07); border: 1px dashed var(--accent); padding: 0 12px; }
+.tr-flat span { font-size: 12px; color: var(--accent); }
+.track-axis .tr-cells { height: 20px; }
+.track-axis .tr-cell b { font-size: 11px; color: var(--text-3); font-weight: 400; }
+@media (max-width: 720px) {
+  .an-grid { grid-template-columns: 1fr; }
+  .track-row { grid-template-columns: 1fr; gap: 6px; }
+  .tr-label { text-align: left; }
+}
 @media (max-width: 1080px) { .an-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .an-grid { grid-template-columns: 1fr; } }
 .an-card { padding: 18px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--card); }
@@ -1633,6 +1654,8 @@ function renderIndex() {
   const year = buildYearSchedule()
   // 与月卡同口径：跨月段（如 2-3 月）在两个月中各计一次
   const STUDENT_TOTAL = year.reduce((n, m) => n + m.student.length, 0)
+  const peakStudent = year.reduce((n, m) => Math.max(n, m.student.length), 1)
+  const top2Student = year.filter((m) => m.month === 9 || m.month === 10).reduce((n, m) => n + m.student.length, 0)
   const STAFF_TOTAL = year.reduce((n, m) => n + m.staff.length, 0)
   const RATIO = (STAFF_TOTAL / Math.max(1, STUDENT_TOTAL)).toFixed(1)
   const peak = year.reduce((a, b) => (b.total > a.total ? b : a), year[0])
@@ -1825,46 +1848,52 @@ function renderIndex() {
     </div>
 
     <div class="analysis">
-      <h3>这张表说明了什么</h3>
+      <h3>学生的日历，量不出中心的工作量</h3>
+      <p class="an-lede">学生的申请集中在 9 月和 10 月。中心这边，18 项常态业务全年每月都在跑，24 项业务学生一次也不会接触。三条线不在同一个节奏上。</p>
 
-      <div class="an-grid">
-        <div class="an-card">
-          <b>${ratio} 倍</b>
-          <span>最忙与最闲的差距</span>
-          <p>${busiest.month} 月 ${busiest.total} 个节点，${quietest.month} 月 ${quietest.total} 个。同是一个月，差着 ${ratio} 倍。</p>
+      <div class="tracks">
+        <div class="track-row">
+          <span class="tr-label">学生事项</span>
+          <div class="tr-cells">
+            ${year
+              .map((m) => {
+                const h = Math.round((m.student.length / Math.max(1, peakStudent)) * 100)
+                return `<div class="tr-cell"><i style="height:${Math.max(3, h)}%"></i><em style="bottom:calc(${Math.max(3, h)}% + 4px)">${m.student.length}</em></div>`
+              })
+              .join('')}
+          </div>
         </div>
+        <div class="track-row track-flat-row">
+          <span class="tr-label">中心常态业务</span>
+          <div class="tr-flat"><span>${routine.length} 项，每月都在跑：按月发放、动态认定、随时受理</span></div>
+        </div>
+        <div class="track-row track-axis">
+          <span class="tr-label"></span>
+          <div class="tr-cells">
+            ${year.map((m) => `<div class="tr-cell"><b>${m.month}</b></div>`).join('')}
+          </div>
+        </div>
+      </div>
+
+      <div class="an-grid an-grid-3">
         <div class="an-card">
-          <b>${top4Pct}%</b>
-          <span>前 4 个月承担的节点占比</span>
-          <p>9 到 12 月这四个月，占全年三分之一的节点。秋季学期最紧。</p>
+          <b>${top2Student} / ${STUDENT_TOTAL}</b>
+          <span>9、10 两个月占学生事项的 ${Math.round((top2Student / STUDENT_TOTAL) * 100)}%</span>
+          <p>学生的事有淡旺季，10 月最多，1 月几乎没有。错过这两个月，剩下的基本是补办。</p>
         </div>
         <div class="an-card">
           <b>${routine.length} 项</b>
-          <span>常态业务（${routinePct}%）</span>
-          <p>按月发放、动态认定、随时受理这类事每月都在跑，不计入上面的节点数。</p>
+          <span>常态业务，不按月份计</span>
+          <p>按月发放、动态认定、随时受理、台账登记。这些每月都要做，但不会出现在任何一份申请通知里。</p>
         </div>
         <div class="an-card">
-          <b>3</b>
-          <span>项按月发放</span>
-          <p>国家助学金、退役士兵国家助学金、勤工助学。其余多为一次性或减免，12 月是国奖与励志奖的发放月。</p>
-        </div>
-        <div class="an-card">
-          <b>${top3Pct}%</b>
-          <span>前 3 个门类占的业务比例</span>
-          <p>${sortedCats.slice(0, 3).map((x) => x.name).join('、')}。三个门类 ${top3n} 项，资金和合规的事基本都在这。</p>
+          <b>${INTERNAL_BIZ_COUNT} 项</b>
+          <span>学生接触不到的业务</span>
+          <p>迎巡视审计、重复发放核查、系统数据报送、材料归档、自查报告。占全部业务的 ${Math.round((INTERNAL_BIZ_COUNT / BIZ_ROWS_ALL.length) * 100)}%。</p>
         </div>
       </div>
 
-      <figure class="pareto">
-        <figcaption>每月负荷（学生节点 + 中心动作）与累计占比</figcaption>
-        ${buildPareto(year, totalNodes)}
-        <p class="pf-note">前 4 个月累计 <strong>${((top4 / totalNodes) * 100).toFixed(1)}%</strong>，前 8 个月才到 80%。负荷按「学生节点 + 中心动作」计，仍是结构量，不等于工时。</p>
-      </figure>
-
-      <div class="an-conclusion">
-        <strong>关于二八：</strong>按节点数算，集中度没那么极端。真正集中的是责任。评审、发放、监督三个门类共 ${top3n} 项，不到总数一半，却把关乎钱和合规的环节全包了。另有 ${routine.length} 项常态业务天天在跑，从不出现在任何"重要节点"里。
-        <a class="an-link" href="center.html#workload">看完整的工作量说明 →</a>
-      </div>
+      <p class="an-close">所以按申请通知的节奏看资助工作，只能看见一半。另一半在审计、核查、报送和归档里，没有节点，也没有截止日期，但每天都要做。<a class="an-link" href="center.html#workload">看完整的工作量说明 →</a></p>
     </div>
   </div>
 </section>

@@ -141,7 +141,7 @@
     var spy = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
-        navLinks.forEach(function (a) { a.removeAttribute('aria-current'); });
+        [].slice.call(document.querySelectorAll('.nav-links a')).forEach(function (a) { a.removeAttribute('aria-current'); });
         var link = navLinks[ids.indexOf(e.target.id)];
         if (link) link.setAttribute('aria-current', 'page');
       });

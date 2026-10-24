@@ -316,6 +316,66 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 .timeline .e span { font-size: 12.5px; color: var(--text-2); }
 @media (max-width: 560px) { .timeline li { grid-template-columns: 76px 1fr; gap: 12px; } }
 
+/* ---------- 全年负荷 ---------- */
+.load-bars {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  gap: 8px; align-items: end;
+  height: 168px; margin: 8px 0 26px;
+  padding-bottom: 26px; position: relative;
+  border-bottom: 1px solid var(--line-2);
+}
+.lb-col {
+  display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+  height: 100%; position: relative;
+}
+.lb-col i {
+  display: block; width: 100%; max-width: 46px; border-radius: 6px 6px 0 0;
+  background: var(--line);
+  transition: background .2s ease;
+}
+.lb-col[data-level="mid"] i { background: #7fb2e8; }
+.lb-col[data-level="high"] i { background: var(--accent); }
+.lb-count { font-size: 11px; color: var(--text-3); margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+.lb-month { position: absolute; bottom: -22px; font-size: 11.5px; color: var(--text-3); white-space: nowrap; }
+.lb-col[data-level="high"] .lb-month { color: var(--text); font-weight: 600; }
+
+.month-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 1080px) { .month-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 680px) { .month-grid { grid-template-columns: 1fr; } }
+
+.month-card {
+  border: 1px solid var(--line-2); border-radius: var(--radius);
+  padding: 16px 18px; background: var(--card);
+}
+.month-card[data-level="high"] { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,113,227,.08); }
+.month-card header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 10px; margin-bottom: 12px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--line-2);
+}
+.month-card header b { font-size: 16px; letter-spacing: -.01em; }
+.month-total { font-size: 11.5px; color: var(--text-3); }
+.month-card[data-level="high"] .month-total { color: var(--accent); font-weight: 600; }
+
+.m-block + .m-block { margin-top: 12px; }
+.m-label { font-size: 11px; font-weight: 600; letter-spacing: .04em; margin-bottom: 6px; }
+.m-label--staff { color: #b25000; }
+.m-label--student { color: var(--text-3); }
+@media (prefers-color-scheme: dark) { .m-label--staff { color: #ffb340; } }
+
+.month-card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.month-card li {
+  font-size: 13px; line-height: 1.5; padding-left: 11px; position: relative;
+}
+.month-card li::before {
+  content: ""; position: absolute; left: 0; top: 7px;
+  width: 4px; height: 4px; border-radius: 50%; background: var(--line);
+}
+.month-card li span { display: block; font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+.month-card li.more { color: var(--text-3); font-style: normal; }
+.month-card li.more::before { background: transparent; }
+.m-empty { margin: 0; font-size: 12.5px; color: var(--text-3); }
+
 /* ---------- 详情页 ---------- */
 .page-head { padding: 56px 0 28px; border-bottom: 1px solid var(--line-2); }
 .crumb { font-size: 13px; color: var(--text-3); margin-bottom: 14px; }

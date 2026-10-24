@@ -27,6 +27,7 @@ const SITE = {
   author: '周泽维',
   phone: '15736152295',
   updated: '2026 年 10 月 24 日',
+  overridesNote: true,
   verified: '2026 年 10 月 24 日',
   verifiedShort: '2026-10-24',
   reviewBy: '2027 年 9 月',
@@ -56,7 +57,28 @@ const esc = (s) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
 
+// 站点层修正（不改 App 的 policies.js，只影响网页输出）
+// 依据：学生资助管理中心业务全景总表 将其归入「四、校内及社会奖助学金」，依据为「捐资方协议」
+const POLICY_OVERRIDES = {
+  'zhumeng-scholarship': {
+    tag: '校内政策',
+    tagNote: '社会捐资',
+    subtitle: '4000元/年 · 中国教育发展基金会项目',
+  },
+  'president-honor': {
+    subtitle: '个人 1 万 · 团队 1.5–2 万',
+  },
+}
+
 const byId = (id) => policyCategories.find((p) => p.id === id)
+
+for (const [id, patch] of Object.entries(POLICY_OVERRIDES)) {
+  const target = policyCategories.find((p) => p.id === id)
+  if (target) Object.assign(target, patch)
+}
+// 覆盖后重新计算分类，避免首页统计与卡片分组不一致
+const CN_COUNT = policyCategories.filter((p) => p.tag === '国家政策').length
+const SCH_COUNT = policyCategories.filter((p) => p.tag === '校内政策').length
 
 /* ------------------------------------------------------------------ 信息架构 */
 
@@ -68,7 +90,7 @@ const GROUPS = [
   },
   {
     title: '校内政策',
-    desc: '学校自筹资金设立，按学年与学期评定',
+    desc: '学校自筹与社会捐资设立，按学年与学期评定。其中学习单项奖学金包含学习优胜、学习进步、交换生专项三项，已分别列出。',
     items: policyCategories.filter((p) => p.tag === '校内政策'),
   },
 ]
@@ -78,7 +100,7 @@ const MINDMAP = [
     label: '国家政策',
     color: '#0071e3',
     groups: [
-      { label: '奖优', ids: ['national-scholarship', 'encouragement-scholarship', 'zhumeng-scholarship'] },
+      { label: '奖优', ids: ['national-scholarship', 'encouragement-scholarship'] },
       { label: '助困', ids: ['national-grant'] },
       { label: '助学贷款', ids: ['student-loan'] },
       { label: '服兵役', ids: ['military-compensation', 'military-tuition-waiver', 'military-grant'] },
@@ -91,6 +113,7 @@ const MINDMAP = [
     color: '#af52de',
     groups: [
       { label: '奖学金', ids: ['president-honor', 'comprehensive-scholarship', 'excellence-scholarship', 'progress-scholarship', 'exchange-scholarship'] },
+      { label: '社会捐资', ids: ['zhumeng-scholarship'] },
       { label: '减免与补助', ids: ['tuition-waiver', 'freshman-subsidy', 'temporary-subsidy', 'holiday-subsidy'] },
       { label: '勤工助学', ids: ['work-study'] },
     ],
@@ -1141,7 +1164,7 @@ const card = (p, base) => `<a class="card" href="${base}policies/${p.id}.html">
   <div>
     <h3>${esc(p.title)}</h3>
     <p>${esc(p.subtitle)}</p>
-    <span class="badge ${p.tag === '国家政策' ? 'n' : 's'}">${esc(p.tag)}</span>
+    <span class="badge ${p.tag === '国家政策' ? 'n' : 's'}">${esc(p.tag)}${p.tagNote ? ' · ' + esc(p.tagNote) : ''}</span>
   </div>
 </a>`
 
@@ -1268,8 +1291,8 @@ function renderIndex() {
     </div>
     <div class="stats">
       <div><b>21</b><span>资助项目</span></div>
-      <div><b>11</b><span>国家政策</span></div>
-      <div><b>10</b><span>校内政策</span></div>
+      <div><b>${CN_COUNT}</b><span>国家政策</span></div>
+      <div><b>${SCH_COUNT}</b><span>校内政策</span></div>
       <div><b>13</b><span>政策依据</span></div>
     </div>
   </div>
@@ -1616,7 +1639,16 @@ function renderCenter() {
   for (const r of bizRows) {
     let g = groups.find((x) => x.name === r[1])
     if (!g) { g = { name: r[1], items: [] }; groups.push(g) }
-    g.items.push({ no: r[0], title: r[2], desc: r[3], freq: r[4], basis: r[5], store: r[6] })
+    const item = { no: r[0], title: r[2], desc: r[3], freq: r[4], basis: r[5], store: r[6] }
+    // 学习单项奖学金是一个总称，含三项子奖，原文单列容易误解为一种
+    if (String(r[2]).includes('学习单项奖学金')) {
+      item.title = '学习单项奖学金（含三个子项）'
+      item.desc =
+        '学习优胜：每学期一次，每人 1000 元，班级加权平均分第一名（含并列，无补考）；' +
+        '学习进步：每学期一次，每人 600 元，每班排名进步最多的 2 名且进步 10 名及以上；' +
+        '交换生专项：从本人缴纳学费中提取，按交流学习时间对应本学年学费按月计算'
+    }
+    g.items.push(item)
   }
   const distMap = {}
   for (const d of distRows) distMap[d[1]] = { count: d[2], share: Number(d[3]) }

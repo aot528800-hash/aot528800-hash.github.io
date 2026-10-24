@@ -104,3 +104,57 @@ export function searchPolicies(policies, rawQuery) {
   hits.sort((a, b) => b.score - a.score)
   return hits.map((h) => h.p)
 }
+
+/**
+ * 相关资助：按「在本政策正文里被提及的次数」排序。
+ * 标题权重 2（明确指代），别名权重 1（「困难认定」这类通用词出现频率过高，
+ * 权重太大反而会把真正相关的项目挤掉）。
+ */
+export function relatedPolicies(policy, all, limit = 4) {
+  if (!policy) return []
+
+  const corpus = [
+    policy.overview,
+    policy.description,
+    ...(policy.rules?.prerequisites || []),
+    ...(policy.rules?.exclusions || []),
+    ...(policy.rules?.disqualifiers || []),
+    ...(policy.approvalChain || []).flatMap((lvl) => (lvl.steps || []).map((s) => `${s.title} ${s.desc}`)),
+    ...(policy.timeline || []).map((t) => `${t.event} ${t.desc || ''}`),
+    ...(policy.materials || []).map((m) => `${m.name} ${m.note || ''}`),
+  ].join(' ')
+
+  const count = (needle) => {
+    let n = 0
+    let i = 0
+    while ((i = corpus.indexOf(needle, i)) !== -1) {
+      n++
+      i += needle.length
+    }
+    return n
+  }
+
+  const scored = []
+  for (const p of all) {
+    if (p.id === policy.id) continue
+    let score = count(p.title) * 2
+    for (const [alias, id] of Object.entries(ALIAS_LINKS)) {
+      if (id === p.id) score += count(alias)
+    }
+    if (score > 0) scored.push({ p, score })
+  }
+
+  const picked = scored.sort((a, b) => b.score - a.score).slice(0, limit).map((s) => s.p)
+
+  // 正文提及太少时，用同类（国家/校内）政策补齐，避免出现只有一条的相关列表
+  if (picked.length < 3) {
+    for (const p of all) {
+      if (p.id === policy.id || picked.includes(p)) continue
+      if (p.tag !== policy.tag) continue
+      picked.push(p)
+      if (picked.length >= 3) break
+    }
+  }
+
+  return picked
+}

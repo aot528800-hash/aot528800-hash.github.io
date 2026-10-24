@@ -172,11 +172,10 @@ a {
   top: 0;
   z-index: 100;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 4px;
   height: calc(44px + var(--safe-top));
-  padding: 0 8px calc(6px);
-  padding-top: var(--safe-top);
+  padding: var(--safe-top) 8px 0;
   background: var(--bar-bg);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
@@ -188,36 +187,53 @@ a {
 }
 
 .nav-back {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
-  gap: 2px;
-  min-height: 36px;
-  padding: 0 8px 0 2px;
+  gap: 3px;
+  height: 44px;
+  padding: 0 6px 0 0;
   font-size: 17px;
+  letter-spacing: -0.2px;
   color: var(--blue);
-  border-radius: 8px;
+}
+
+.nav-back svg {
+  width: 11px;
+  height: 19px;
+  flex: none;
+  margin-top: 1px;
+}
+
+.nav-back span {
+  max-width: 76px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .nav-back:active {
-  opacity: 0.45;
+  opacity: 0.4;
 }
 
-.nav-back .chev {
-  font-size: 22px;
-  line-height: 1;
-  margin-top: -2px;
-}
-
+/* 标题绝对居中：返回按钮再长也不会把标题挤偏，超出部分省略 */
 .nav-title {
-  flex: 1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--safe-top);
+  height: 44px;
+  line-height: 44px;
+  padding: 0 88px;
+  text-align: center;
   font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.2px;
-  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-right: 44px;
+  pointer-events: none;
 }
 
 .nav-action {
@@ -1001,8 +1017,25 @@ a {
 
 .md a {
   color: var(--blue);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+}
+
+/* 正文里的政策互链：iOS 风格，靠颜色区分，不叠下划线 */
+.md a.inline-link {
+  color: var(--blue);
+  font-weight: 500;
+}
+
+.md a.inline-link:active {
+  opacity: 0.45;
+}
+
+/* 详情页头部：政策依据作为次要说明行，不再用标签样式 */
+.detail-source {
+  margin-top: 7px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--label-3);
+  letter-spacing: -0.05px;
 }
 
 /* ==========================================================================

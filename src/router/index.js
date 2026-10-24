@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import PolicyDetail from '../views/PolicyDetail.vue'
 import Timeline from '../views/Timeline.vue'
+import { previousRoute, routeTitle } from '../lib/nav.js'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -26,6 +27,13 @@ const router = createRouter({
     }
     return { top: 0 }
   },
+})
+
+// 记录来源页面，供 iOS 式返回按钮显示上一屏标题
+router.afterEach((to, from) => {
+  if (from && from.path && from.path !== to.path) {
+    previousRoute.value = { path: from.path, title: routeTitle(from) }
+  }
 })
 
 export default router

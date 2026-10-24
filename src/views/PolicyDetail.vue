@@ -4,7 +4,9 @@ import { useRouter } from 'vue-router'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
 import { policyCategories } from '../data/policies.js'
-import { buildLinkMap, buildLinkRe, segments as splitByLinks, typeMeta } from '../lib/policy.js'
+import { buildLinkMap, buildLinkRe, relatedPolicies, segments as splitByLinks, typeMeta } from '../lib/policy.js'
+import { handlePolicyLinkClick, linkifyPolicies } from '../lib/linkify.js'
+import { backLabel } from '../lib/nav.js'
 
 marked.setOptions({ breaks: true, gfm: true })
 
@@ -70,7 +72,9 @@ function segments(text) {
 }
 
 function linkFor(part) {
-  return linkMap.value[part] || null
+  const id = linkMap.value[part] || null
+  // 正文提到本政策自己时不必生成链接
+  return id && id !== policy.value?.id ? id : null
 }
 
 function goPolicy(pid) {
@@ -112,8 +116,17 @@ watch(() => props.id, () => {
 const overviewHtml = computed(() => {
   const text = policy.value?.overview
   if (!text) return ''
-  return DOMPurify.sanitize(marked.parse(text))
+  const safe = DOMPurify.sanitize(marked.parse(text))
+  // 正文里出现的政策名称变成可点链接（跳过本政策自身）
+  return linkifyPolicies(safe, linkRe.value, linkMap.value, policy.value?.id)
 })
+
+const previousTitle = computed(() => backLabel())
+const related = computed(() => relatedPolicies(policy.value, policyCategories, 4))
+
+function onMdClick(event) {
+  handlePolicyLinkClick(event, goPolicy)
+}
 
 const tint = (hex) => (hex || '#8e8e93') + '24'
 </script>
@@ -121,8 +134,12 @@ const tint = (hex) => (hex || '#8e8e93') + '24'
 <template>
   <div v-if="policy">
     <header class="nav-bar">
-      <button class="nav-back" aria-label="返回" @click="goBack">
-        <span class="chev">‹</span><span>返回</span>
+      <button class="nav-back" :aria-label="'返回 ' + previousTitle" @click="goBack">
+        <svg viewBox="0 0 12 20" aria-hidden="true">
+          <path d="M10.6 1.6 2 10l8.6 8.4" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>{{ previousTitle }}</span>
       </button>
       <div class="nav-title">{{ policy.title }}</div>
     </header>
@@ -136,8 +153,8 @@ const tint = (hex) => (hex || '#8e8e93') + '24'
           <span class="badge" :class="policy.tag === '国家政策' ? 'badge--national' : 'badge--school'">
             {{ policy.tag }}
           </span>
-          <span v-if="policy.source" class="badge badge--neutral">{{ policy.source }}</span>
         </div>
+        <div v-if="policy.source" class="detail-source">依据 {{ policy.source }}</div>
       </div>
     </div>
 
@@ -201,12 +218,25 @@ const tint = (hex) => (hex || '#8e8e93') + '24'
 
       <div class="group-header">政策要点</div>
       <div class="group">
-        <div class="md" v-html="overviewHtml"></div>
+        <div class="md" v-html="overviewHtml" @click="onMdClick"></div>
       </div>
 
-      <div v-if="policy.source" class="group-footer">
-        政策依据：{{ policy.source }}
-      </div>
+      <template v-if="related.length">
+        <div class="group-header">相关资助</div>
+        <div class="group">
+          <button v-for="r in related" :key="r.id" class="cell cell--tappable" @click="goPolicy(r.id)">
+            <span class="tile" :style="{ background: tint(r.color) }">{{ r.icon }}</span>
+            <span class="cell-body">
+              <span class="cell-title">{{ r.title }}</span>
+              <span class="cell-subtitle">{{ r.subtitle }}</span>
+            </span>
+            <svg class="chev" viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M1.5 1.5 6 6.5l-4.5 5" />
+            </svg>
+          </button>
+        </div>
+      </template>
     </template>
 
     <!-- ================= 流程 ================= -->

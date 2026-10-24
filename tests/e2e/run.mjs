@@ -208,7 +208,74 @@ try {
     return `总览${overview}段/流程${flow}步/时间${tl}条/材料${mats}项`
   })
 
+  await test('返回按钮显示上一屏标题（iOS 规范）', async () => {
+    await goto('')
+    await ev(`document.querySelectorAll('.cell--policy')[0].click()`)
+    await sleep(800)
+    const label = await ev(`document.querySelector('.nav-back span')?.textContent`)
+    assert(label === '首页', `从首页进入时显示「${label}」`)
+
+    const chevron = await ev(`document.querySelector('.nav-back svg') ? 'svg' : 'text'`)
+    assert(chevron === 'svg', '返回图标不是矢量 chevron')
+    return `返回按钮为 chevron + 「${label}」`
+  })
+
+  await test('正文互链可点击并跳到对应政策', async () => {
+    await goto('policy/national-grant')
+    const n = await ev(`document.querySelectorAll('.md a[data-policy-id]').length`)
+    assert(n > 0, '正文没有生成互链')
+
+    const target = await ev(`document.querySelector('.md a[data-policy-id]').getAttribute('data-policy-id')`)
+    assert(target !== 'national-grant', '出现指向自身的链接')
+
+    await ev(`document.querySelector('.md a[data-policy-id]').click()`)
+    await sleep(900)
+    const hash = await ev(`location.hash`)
+    assert(hash === '#/policy/' + target, `跳到了 ${hash}`)
+
+    // 上一屏标题是 5 个字，按 iOS 规则退化为通用「返回」，避免挤压居中标题
+    const label = await ev(`document.querySelector('.nav-back span')?.textContent`)
+    assert(label === '返回', `链式返回标题为「${label}」`)
+    // 标题框是整条撑满的，要量文字实际宽度才知道有没有压在一起
+    const overlap = await ev(`(() => {
+      const b = document.querySelector('.nav-back').getBoundingClientRect()
+      const bar = document.querySelector('.nav-bar').getBoundingClientRect()
+      const t = document.querySelector('.nav-title')
+      const r = document.createRange()
+      r.selectNodeContents(t)
+      const textW = r.getBoundingClientRect().width
+      const textLeft = (bar.width - textW) / 2 + bar.left
+      return Math.round(b.right - textLeft)
+    })()`)
+    assert(overlap <= 0, `返回按钮与标题重叠 ${overlap}px`)
+    return `${n} 个互链 → ${target}，返回标题「${label}」，无重叠`
+  })
+
+  await test('相关资助分组可跳转', async () => {
+    await goto('policy/work-study')
+    const items = await ev(`(() => {
+      const hs = [...document.querySelectorAll('.group-header')]
+      const i = hs.findIndex(h => h.textContent.includes('相关资助'))
+      if (i < 0) return 0
+      return [...document.querySelectorAll('.group')][i].querySelectorAll('.cell').length
+    })()`)
+    assert(items >= 3, `相关条目只有 ${items}`)
+
+    const before = await ev(`location.hash`)
+    await ev(`(() => {
+      const hs = [...document.querySelectorAll('.group-header')]
+      const i = hs.findIndex(h => h.textContent.includes('相关资助'))
+      ;[...document.querySelectorAll('.group')][i].querySelector('.cell').click()
+    })()`)
+    await sleep(800)
+    const after = await ev(`location.hash`)
+    assert(before !== after, '点击相关资助没有跳转')
+    return `${items} 条相关，点击后 ${after}`
+  })
   await test('材料勾选刷新后仍保留', async () => {
+    await goto('policy/national-grant')
+    await ev(`document.querySelectorAll('.seg-btn')[3].click()`)
+    await sleep(500)
     await ev(`document.querySelectorAll('.mat-row')[0].click()`)
     await sleep(300)
     const key = await ev(`Object.keys(localStorage).find(k=>k.startsWith('aid_materials_'))`)

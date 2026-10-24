@@ -5,7 +5,8 @@
  * 运行：npm run build:site
  * 输出：site/
  */
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { dirname } from 'node:path'
 import { join } from 'node:path'
 import { marked } from 'marked'
 import { annualSchedule, policyCategories } from '../src/data/policies.js'
@@ -26,6 +27,12 @@ const SITE = {
   reviewBy: '2027 年 9 月',
   // 部署到 GitHub Pages 后把这里改成实际地址，例如 https://用户名.github.io/仓库名
   url: 'https://aot528800-hash.github.io',
+  wechat: {
+    id: '停不下来的独行侠',
+    // 把二维码图片放进 assets/wechat/ 即可自动出现在网页上
+    // 文件名含 dev / 开发 的标为「加我微信」，含 mp / 公众号 的标为「公众号」
+    dir: 'assets/wechat',
+  },
   apk: {
     version: '0.3.1',
     size: '3.1 MB',
@@ -432,6 +439,24 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 .author dt { color: var(--text-3); }
 .author dd { margin: 0; }
 
+/* ---------- 联系开发者 ---------- */
+.contact { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line-2); }
+.contact-head { font-size: 13px; font-weight: 600; letter-spacing: .04em; color: var(--text-3); margin-bottom: 14px; }
+.qr-row { display: flex; gap: 24px; flex-wrap: wrap; }
+.qr-card { margin: 0; text-align: center; }
+.qr-card img {
+  display: block; width: 168px; height: 168px;
+  border-radius: 14px; background: #fff; padding: 8px;
+  border: 1px solid var(--line-2);
+}
+.qr-card figcaption { margin-top: 10px; display: grid; gap: 2px; }
+.qr-card figcaption strong { font-size: 13.5px; font-weight: 600; }
+.qr-card figcaption span { font-size: 12px; color: var(--text-3); }
+.contact-id { margin: 16px 0 0; font-size: 14px; color: var(--text-2); }
+.contact-id strong { color: var(--text); font-weight: 600; }
+
+@media print { .contact { break-inside: avoid; } }
+
 /* ---------- 页脚 ---------- */
 footer { border-top: 1px solid var(--line-2); padding: 48px 0 72px; font-size: 12.5px; line-height: 1.7; color: var(--text-3); }
 footer .wrap { display: grid; gap: 12px; max-width: 980px; }
@@ -798,7 +823,7 @@ const SITE_JS = `(function () {
 
 /* ------------------------------------------------------------------ 组件 */
 
-const ICON_SHIELD = `<svg viewBox="0 0 200 200" aria-hidden="true">
+const ICON_SHIELD = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" aria-hidden="true">
   <rect width="200" height="200" rx="44" fill="#0071e3"/>
   <path d="M100 46 L74 57 L74 88 Q74 104 100 112 Q126 104 126 88 L126 57 Z" fill="#fff" opacity=".97"/>
   <path d="M44 132 Q54 112 76 119 Q88 123 93 135 L93 145 Q80 143 66 147 Q50 152 44 132Z" fill="#f59e0b"/>
@@ -840,6 +865,36 @@ const footer = (base) => `<footer>
     <div>数据更新：${SITE.updated} · 21 个资助项目 · 13 份政策依据</div>
   </div>
 </footer>`
+
+const WECHAT_LABELS = [
+  { test: /dev|开发|personal|me/i, title: '开发者微信', hint: '扫码添加，注明来意' },
+  { test: /mp|公众号|account/i, title: '微信公众号', hint: '政策解读与经验分享' },
+]
+
+function contactBlock() {
+  if (!wechatFiles.length) {
+    return `<div class="contact">
+      <div class="contact-head">联系开发者</div>
+      <p class="contact-id">微信：<strong>${esc(SITE.wechat.id)}</strong></p>
+    </div>`
+  }
+  const cards = wechatFiles
+    .map((name) => {
+      const hit = WECHAT_LABELS.find((l) => l.test.test(name))
+      const title = hit ? hit.title : '微信'
+      const hint = hit ? hit.hint : '扫码添加'
+      return `<figure class="qr-card">
+        <img src="assets/wechat/${encodeURI(name)}" alt="${esc(title)}二维码" width="168" height="168" loading="lazy">
+        <figcaption><strong>${esc(title)}</strong><span>${esc(hint)}</span></figcaption>
+      </figure>`
+    })
+    .join('')
+  return `<div class="contact">
+    <div class="contact-head">联系开发者</div>
+    <div class="qr-row">${cards}</div>
+    <p class="contact-id">微信：<strong>${esc(SITE.wechat.id)}</strong></p>
+  </div>`
+}
 
 const DEPS = `<div class="deps">
   <div class="deps-label">前置关系</div>
@@ -1094,6 +1149,7 @@ function renderIndex() {
         <dt>费用</dt><dd>完全免费，无商业用途</dd>
         <dt>更新</dt><dd>${SITE.updated}</dd>
       </dl>
+      ${contactBlock()}
     </div>
   </div>
 </section>
@@ -1323,6 +1379,21 @@ function render404() {
 rmSync(OUT, { recursive: true, force: true })
 mkdirSync(join(OUT, 'assets'), { recursive: true })
 mkdirSync(join(OUT, 'policies'), { recursive: true })
+
+// 二维码图片：有就复制，没有就跳过（绝不渲染占位图或假二维码）
+const wechatSrc = SITE.wechat.dir
+const wechatFiles = []
+if (existsSync(wechatSrc)) {
+  for (const name of readdirSync(wechatSrc)) {
+    if (!/\.(png|jpe?g|webp|svg)$/i.test(name)) continue
+    const from = join(wechatSrc, name)
+    const to = join(OUT, 'assets/wechat', name)
+    mkdirSync(dirname(to), { recursive: true })
+    copyFileSync(from, to)
+    wechatFiles.push(name)
+  }
+}
+wechatFiles.sort()
 
 writeFileSync(join(OUT, 'assets/site.css'), CSS, 'utf8')
 writeFileSync(join(OUT, 'assets/icon.svg'), ICON_SHIELD, 'utf8')

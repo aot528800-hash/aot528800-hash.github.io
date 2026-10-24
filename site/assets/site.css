@@ -338,6 +338,24 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 .author dt { color: var(--text-3); }
 .author dd { margin: 0; }
 
+/* ---------- 联系开发者 ---------- */
+.contact { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line-2); }
+.contact-head { font-size: 13px; font-weight: 600; letter-spacing: .04em; color: var(--text-3); margin-bottom: 14px; }
+.qr-row { display: flex; gap: 24px; flex-wrap: wrap; }
+.qr-card { margin: 0; text-align: center; }
+.qr-card img {
+  display: block; width: 168px; height: 168px;
+  border-radius: 14px; background: #fff; padding: 8px;
+  border: 1px solid var(--line-2);
+}
+.qr-card figcaption { margin-top: 10px; display: grid; gap: 2px; }
+.qr-card figcaption strong { font-size: 13.5px; font-weight: 600; }
+.qr-card figcaption span { font-size: 12px; color: var(--text-3); }
+.contact-id { margin: 16px 0 0; font-size: 14px; color: var(--text-2); }
+.contact-id strong { color: var(--text); font-weight: 600; }
+
+@media print { .contact { break-inside: avoid; } }
+
 /* ---------- 页脚 ---------- */
 footer { border-top: 1px solid var(--line-2); padding: 48px 0 72px; font-size: 12.5px; line-height: 1.7; color: var(--text-3); }
 footer .wrap { display: grid; gap: 12px; max-width: 980px; }

@@ -35,8 +35,11 @@ const SITE = {
   },
   apk: {
     version: '0.3.1',
+    versionCode: 13,
     size: '3.1 MB',
-    // 不公开下载：安装包仅由开发者本人发放
+    platform: 'Android 7.0 及以上',
+    url: 'https://github.com/aot528800-hash/aot528800-hash.github.io/releases/latest/download/cqpue-aid.apk',
+    sha256: 'AD3F1EADFB397E7B389DF00EBCA0CCAE1D6AC0CF67AB5CAA3501AF5E06473517',
     contact: '15736152295',
   },
 }
@@ -202,6 +205,16 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .nav-links a { color: var(--text-2); font-size: 13.5px; }
 .nav-links a:hover { color: var(--text); text-decoration: none; }
 .nav-links a[aria-current="page"] { color: var(--text); font-weight: 500; }
+.nav-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 14px; border-radius: 15px;
+  background: var(--accent); color: #fff;
+  font-size: 12.5px; font-weight: 500; white-space: nowrap;
+  transition: background .18s ease;
+}
+.nav-cta svg { width: 14px; height: 14px; }
+.nav-cta:hover { background: var(--accent-2); text-decoration: none; }
+@media (max-width: 900px) { .nav-cta { display: none; } }
 @media (max-width: 720px) { .nav-links { display: none; } }
 
 /* ---------- 适用范围提示条 ---------- */
@@ -305,6 +318,47 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 }
 .badge.n::before { background: #0071e3; }
 .badge.s::before { background: #8e44ad; }
+
+/* ---------- 下载 ---------- */
+.dl-section { padding: 96px 0; }
+.dl-wrap {
+  display: grid; grid-template-columns: 1fr 380px;
+  gap: 72px; align-items: center;
+}
+@media (max-width: 900px) { .dl-wrap { grid-template-columns: 1fr; gap: 36px; } }
+
+.dl-text h2 { margin-bottom: 12px; }
+.dl-req { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 14.5px; color: var(--text-2); }
+.dl-req li { display: flex; gap: 10px; line-height: 1.55; }
+.dl-req strong { color: var(--text); font-weight: 600; }
+.dl-req .ok, .dl-req .no, .dl-req .dot-i {
+  flex: none; width: 18px; height: 18px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 10px; font-weight: 700;
+  margin-top: 3px; color: #fff;
+}
+.dl-req .ok { background: var(--green); }
+.dl-req .no { background: var(--red); }
+.dl-req .dot-i { background: var(--line); }
+
+.dl-card {
+  background: var(--card); border: 1px solid var(--line-2);
+  border-radius: 22px; padding: 26px;
+}
+.dl-card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.dl-icon { width: 46px; height: 46px; border-radius: 12px; overflow: hidden; display: block; }
+.dl-icon svg { width: 100%; height: 100%; display: block; }
+.dl-card-head strong { display: block; font-size: 16px; letter-spacing: -.01em; }
+.dl-card-head span { font-size: 12.5px; color: var(--text-3); }
+
+.dl-meta { margin: 0 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; }
+.dl-meta div { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--line-2); padding-bottom: 8px; }
+.dl-meta dt { font-size: 12.5px; color: var(--text-3); }
+.dl-meta dd { margin: 0; font-size: 13.5px; font-weight: 500; }
+
+.dl-btn { width: 100%; height: 46px; }
+.dl-btn svg { width: 17px; height: 17px; }
+.dl-hash { margin: 12px 0 0; font-size: 11.5px; color: var(--text-3); font-family: ui-monospace, Menlo, Consolas, monospace; word-break: break-all; }
+.dl-alt { margin: 14px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--text-3); }
 
 /* ---------- 搜索 ---------- */
 .search-bar { position: relative; max-width: 520px; margin: 0 0 32px; }
@@ -873,6 +927,10 @@ const nav = (base, active, home) => {
       ${link(jump('schedule'), '全年日程', 'schedule')}
       ${link(jump('author'), '关于作者', 'author')}
     </div>
+    <a class="nav-cta" href="${SITE.apk.url}" title="仅支持安卓手机">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 9.5 19 7.1a.4.4 0 0 0-.7-.4l-1.4 2.4a8.4 8.4 0 0 0-3.9-.9 8.4 8.4 0 0 0-3.9.9L7.7 6.7a.4.4 0 0 0-.7.4l1.4 2.4A7 7 0 0 0 5 15h14a7 7 0 0 0-3.4-5.5ZM9 12.6a.8.8 0 1 1 0-1.6.8.8 0 0 1 0 1.6Zm6 0a.8.8 0 1 1 0-1.6.8.8 0 0 1 0 1.6ZM5 16h14v3.5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1V18h-4v1.5a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V16Z"/></svg>
+      下载安卓版
+    </a>
   </div>
 </nav>`
 }
@@ -882,7 +940,7 @@ const footer = (base) => `<footer>
     <div class="links">
       <a href="${base}index.html">首页</a>
       <a href="${base}privacy.html">隐私政策</a>
-      <a href="tel:15736152295">获取安卓安装包：15736152295</a>
+      <a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}（仅安卓）</a>
       <a href="${base}policies/difficulty-assessment.html">从困难认定开始</a>
     </div>
     <div>本站由周泽维个人整理，<strong>完全免费、无广告、无商业用途</strong>，仅用于学习与研究。</div>
@@ -1106,6 +1164,43 @@ function renderIndex() {
   </div>
 </header>
 
+<section id="download" class="dl-section">
+  <div class="wrap dl-wrap">
+    <div class="dl-text">
+      <p class="eyebrow">安卓应用</p>
+      <h2>装到手机上，离线也能查</h2>
+      <p class="lede">21 个资助项目、办理流程、材料清单，全部内置在安装包里，断网也能看。</p>
+      <ul class="dl-req">
+        <li><span class="ok">✓</span>仅支持 <strong>安卓手机</strong>（${SITE.apk.platform}）</li>
+        <li><span class="no">✕</span><strong>不支持 iPhone / iPad</strong>：苹果系统不识别 APK 安装包，无法安装</li>
+        <li><span class="dot-i">·</span>首次安装需在系统设置里允许「安装未知来源应用」</li>
+      </ul>
+    </div>
+
+    <div class="dl-card">
+      <div class="dl-card-head">
+        <span class="dl-icon">${ICON_SHIELD}</span>
+        <div>
+          <strong>CQPUE资助政策</strong>
+          <span>安卓安装包</span>
+        </div>
+      </div>
+      <dl class="dl-meta">
+        <div><dt>版本</dt><dd>v${SITE.apk.version}（${SITE.apk.versionCode}）</dd></div>
+        <div><dt>大小</dt><dd>${SITE.apk.size}</dd></div>
+        <div><dt>系统</dt><dd>Android 7.0+</dd></div>
+        <div><dt>费用</dt><dd>完全免费</dd></div>
+      </dl>
+      <a class="btn dl-btn" href="${SITE.apk.url}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+        下载安卓安装包
+      </a>
+      <p class="dl-hash">SHA256 ${SITE.apk.sha256.slice(0, 24)}…</p>
+      <p class="dl-alt">苹果手机没有对应版本。如需在手机上查看，请直接用浏览器访问本站。</p>
+    </div>
+  </div>
+</section>
+
 <section id="policies" class="alt">
   <div class="wrap">
     <p class="eyebrow">资助项目</p>
@@ -1195,8 +1290,8 @@ function renderIndex() {
       <h2>周泽维</h2>
       <p>独立开发者。做这个项目的起因很简单：资助政策散落在十几个文件里，学生看不懂、辅导员也记不全。于是把它整理成一份可以随时查的结构化资料，先做成安卓应用，再搬到这里。</p>
       <p>项目完全公益：没有广告、没有内购、没有付费咨询，也不收集任何个人信息。如果你所在的学校也想做一份，欢迎直接拿去改。</p>
-      <p><a href="privacy.html">隐私政策</a>　·　联系开发者 <a href="tel:15736152295">15736152295</a></p>
-      <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">安卓安装包不公开下载，需要请通过上面的电话联系本人获取。</p>
+      <p><a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}</a>　·　<a href="privacy.html">隐私政策</a>　·　<a href="tel:15736152295">15736152295</a></p>
+      <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">安装包 ${SITE.apk.size}　·　仅支持安卓手机，不支持 iPhone / iPad</p>
     </div>
     <div>
       <dl>

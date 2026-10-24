@@ -117,7 +117,8 @@
 
   /* 首页导航：滚动时高亮当前区块 */
   var navLinks = [].slice.call(document.querySelectorAll('.nav-links a')).filter(function (a) {
-    return a.getAttribute('href').charAt(0) === '#';
+    var h = a.getAttribute('href');
+    return h.charAt(0) === '#' && h !== '#top';
   });
   if (navLinks.length && 'IntersectionObserver' in window) {
     var ids = navLinks.map(function (a) { return a.getAttribute('href').slice(1); });

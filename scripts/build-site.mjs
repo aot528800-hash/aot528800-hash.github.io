@@ -70,6 +70,44 @@ const POLICY_OVERRIDES = {
 
 const byId = (id) => policyCategories.find((p) => p.id === id)
 
+// 资助中心全年节奏（业务总表第 3 页）
+const RHYTHM_ROWS = BIZ_RHYTHM.slice(2).filter((r) => r[0] && !String(r[0]).startsWith('说明'))
+
+// 从「9月-10月」「7月、10月」「暑期」这类标签里取出月份
+function monthsOf(label) {
+  const text = String(label)
+  if (/暑期|暑假/.test(text) && !/\d/.test(text)) return [7, 8]
+  return [...new Set([...text.matchAll(/(\d{1,2})/g)].map((m) => Number(m[1])).filter((n) => n >= 1 && n <= 12))]
+}
+
+// 学年视图：9 月 → 次年 8 月
+const MONTH_ORDER = [9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8]
+
+function buildYearSchedule() {
+  const map = new Map(MONTH_ORDER.map((m) => [m, { month: m, student: [], staff: [] }]))
+  for (const s of annualSchedule) {
+    for (const m of monthsOf(s.month)) {
+      map.get(m)?.student.push(
+        ...s.events.map((e) => {
+          const d = String(e.desc || '').trim()
+          // 只有表情符号的说明（如「⚠️」）不单独占一行
+          const usable = /[\w\u4e00-\u9fa5]/.test(d) ? d : ''
+          return { title: e.title, desc: usable }
+        }),
+      )
+    }
+  }
+  for (const r of RHYTHM_ROWS) {
+    for (const m of monthsOf(r[0])) {
+      map.get(m)?.staff.push({ task: r[1], cat: r[2] || '', note: r[3] || '' })
+    }
+  }
+  return MONTH_ORDER.map((m) => {
+    const d = map.get(m)
+    return { ...d, total: d.student.length + d.staff.length }
+  })
+}
+
 for (const [id, patch] of Object.entries(POLICY_OVERRIDES)) {
   const target = policyCategories.find((p) => p.id === id)
   if (target) Object.assign(target, patch)
@@ -455,6 +493,66 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 .timeline .e div { font-size: 15px; }
 .timeline .e span { font-size: 12.5px; color: var(--text-2); }
 @media (max-width: 560px) { .timeline li { grid-template-columns: 76px 1fr; gap: 12px; } }
+
+/* ---------- 全年负荷 ---------- */
+.load-bars {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  gap: 8px; align-items: end;
+  height: 168px; margin: 8px 0 26px;
+  padding-bottom: 26px; position: relative;
+  border-bottom: 1px solid var(--line-2);
+}
+.lb-col {
+  display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+  height: 100%; position: relative;
+}
+.lb-col i {
+  display: block; width: 100%; max-width: 46px; border-radius: 6px 6px 0 0;
+  background: var(--line);
+  transition: background .2s ease;
+}
+.lb-col[data-level="mid"] i { background: #7fb2e8; }
+.lb-col[data-level="high"] i { background: var(--accent); }
+.lb-count { font-size: 11px; color: var(--text-3); margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+.lb-month { position: absolute; bottom: -22px; font-size: 11.5px; color: var(--text-3); white-space: nowrap; }
+.lb-col[data-level="high"] .lb-month { color: var(--text); font-weight: 600; }
+
+.month-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 1080px) { .month-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 680px) { .month-grid { grid-template-columns: 1fr; } }
+
+.month-card {
+  border: 1px solid var(--line-2); border-radius: var(--radius);
+  padding: 16px 18px; background: var(--card);
+}
+.month-card[data-level="high"] { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,113,227,.08); }
+.month-card header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 10px; margin-bottom: 12px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--line-2);
+}
+.month-card header b { font-size: 16px; letter-spacing: -.01em; }
+.month-total { font-size: 11.5px; color: var(--text-3); }
+.month-card[data-level="high"] .month-total { color: var(--accent); font-weight: 600; }
+
+.m-block + .m-block { margin-top: 12px; }
+.m-label { font-size: 11px; font-weight: 600; letter-spacing: .04em; margin-bottom: 6px; }
+.m-label--staff { color: #b25000; }
+.m-label--student { color: var(--text-3); }
+@media (prefers-color-scheme: dark) { .m-label--staff { color: #ffb340; } }
+
+.month-card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.month-card li {
+  font-size: 13px; line-height: 1.5; padding-left: 11px; position: relative;
+}
+.month-card li::before {
+  content: ""; position: absolute; left: 0; top: 7px;
+  width: 4px; height: 4px; border-radius: 50%; background: var(--line);
+}
+.month-card li span { display: block; font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+.month-card li.more { color: var(--text-3); font-style: normal; }
+.month-card li.more::before { background: transparent; }
+.m-empty { margin: 0; font-size: 12.5px; color: var(--text-3); }
 
 /* ---------- 详情页 ---------- */
 .page-head { padding: 56px 0 28px; border-bottom: 1px solid var(--line-2); }
@@ -1016,7 +1114,7 @@ const SITE_JS = `(function () {
     var spy = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
-        navLinks.forEach(function (a) { a.removeAttribute('aria-current'); });
+        [].slice.call(document.querySelectorAll('.nav-links a')).forEach(function (a) { a.removeAttribute('aria-current'); });
         var link = navLinks[ids.indexOf(e.target.id)];
         if (link) link.setAttribute('aria-current', 'page');
       });
@@ -1280,12 +1378,52 @@ function renderIndex() {
     </div>`,
   ).join('')
 
-  const timeline = annualSchedule
-    .map(
-      (m) => `<li><div class="m">${esc(m.month)}</div><div class="e">
-        ${m.events.map((e) => `<div>${esc(e.title)}${e.desc ? `<span>　${esc(e.desc)}</span>` : ''}</div>`).join('')}
-      </div></li>`,
-    )
+  const year = buildYearSchedule()
+  const peak = year.reduce((a, b) => (b.total > a.total ? b : a), year[0])
+  const totalNodes = year.reduce((n, m) => n + m.total, 0)
+
+  const loadBar = year
+    .map((m) => {
+      const h = Math.max(8, Math.round((m.total / Math.max(1, peak.total)) * 100))
+      const level = m.total >= peak.total * 0.75 ? 'high' : m.total >= peak.total * 0.4 ? 'mid' : 'low'
+      return `<div class="lb-col" data-level="${level}">
+        <span class="lb-count">${m.total}</span>
+        <i style="height:${h}%"></i>
+        <span class="lb-month">${m.month}月</span>
+      </div>`
+    })
+    .join('')
+
+  const monthCards = year
+    .map((m) => {
+      const level = m.total >= peak.total * 0.75 ? 'high' : m.total >= peak.total * 0.4 ? 'mid' : 'low'
+      const staffList = m.staff.length
+        ? `<ul>${m.staff
+            .map((s) => `<li>${esc(s.task)}${s.note ? `<span>${esc(s.note)}</span>` : ''}</li>`)
+            .join('')}</ul>`
+        : '<p class="m-empty">常规经办：按月发放、动态认定、随时受理</p>'
+      const st = m.student
+      const shown = st.slice(0, 4)
+      const studentList = st.length
+        ? `<ul>${shown.map((s) => `<li>${esc(s.title)}${s.desc ? `<span>${esc(s.desc)}</span>` : ''}</li>`).join('')}${
+            st.length > shown.length ? `<li class="more">另有 ${st.length - shown.length} 项</li>` : ''
+          }</ul>`
+        : '<p class="m-empty">本月无集中申请节点</p>'
+      return `<article class="month-card" data-level="${level}">
+        <header>
+          <b>${m.month} 月</b>
+          <span class="month-total">${m.total} 件事</span>
+        </header>
+        <div class="m-block">
+          <div class="m-label m-label--staff">资助中心</div>
+          ${staffList}
+        </div>
+        <div class="m-block">
+          <div class="m-label m-label--student">学生</div>
+          ${studentList}
+        </div>
+      </article>`
+    })
     .join('')
 
   const body = `
@@ -1392,9 +1530,10 @@ function renderIndex() {
 <section id="schedule">
   <div class="wrap">
     <p class="eyebrow">全年日程</p>
-    <h2>资助工作全年不停</h2>
-    <p class="lede">9 月是申请高峰，3 月是学费减免与校长荣誉奖的窗口。把这张表存下来，别错过时间。</p>
-    <ul class="timeline">${timeline}</ul>
+    <h2>一年 12 个月，没有淡季</h2>
+    <p class="lede">按学年排（9 月到次年 8 月）。全年 ${totalNodes} 个申请与经办节点叠加，最密集的是 <strong>${peak.month} 月</strong>——${peak.staff.length} 项中心经办任务与 ${peak.student.length} 项学生事项同时推进。</p>
+    <div class="load-bars">${loadBar}</div>
+    <div class="month-grid">${monthCards}</div>
   </div>
 </section>
 
@@ -1640,7 +1779,7 @@ function renderMapPage(mindmap) {
 function renderCenter() {
   const bizRows = BIZ_LIST.slice(2).filter((r) => r[0] && !String(r[0]).startsWith('说明'))
   const distRows = BIZ_DIST.slice(2).filter((r) => r[0] && !String(r[1]).startsWith('合计') && !String(r[0]).startsWith('说明'))
-  const rhythmRows = BIZ_RHYTHM.slice(2).filter((r) => r[0] && !String(r[0]).startsWith('说明'))
+  const rhythmRows = RHYTHM_ROWS
   const riskRows = BIZ_RISK.slice(2).filter((r) => r[0] && !String(r[0]).startsWith('说明'))
   const archiveRows = BIZ_ARCHIVE.slice(2).filter((r) => r[0] && !String(r[0]).startsWith('说明'))
 

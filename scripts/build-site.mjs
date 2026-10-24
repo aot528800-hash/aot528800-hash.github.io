@@ -22,6 +22,7 @@ const SITE = {
   phone: '15736152295',
   updated: '2026 年 10 月 24 日',
   verified: '2026 年 10 月 24 日',
+  verifiedShort: '2026-10-24',
   reviewBy: '2027 年 9 月',
   // 部署到 GitHub Pages 后把这里改成实际地址，例如 https://用户名.github.io/仓库名
   url: 'https://aot528800-hash.github.io',
@@ -191,7 +192,8 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 720px) { .nav-links { display: none; } }
 
 /* ---------- 通用 ---------- */
-section { padding: 104px 0; }
+section { padding: 112px 0; scroll-margin-top: 64px; }
+[id] { scroll-margin-top: 64px; }
 section.alt { background: var(--bg-alt); }
 @media (max-width: 720px) { section { padding: 64px 0; } }
 
@@ -205,8 +207,8 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 /* ---------- Hero ---------- */
 .hero { padding: clamp(72px, 12vw, 132px) 0 clamp(64px, 10vw, 108px); text-align: center; }
 .hero h1 {
-  font-size: clamp(40px, 7.2vw, 82px);
-  line-height: 1.04; letter-spacing: -0.035em; font-weight: 700;
+  font-size: clamp(42px, 7.4vw, 86px);
+  line-height: 1.03; letter-spacing: -0.04em; font-weight: 700;
   margin: 0 auto 20px; max-width: 18ch;
 }
 .hero p {
@@ -228,11 +230,13 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 
 .stats {
   display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 1px; background: var(--line-2);
-  border-radius: var(--radius); overflow: hidden;
   margin-top: 64px;
 }
-.stats > div { background: var(--card); padding: 26px 12px; text-align: center; }
+.stats > div {
+  padding: 4px 12px; text-align: center;
+  border-left: 1px solid var(--line-2);
+}
+.stats > div:first-child { border-left: none; }
 .stats b { display: block; font-size: clamp(24px, 3vw, 34px); letter-spacing: -0.03em; font-weight: 700; }
 .stats span { font-size: 12.5px; color: var(--text-2); }
 @media (max-width: 620px) { .stats { grid-template-columns: repeat(2, 1fr); } }
@@ -257,11 +261,17 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 .card h3 { margin: 2px 0 4px; font-size: 17px; letter-spacing: -0.02em; font-weight: 600; }
 .card p { margin: 0; font-size: 13.5px; line-height: 1.45; color: var(--text-2); }
 .card .badge {
-  display: inline-block; margin-top: 8px; padding: 2px 8px; border-radius: 6px;
-  font-size: 11px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 10px; padding: 3px 9px; border-radius: 999px;
+  background: var(--bg-alt); color: var(--text-2);
+  font-size: 11px; font-weight: 500;
 }
-.badge.n { color: var(--accent); background: rgba(0,113,227,.12); }
-.badge.s { color: var(--purple); background: rgba(175,82,222,.14); }
+.badge::before {
+  content: ""; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--line); flex: none;
+}
+.badge.n::before { background: #0071e3; }
+.badge.s::before { background: #8e44ad; }
 
 /* ---------- 搜索 ---------- */
 .search-bar { position: relative; max-width: 520px; margin: 0 0 32px; }
@@ -339,6 +349,7 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 .toc strong { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); margin-bottom: 10px; }
 .toc a { display: block; padding: 6px 0; color: var(--text-2); border-left: 2px solid transparent; padding-left: 12px; }
 .toc a:hover { color: var(--text); text-decoration: none; }
+.toc a:active { opacity: .6; }
 .toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
 
 .block { margin-bottom: 52px; scroll-margin-top: 76px; }
@@ -405,8 +416,8 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 .author dd { margin: 0; }
 
 /* ---------- 页脚 ---------- */
-footer { border-top: 1px solid var(--line-2); padding: 44px 0 64px; font-size: 13px; color: var(--text-3); }
-footer .wrap { display: grid; gap: 14px; }
+footer { border-top: 1px solid var(--line-2); padding: 48px 0 72px; font-size: 12.5px; line-height: 1.7; color: var(--text-3); }
+footer .wrap { display: grid; gap: 12px; max-width: 980px; }
 footer a { color: var(--text-2); }
 footer .links { display: flex; gap: 20px; flex-wrap: wrap; }
 
@@ -423,29 +434,25 @@ p { text-wrap: pretty; }
 
 .hero {
   position: relative;
-  background:
-    radial-gradient(1100px 520px at 50% -12%, rgba(0,113,227,.09), transparent 62%),
-    radial-gradient(760px 380px at 82% 8%, rgba(175,82,222,.07), transparent 60%);
+  background: radial-gradient(1000px 460px at 50% -18%, rgba(0,113,227,.06), transparent 62%);
 }
 @media (prefers-color-scheme: dark) {
-  .hero { background:
-    radial-gradient(1100px 520px at 50% -12%, rgba(41,151,255,.14), transparent 62%),
-    radial-gradient(760px 380px at 82% 8%, rgba(191,90,242,.1), transparent 60%); }
+  .hero { background: radial-gradient(1000px 460px at 50% -18%, rgba(41,151,255,.1), transparent 62%); }
 }
 
 .fresh-line {
   margin: 18px auto 0;
   font-size: 13px;
   color: var(--text-3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+  text-align: center;
 }
 .fresh-line::before {
   content: "";
+  display: inline-block;
   width: 6px; height: 6px; border-radius: 50%;
   background: var(--green);
+  margin-right: 7px;
+  vertical-align: 1px;
   box-shadow: 0 0 0 3px rgba(46,158,79,.15);
 }
 
@@ -462,8 +469,9 @@ p { text-wrap: pretty; }
   padding: 22px;
   border-radius: 20px;
 }
-.card .tile { width: 44px; height: 44px; border-radius: 12px; font-size: 22px; }
-.card:hover { box-shadow: 0 16px 40px rgba(0,0,0,.1); }
+.card .tile { width: 44px; height: 44px; border-radius: 12px; font-size: 22px; background: var(--bg-alt); }
+.card:hover { border-color: var(--line); box-shadow: 0 10px 28px rgba(0,0,0,.06); transform: translateY(-1px); }
+.card:active { transform: scale(.995); }
 
 .section-tight { padding-top: 72px; }
 
@@ -482,6 +490,7 @@ p { text-wrap: pretty; }
 .head-icon {
   flex: none; width: 56px; height: 56px; border-radius: 14px;
   display: grid; place-items: center; font-size: 30px;
+  background: var(--bg-alt);
 }
 .head-text { flex: 1; min-width: 0; }
 .head-row h1 { margin: 0 0 6px; }
@@ -540,6 +549,7 @@ p { text-wrap: pretty; }
 }
 .role-chip:hover { border-color: var(--accent); color: var(--text); }
 .role-chip.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.role-chip:active { transform: scale(.97); }
 .rc-icon { font-size: 15px; }
 .rc-name { max-width: 148px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rc-lv { font-size: 10.5px; opacity: .7; }
@@ -717,6 +727,24 @@ const SITE_JS = `(function () {
   stampPrintDate();
   window.addEventListener('beforeprint', stampPrintDate);
 
+  /* 首页导航：滚动时高亮当前区块 */
+  var navLinks = [].slice.call(document.querySelectorAll('.nav-links a')).filter(function (a) {
+    return a.getAttribute('href').charAt(0) === '#';
+  });
+  if (navLinks.length && 'IntersectionObserver' in window) {
+    var ids = navLinks.map(function (a) { return a.getAttribute('href').slice(1); });
+    var targets = ids.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        navLinks.forEach(function (a) { a.removeAttribute('aria-current'); });
+        var link = navLinks[ids.indexOf(e.target.id)];
+        if (link) link.setAttribute('aria-current', 'page');
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    targets.forEach(function (t) { spy.observe(t); });
+  }
+
   /* 入场动效 */
   if (!reduce && 'IntersectionObserver' in window) {
     var targets = [].slice.call(document.querySelectorAll('.card, .flow > li, .timeline > li, .author > div'));
@@ -743,20 +771,22 @@ const ICON_SHIELD = `<svg viewBox="0 0 200 200" aria-hidden="true">
   <path d="M100 130 Q94 121 94 116 Q94 110 100 110 Q106 110 106 116 Q106 121 100 130Z" fill="#f59e0b"/>
 </svg>`
 
-const iconSVG = (hex, emoji) => `<span class="tile" style="background:${hex}22">${emoji}</span>`
+const iconSVG = (emoji) => `<span class="tile">${emoji}</span>`
 
-const nav = (base, active) => {
+const nav = (base, active, home) => {
+  // 首页用页内锚点；其他页面必须回到 index.html 才能滚到对应区块
+  const jump = (id) => (home ? '#' + id : base + 'index.html#' + id)
   const link = (href, label, key) =>
-    `<a href="${base}${href}"${active === key ? ' aria-current="page"' : ''}>${label}</a>`
+    `<a href="${href}"${active === key ? ' aria-current="page"' : ''}>${label}</a>`
   return `<a class="skip" href="#main">跳到主要内容</a>
 <nav class="nav" aria-label="主导航">
   <div class="wrap">
     <a class="nav-brand" href="${base}index.html">${ICON_SHIELD}CQPUE资助政策</a>
     <div class="nav-links">
-      ${link('#policies', '资助项目', 'policies')}
-      ${link('#mindmap', '体系全景', 'mindmap')}
-      ${link('#schedule', '全年日程', 'schedule')}
-      ${link('#author', '关于作者', 'author')}
+      ${link(jump('policies'), '资助项目', 'policies')}
+      ${link(jump('mindmap'), '体系全景', 'mindmap')}
+      ${link(jump('schedule'), '全年日程', 'schedule')}
+      ${link(jump('author'), '关于作者', 'author')}
     </div>
   </div>
 </nav>`
@@ -788,7 +818,7 @@ const DEPS = `<div class="deps">
   <p>这些项目都要求先通过困难认定；认定等级同时决定助学金的档次。</p>
 </div>`
 
-const layout = ({ title, description, base = '', active, body, extraHead = '' }) => `<!doctype html>
+const layout = ({ title, description, base = '', active, home = false, body, extraHead = '' }) => `<!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
@@ -803,7 +833,7 @@ const layout = ({ title, description, base = '', active, body, extraHead = '' })
 ${extraHead}
 </head>
 <body>
-${nav(base, active)}
+${nav(base, active, home)}
 <main id="main">
 ${body}
 </main>
@@ -813,7 +843,7 @@ ${footer(base)}
 </html>`
 
 const card = (p, base) => `<a class="card" href="${base}policies/${p.id}.html">
-  ${iconSVG(p.color, p.icon)}
+  ${iconSVG(p.icon)}
   <div>
     <h3>${esc(p.title)}</h3>
     <p>${esc(p.subtitle)}</p>
@@ -937,7 +967,7 @@ function renderIndex() {
   <div class="wrap">
     <h1>把学生资助政策<br>讲清楚</h1>
     <p>21 个资助项目，从资格条件到材料清单，一站查完。</p>
-    <p class="fresh-line">内容核对于 ' + SITE.verified + ' · 建议 ' + SITE.reviewBy + ' 前复核</p>
+    <p class="fresh-line">内容核对于 ${SITE.verifiedShort} · 建议 ${SITE.reviewBy}前复核</p>
     <div class="hero-actions">
       <a class="btn" href="#policies">浏览全部项目</a>
       <a class="btn ghost" href="#mindmap">看体系全景</a>
@@ -1032,6 +1062,7 @@ function renderIndex() {
     title: `${SITE.name} · ${SITE.tagline}`,
     description: SITE.desc,
     active: 'policies',
+    home: true,
     body,
   })
 }
@@ -1112,7 +1143,7 @@ function renderPolicy(p, index) {
   <div class="page-head">
     <div class="crumb"><a href="../index.html">首页</a> / ${esc(p.tag)}</div>
     <div class="head-row">
-      <span class="head-icon" style="background:${esc(p.color)}22">${esc(p.icon)}</span>
+      <span class="head-icon">${esc(p.icon)}</span>
       <div class="head-text">
         <h1>${esc(p.title)}</h1>
         <p class="sub">${esc(p.subtitle)}</p>

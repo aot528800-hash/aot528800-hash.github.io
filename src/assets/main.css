@@ -69,8 +69,8 @@
   --gutter: 16px;
   --inset: 16px;
 
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  --safe-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
 
   --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
   --dur: 0.32s;

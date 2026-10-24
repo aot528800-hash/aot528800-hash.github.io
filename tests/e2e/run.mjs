@@ -157,7 +157,10 @@ try {
     const total = await ev(`document.querySelectorAll('.cell--policy').length`)
     const headers = await ev(`[...document.querySelectorAll('.group-header')].map(e=>e.textContent.trim())`)
     assert(total === 21, `条目数 ${total}，期望 21`)
-    assert(headers.includes('国家政策') && headers.includes('校内政策'), `分组缺失: ${headers}`)
+    assert(
+    headers.includes('国家政策') && headers.includes('校内政策') && headers.includes('社会捐资'),
+    `分组缺失: ${headers}`,
+  )
     return `已渲染 ${total} 条`
   })
 

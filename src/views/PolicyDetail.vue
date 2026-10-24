@@ -187,7 +187,10 @@ const tint = (hex) => (hex || '#8e8e93') + '24'
         <h1>{{ policy.title }}</h1>
         <p>{{ policy.subtitle }}</p>
         <div class="head-badges">
-          <span class="badge" :class="policy.tag === '国家政策' ? 'badge--national' : 'badge--school'">
+          <span
+            class="badge"
+            :class="policy.tag === '国家政策' ? 'badge--national' : policy.tag === '校内政策' ? 'badge--school' : 'badge--social'"
+          >
             {{ policy.tag }}
           </span>
         </div>

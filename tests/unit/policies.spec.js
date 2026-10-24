@@ -10,8 +10,9 @@ const REQUIRED_FIELDS = [
 describe('政策数据完整性', () => {
   it('条目数与分组数量符合预期', () => {
     expect(policyCategories).toHaveLength(21)
-    expect(policyCategories.filter((p) => p.tag === '国家政策')).toHaveLength(11)
+    expect(policyCategories.filter((p) => p.tag === '国家政策')).toHaveLength(10)
     expect(policyCategories.filter((p) => p.tag === '校内政策')).toHaveLength(10)
+    expect(policyCategories.filter((p) => p.tag === '社会捐资')).toHaveLength(1)
   })
 
   it('id 与标题都不重复', () => {
@@ -32,7 +33,7 @@ describe('政策数据完整性', () => {
 
   it('标签只有国家/校内两类', () => {
     for (const p of policyCategories) {
-      expect(['国家政策', '校内政策']).toContain(p.tag)
+      expect(['国家政策', '校内政策', '社会捐资']).toContain(p.tag)
     }
   })
 

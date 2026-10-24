@@ -60,6 +60,7 @@ watch(query, (v) => {
 
 const national = computed(() => policyCategories.filter((p) => p.tag === '国家政策'))
 const school = computed(() => policyCategories.filter((p) => p.tag === '校内政策'))
+const social = computed(() => policyCategories.filter((p) => p.tag === '社会捐资'))
 
 const stats = computed(() => {
   const levels = policyCategories.map((p) => p.approvalChain?.length || 0)
@@ -202,6 +203,29 @@ onBeforeUnmount(() => {
 
       <div class="group-footer">校内奖助办法对本专科适用同一套标准。</div>
 
+      <template v-if="social.length">
+        <div class="group-header">社会捐资</div>
+        <div class="group">
+          <button
+            v-for="cat in social"
+            :key="cat.id"
+            class="cell cell--tappable cell--policy"
+            @click="goTo(cat.id)"
+          >
+            <span class="tile" :style="{ background: tint(cat.color) }">{{ cat.icon }}</span>
+            <span class="cell-body">
+              <span class="cell-title">{{ cat.title }}</span>
+              <span class="cell-subtitle">{{ cat.subtitle }}</span>
+            </span>
+            <svg class="chev" viewBox="0 0 8 13" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M1.5 1.5 6 6.5l-4.5 5" />
+            </svg>
+          </button>
+        </div>
+        <div class="group-footer">由中国教育发展基金会设立、学校组织评审，非财政拨款。</div>
+      </template>
+
       <div class="group-header">关于</div>
       <div class="group">
         <a class="cell cell--tappable" href="tel:02361065934">
@@ -283,8 +307,11 @@ onBeforeUnmount(() => {
             <span class="cell-title">{{ cat.title }}</span>
             <span class="cell-subtitle">{{ cat.subtitle }}</span>
           </span>
-          <span class="badge" :class="cat.tag === '国家政策' ? 'badge--national' : 'badge--school'">
-            {{ cat.tag === '国家政策' ? '国家' : '校内' }}
+          <span
+            class="badge"
+            :class="cat.tag === '国家政策' ? 'badge--national' : cat.tag === '校内政策' ? 'badge--school' : 'badge--social'"
+          >
+            {{ cat.tag === '国家政策' ? '国家' : cat.tag === '校内政策' ? '校内' : '社会' }}
           </span>
         </button>
       </div>

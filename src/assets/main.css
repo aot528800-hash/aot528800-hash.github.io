@@ -454,6 +454,11 @@ a {
   background: var(--purple-tint);
 }
 
+.badge--social {
+  color: #b25000;
+  background: rgba(255, 149, 0, 0.14);
+}
+
 .badge--required {
   color: var(--red);
   background: var(--red-tint);

@@ -40,12 +40,12 @@ const SITE = {
     dir: 'assets/wechat',
   },
   apk: {
-    version: '0.3.1',
-    versionCode: 13,
+    version: '0.3.2',
+    versionCode: 14,
     size: '3.1 MB',
     platform: 'Android 7.0 及以上',
     url: 'https://github.com/aot528800-hash/aot528800-hash.github.io/releases/latest/download/cqpue-aid.apk',
-    sha256: 'AD3F1EADFB397E7B389DF00EBCA0CCAE1D6AC0CF67AB5CAA3501AF5E06473517',
+    sha256: '0FF84F95A829985F8623E35D92E5D5E41841FB051C25265A0AAC374C2B9C07EF',
     contact: '15736152295',
   },
 }
@@ -61,8 +61,6 @@ const esc = (s) =>
 // 依据：学生资助管理中心业务全景总表 将其归入「四、校内及社会奖助学金」，依据为「捐资方协议」
 const POLICY_OVERRIDES = {
   'zhumeng-scholarship': {
-    tag: '校内政策',
-    tagNote: '社会捐资',
     subtitle: '4000元/年 · 中国教育发展基金会项目',
   },
   'president-honor': {
@@ -79,6 +77,7 @@ for (const [id, patch] of Object.entries(POLICY_OVERRIDES)) {
 // 覆盖后重新计算分类，避免首页统计与卡片分组不一致
 const CN_COUNT = policyCategories.filter((p) => p.tag === '国家政策').length
 const SCH_COUNT = policyCategories.filter((p) => p.tag === '校内政策').length
+const SOC_COUNT = policyCategories.filter((p) => p.tag === '社会捐资').length
 
 /* ------------------------------------------------------------------ 信息架构 */
 
@@ -90,8 +89,13 @@ const GROUPS = [
   },
   {
     title: '校内政策',
-    desc: '学校自筹与社会捐资设立，按学年与学期评定。其中学习单项奖学金包含学习优胜、学习进步、交换生专项三项，已分别列出。',
+    desc: '学校自筹资金设立，按学年与学期评定。其中学习单项奖学金包含学习优胜、学习进步、交换生专项三项，已分别列出。',
     items: policyCategories.filter((p) => p.tag === '校内政策'),
+  },
+  {
+    title: '社会捐资',
+    desc: '由企业或基金会捐资设立、学校组织评审，非财政拨款。标准与名额以捐资方当年协议和学校通知为准。',
+    items: policyCategories.filter((p) => p.tag === '社会捐资'),
   },
 ]
 
@@ -113,10 +117,14 @@ const MINDMAP = [
     color: '#af52de',
     groups: [
       { label: '奖学金', ids: ['president-honor', 'comprehensive-scholarship', 'excellence-scholarship', 'progress-scholarship', 'exchange-scholarship'] },
-      { label: '社会捐资', ids: ['zhumeng-scholarship'] },
       { label: '减免与补助', ids: ['tuition-waiver', 'freshman-subsidy', 'temporary-subsidy', 'holiday-subsidy'] },
       { label: '勤工助学', ids: ['work-study'] },
     ],
+  },
+  {
+    label: '社会捐资',
+    color: '#f59e0b',
+    groups: [{ label: '基金会项目', ids: ['zhumeng-scholarship'] }],
   },
 ]
 
@@ -303,7 +311,7 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 .btn.ghost:hover { background: var(--bg-alt); }
 
 .stats {
-  display: grid; grid-template-columns: repeat(4, 1fr);
+  display: grid; grid-template-columns: repeat(5, 1fr);
   margin-top: 64px;
 }
 .stats > div {
@@ -313,7 +321,7 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 .stats > div:first-child { border-left: none; }
 .stats b { display: block; font-size: clamp(28px, 3.4vw, 40px); letter-spacing: -0.035em; font-weight: 700; }
 .stats span { font-size: 12.5px; color: var(--text-2); }
-@media (max-width: 620px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 720px) { .stats { grid-template-columns: repeat(3, 1fr); } .stats > div:nth-child(3n+1) { border-left: none; } }
 
 /* ---------- 卡片 ---------- */
 .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
@@ -346,6 +354,7 @@ h2 { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.12; letter-spacing: -0.
 }
 .badge.n::before { background: #0071e3; }
 .badge.s::before { background: #8e44ad; }
+.badge.soc::before { background: #f59e0b; }
 
 /* ---------- 下载 ---------- */
 .dl-section { padding: 96px 0; }
@@ -1164,7 +1173,7 @@ const card = (p, base) => `<a class="card" href="${base}policies/${p.id}.html">
   <div>
     <h3>${esc(p.title)}</h3>
     <p>${esc(p.subtitle)}</p>
-    <span class="badge ${p.tag === '国家政策' ? 'n' : 's'}">${esc(p.tag)}${p.tagNote ? ' · ' + esc(p.tagNote) : ''}</span>
+    <span class="badge ${p.tag === '国家政策' ? 'n' : p.tag === '校内政策' ? 's' : 'soc'}">${esc(p.tag)}</span>
   </div>
 </a>`
 
@@ -1293,6 +1302,7 @@ function renderIndex() {
       <div><b>21</b><span>资助项目</span></div>
       <div><b>${CN_COUNT}</b><span>国家政策</span></div>
       <div><b>${SCH_COUNT}</b><span>校内政策</span></div>
+      <div><b>${SOC_COUNT}</b><span>社会捐资</span></div>
       <div><b>13</b><span>政策依据</span></div>
     </div>
   </div>

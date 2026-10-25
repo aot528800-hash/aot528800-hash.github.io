@@ -1831,8 +1831,8 @@ function renderIndex() {
 <section id="schedule">
   <div class="wrap">
     <p class="eyebrow">全年日程</p>
-    <h2>学生只碰到一半：${BIZ_ROWS_ALL.length} 项业务里，${INTERNAL_BIZ_COUNT} 项他们从没见过</h2>
-    <p class="lede">学生在日历上能看到的是 40 多个申请节点。中心这边 ${BIZ_ROWS_ALL.length} 项业务，有 ${INTERNAL_BIZ_COUNT} 项跟学生没有交接：迎巡视审计、重复发放核查、系统数据报送、材料归档、自查报告。最密集的是 <strong>${peak.month} 月</strong>，${peak.student.length} 项学生事项、${(peak.projects || []).length} 个项目同时在办。</p>
+    <h2>${BIZ_ROWS_ALL.length} 项业务：${VISIBLE_BIZ_COUNT} 项对接学生，${INTERNAL_BIZ_COUNT} 项支撑运行</h2>
+    <p class="lede">学生日历上的申请节点集中在 9 月和 10 月。中心的 ${BIZ_ROWS_ALL.length} 项业务里，${VISIBLE_BIZ_COUNT} 项与学生直接对接，${INTERNAL_BIZ_COUNT} 项用于资金分配、监督检查、系统报送和材料归档。最忙的是 <strong>${peak.month} 月</strong>：${peak.student.length} 项学生事项，同时在办 ${(peak.projects || []).length} 个项目。</p>
     <div class="load-bars">${loadBar}</div>
     <div class="month-grid">${monthCards}</div>
     <div class="payout">
@@ -1848,8 +1848,8 @@ function renderIndex() {
     </div>
 
     <div class="analysis">
-      <h3>学生的日历，量不出中心的工作量</h3>
-      <p class="an-lede">学生的申请集中在 9 月和 10 月。中心这边，18 项常态业务全年每月都在跑，24 项业务学生一次也不会接触。三条线不在同一个节奏上。</p>
+      <h3>两套节奏：学生按通知，中心按年度</h3>
+      <p class="an-lede">学生的申请集中在 9 月和 10 月。中心的 18 项常态业务全年每月都在做，另有 24 项业务不对接学生。两类工作不在同一个节奏上。</p>
 
       <div class="tracks">
         <div class="track-row">
@@ -1879,7 +1879,7 @@ function renderIndex() {
         <div class="an-card">
           <b>${top2Student} / ${STUDENT_TOTAL}</b>
           <span>9、10 两个月占学生事项的 ${Math.round((top2Student / STUDENT_TOTAL) * 100)}%</span>
-          <p>学生的事有淡旺季，10 月最多，1 月几乎没有。错过这两个月，剩下的基本是补办。</p>
+          <p>学生的事有淡旺季，10 月最多，1 月几乎没有。错过这段时间，多数只能等下一轮。</p>
         </div>
         <div class="an-card">
           <b>${routine.length} 项</b>
@@ -1888,12 +1888,12 @@ function renderIndex() {
         </div>
         <div class="an-card">
           <b>${INTERNAL_BIZ_COUNT} 项</b>
-          <span>学生接触不到的业务</span>
-          <p>迎巡视审计、重复发放核查、系统数据报送、材料归档、自查报告。占全部业务的 ${Math.round((INTERNAL_BIZ_COUNT / BIZ_ROWS_ALL.length) * 100)}%。</p>
+          <span>不对接学生的业务</span>
+          <p>资金分配、监督检查、系统报送、材料归档。占全部业务的 ${Math.round((INTERNAL_BIZ_COUNT / BIZ_ROWS_ALL.length) * 100)}%。</p>
         </div>
       </div>
 
-      <p class="an-close">所以按申请通知的节奏看资助工作，只能看见一半。另一半在审计、核查、报送和归档里，没有节点，也没有截止日期，但每天都要做。<a class="an-link" href="center.html#workload">看完整的工作量说明 →</a></p>
+      <p class="an-close">申请通知只是资助工作的一个侧面。审计、核查、报送和归档不写在通知里，但同样占用时间。<a class="an-link" href="center.html#workload">看完整的工作量说明 →</a></p>
     </div>
   </div>
 </section>
@@ -2182,7 +2182,7 @@ function renderCenter() {
       (g, i) => `<div class="biz-group" id="cat-${i}" data-cat="${i}" data-vis="${g.internal ? 'internal' : 'visible'}">
       <h3 class="biz-group-head">${esc(g.name)}
         <span>${g.items.length} 项 · ${g.items.reduce((n, it) => n + String(it.desc || '').split(/→|;|；/).filter((x) => x.trim()).length, 0)} 个环节</span>
-        <em class="vis-tag ${g.internal ? 'is-internal' : 'is-visible'}">${g.internal ? '学生接触不到' : '学生可见'}</em>
+        <em class="vis-tag ${g.internal ? 'is-internal' : 'is-visible'}">${g.internal ? '不对接学生' : '对接学生'}</em>
       </h3>
       ${g.items
         .map((it) => {
@@ -2316,11 +2316,11 @@ function renderCenter() {
 
   <div class="block" id="c2">
     <h2><span class="num">02</span>${bizRows.length} 项业务清单</h2>
-    <p class="block-lede">${visibleCount} 项学生能看到——申请、领取、认定。另外 <strong>${internalCount} 项学生一次也不会接触</strong>：迎巡视审计、重复发放核查、系统数据报送、材料归档、自查报告。这些同样要人做，只是不出现在学生日历上。</p>
+    <p class="block-lede">${visibleCount} 项与学生直接对接：申请、领取、认定。另外 ${internalCount} 项不对接学生，用于资金分配、监督检查、系统报送和材料归档。这些不出现在学生日历上，但同样占用时间。</p>
     <div class="vis-chips" role="group" aria-label="按接触范围筛选">
       <button class="vis-chip is-on" data-vis="all">全部 <span>${bizRows.length}</span></button>
-      <button class="vis-chip" data-vis="visible">学生可见 <span>${visibleCount}</span></button>
-      <button class="vis-chip" data-vis="internal">内部经办 <span>${internalCount}</span></button>
+      <button class="vis-chip" data-vis="visible">对接学生 <span>${visibleCount}</span></button>
+      <button class="vis-chip" data-vis="internal">不对接学生 <span>${internalCount}</span></button>
     </div>
     <div class="cat-chips">${chips}</div>
     <div class="biz-wrap">${groupHtml}</div>

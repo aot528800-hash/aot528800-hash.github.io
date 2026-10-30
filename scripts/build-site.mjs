@@ -826,6 +826,21 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .contact-id strong { color: var(--text); font-weight: 600; }
 
 /* IMA 知识库区块：宽屏左右排布，窄屏上下堆叠 */
+/* 首页资料库入口带 */
+.ima-section { padding: clamp(16px, 3vw, 32px) 0 clamp(56px, 8vw, 96px); }
+.ima-band {
+  display: grid; grid-template-columns: 1fr auto; gap: clamp(24px, 4vw, 48px);
+  align-items: center; padding: clamp(24px, 3.4vw, 40px);
+  border: 1px solid var(--line-2); border-radius: 24px; background: var(--card);
+}
+.ima-band h2 { margin: 0 0 14px; }
+.ima-band p { margin: 0 0 12px; max-width: 56ch; font-size: 15px; line-height: 1.75; color: var(--text-2); }
+.ima-band .ima-stat { margin-bottom: 16px; }
+/* 入口带内的二维码不再套一层卡片边框，避免双层框 */
+.ima-band .qr-card img { border: none; background: transparent; padding: 0; }
+.ima-band .qr-card figcaption { margin-top: 12px; }
+@media (max-width: 820px) { .ima-band { grid-template-columns: 1fr; } }
+@media (max-width: 820px) { .ima-band .qr-row { justify-content: center; } }
 .ima-wrap { margin-top: 56px; }
 .ima-block {
   display: grid; grid-template-columns: 1fr 240px; gap: 48px; align-items: center;
@@ -1433,11 +1448,11 @@ const nav = (base, active, home) => {
     <a class="nav-brand" href="${base}index.html">${ICON_SHIELD}CQPUE资助政策</a>
     <div class="nav-links">
       ${link(home ? '#top' : base + 'index.html', '首页', 'home')}
+      ${link(jump('ima'), '资料库', 'ima')}
       ${link(jump('policies'), '资助项目', 'policies')}
       ${link(jump('mindmap'), '体系全景', 'mindmap')}
       ${link(jump('schedule'), '全年日程', 'schedule')}
       ${link(base + 'center.html', '资助中心', 'center')}
-      ${link(jump('ima'), '资料库', 'ima')}
       ${link(jump('author'), '关于作者', 'author')}
     </div>
     <a class="nav-cta" href="${SITE.apk.url}" title="仅支持安卓手机">
@@ -1505,19 +1520,23 @@ const imaCards = () =>
     )
     .join('')
 
-// 首页底部的资料库入口：图片放进 assets/ima/ 才渲染（不放假二维码）
-function imaBlock() {
+// 首页资料库入口带：放在下载区之后，独立成区块（与导航顺序一致）
+function imaSection() {
   if (!imaFiles.length) return ''
-  return `<div class="ima-block" id="ima">
-    <div class="ima-text">
-      <p class="eyebrow">资料库</p>
-      <h3>加入${IMA_NAME}</h3>
-      <p class="ima-stat">${IMA_STAT}</p>
-      <p>收了全国${IMA_SCHOOLS}高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。可以按关键词检索，也可以直接向它提问。</p>
-      <p class="ima-note">微信扫码即可加入，不需要申请。　<a href="ima.html">打开单独页面 →</a></p>
+  return `<section id="ima" class="ima-section">
+  <div class="wrap">
+    <div class="ima-band">
+      <div class="ima-text">
+        <p class="eyebrow">资料库</p>
+        <h2>${IMA_NAME}</h2>
+        <p class="ima-stat">${IMA_STAT}</p>
+        <p>收了全国${IMA_SCHOOLS}高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。想查某个项目怎么写、别的学校怎么表述，可以直接问它。</p>
+        <p class="ima-note">微信扫码即可加入，不需要申请。　<a href="ima.html">查看完整介绍 →</a></p>
+      </div>
+      <div class="qr-row">${imaCards()}</div>
     </div>
-    <div class="qr-row">${imaCards()}</div>
-  </div>`
+  </div>
+</section>`
 }
 
 // 独立分享页：/ima.html，适合直接发给别人
@@ -1906,6 +1925,8 @@ function renderIndex() {
   </div>
 </section>
 
+${imaSection()}
+
 <section id="policies" class="alt">
   <div class="wrap">
     <p class="eyebrow">资助项目</p>
@@ -2071,9 +2092,6 @@ function renderIndex() {
       </dl>
       ${contactBlock()}
     </div>
-  </div>
-  <div class="wrap ima-wrap">
-    ${imaBlock()}
   </div>
 </section>
 `

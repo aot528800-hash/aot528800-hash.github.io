@@ -39,6 +39,12 @@ const SITE = {
     // 文件名含 dev / 开发 的标为「加我微信」，含 mp / 公众号 的标为「公众号」
     dir: 'assets/wechat',
   },
+  ima: {
+    // IMA 知识库二维码：放进 assets/ima/ 即可自动出现在首页「资料库」区块
+    dir: 'assets/ima',
+    title: 'IMA 知识库',
+    hint: '微信扫码加入',
+  },
   apk: {
     version: '0.3.3',
     versionCode: 15,
@@ -807,8 +813,35 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .qr-card figcaption { margin-top: 10px; display: grid; gap: 2px; }
 .qr-card figcaption strong { font-size: 13.5px; font-weight: 600; }
 .qr-card figcaption span { font-size: 12px; color: var(--text-3); }
+/* IMA 知识库卡片：竖版长图，按比例缩放，不裁切 */
+.qr-card.qr-tall img { width: 240px; height: auto; }
 .contact-id { margin: 16px 0 0; font-size: 14px; color: var(--text-2); }
 .contact-id strong { color: var(--text); font-weight: 600; }
+
+/* IMA 知识库区块：宽屏左右排布，窄屏上下堆叠 */
+.ima-wrap { margin-top: 56px; }
+.ima-block {
+  display: grid; grid-template-columns: 1fr 240px; gap: 48px; align-items: center;
+  padding-top: 28px; border-top: 1px solid var(--line-2);
+}
+.ima-block h3 { font-size: 22px; letter-spacing: -.02em; margin: 0 0 12px; }
+.ima-block p { margin: 0 0 10px; max-width: 56ch; font-size: 15px; line-height: 1.75; color: var(--text-2); }
+.ima-note { margin-top: 4px !important; font-size: 12.5px !important; color: var(--text-3) !important; }
+@media (max-width: 820px) { .ima-block { grid-template-columns: 1fr; gap: 24px; align-items: start; } }
+
+/* 独立分享页 /ima.html */
+.ima-page { max-width: 980px; padding: 72px 0 96px; }
+.ima-page h1 { margin: 0 0 14px; font-size: clamp(30px, 4.4vw, 42px); letter-spacing: -.03em; }
+.ima-page .lede { max-width: 62ch; margin-bottom: 36px; }
+.ima-steps { display: grid; gap: 14px; margin: 0 0 16px; padding: 0; list-style: none; }
+.ima-steps li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; line-height: 1.65; color: var(--text-2); }
+.ima-steps li span {
+  flex: none; width: 22px; height: 22px; margin-top: 2px; border-radius: 50%;
+  background: var(--bg-alt); color: var(--text); font-size: 12px; font-weight: 700;
+  display: grid; place-items: center;
+}
+.ima-back { margin-top: 40px; font-size: 14px; }
+.ima-page .ima-block { align-items: start; }
 
 @media print { .contact { break-inside: avoid; } }
 
@@ -1392,6 +1425,7 @@ const nav = (base, active, home) => {
       ${link(jump('mindmap'), '体系全景', 'mindmap')}
       ${link(jump('schedule'), '全年日程', 'schedule')}
       ${link(base + 'center.html', '资助中心', 'center')}
+      ${link(jump('ima'), '资料库', 'ima')}
       ${link(jump('author'), '关于作者', 'author')}
     </div>
     <a class="nav-cta" href="${SITE.apk.url}" title="仅支持安卓手机">
@@ -1446,6 +1480,72 @@ function contactBlock() {
     <div class="qr-row">${cards}</div>
     ${hasMp ? '' : `<p class="contact-id">微信：<strong>${esc(SITE.wechat.id)}</strong></p>`}
   </div>`
+}
+
+// IMA 知识库二维码卡片（首页与独立页共用）
+const imaCards = () =>
+  imaFiles
+    .map(
+      (name) => `<figure class="qr-card qr-tall">
+        <img src="assets/ima/${encodeURI(name)}" alt="${esc(SITE.ima.title)}二维码" width="240" loading="lazy">
+        <figcaption><strong>${esc(SITE.ima.title)}</strong><span>${esc(SITE.ima.hint)}</span></figcaption>
+      </figure>`,
+    )
+    .join('')
+
+// 首页底部的资料库入口：图片放进 assets/ima/ 才渲染（不放假二维码）
+function imaBlock() {
+  if (!imaFiles.length) return ''
+  return `<div class="ima-block" id="ima">
+    <div class="ima-text">
+      <p class="eyebrow">资料库</p>
+      <h3>加入 IMA 知识库</h3>
+      <p>资助政策的原文、整理稿和历年通知都放在这个知识库里，可以在 IMA 里按关键词检索，也能直接向它提问。内容与本页同步更新。</p>
+      <p class="ima-note">微信扫码即可加入，不需要申请。　<a href="ima.html">打开单独页面 →</a></p>
+    </div>
+    <div class="qr-row">${imaCards()}</div>
+  </div>`
+}
+
+// 独立分享页：/ima.html，适合直接发给别人
+function renderIma() {
+  const body = `
+<div class="wrap ima-page">
+  <p class="eyebrow">资料库</p>
+  <h1>加入 IMA 知识库</h1>
+  <p class="lede">把重庆工程职业技术大学的资助政策原文、整理稿和历年通知收在一个知识库里，加入后可以按关键词检索，也可以直接向它提问。</p>
+
+  <div class="ima-block">
+    <div class="ima-text">
+      <ol class="ima-steps">
+        <li><span>1</span>用微信扫描右侧二维码</li>
+        <li><span>2</span>在 IMA 里确认「加入知识库」</li>
+        <li><span>3</span>之后搜「奖学金」「助学金」「困难认定」等关键词，或直接提问</li>
+      </ol>
+      <p class="ima-note">扫码即可加入，不需要申请。内容与本页同步更新。</p>
+    </div>
+    ${imaFiles.length ? `<div class="qr-row">${imaCards()}</div>` : ''}
+  </div>
+
+  <p class="ima-back"><a href="index.html">← 返回资助政策首页</a></p>
+</div>`
+
+  const extraHead = [
+    `<meta property="og:type" content="website">`,
+    `<meta property="og:title" content="加入 IMA 知识库 · ${esc(SITE.name)}">`,
+    `<meta property="og:description" content="重庆工程职业技术大学资助政策知识库，微信扫码加入，可按关键词检索或直接提问。">`,
+    SITE.url ? `<meta property="og:image" content="${SITE.url}/assets/ima/${encodeURI(imaFiles[0] || '')}">` : '',
+  ]
+    .filter(Boolean)
+    .join('\n')
+
+  return layout({
+    title: `加入 IMA 知识库 · ${SITE.name}`,
+    description: '重庆工程职业技术大学资助政策知识库，微信扫码加入，可按关键词检索或直接提问。',
+    active: 'ima',
+    body,
+    extraHead,
+  })
 }
 
 const DEPS = `<div class="deps">
@@ -1950,6 +2050,9 @@ function renderIndex() {
       ${contactBlock()}
     </div>
   </div>
+  <div class="wrap ima-wrap">
+    ${imaBlock()}
+  </div>
 </section>
 `
 
@@ -2414,6 +2517,21 @@ if (existsSync(wechatSrc)) {
 }
 wechatFiles.sort()
 
+// IMA 知识库二维码：同样有就复制，没有就跳过
+const imaSrc = SITE.ima.dir
+const imaFiles = []
+if (existsSync(imaSrc)) {
+  for (const name of readdirSync(imaSrc)) {
+    if (!/\.(png|jpe?g|webp|svg)$/i.test(name)) continue
+    const from = join(imaSrc, name)
+    const to = join(OUT, 'assets/ima', name)
+    mkdirSync(dirname(to), { recursive: true })
+    copyFileSync(from, to)
+    imaFiles.push(name)
+  }
+}
+imaFiles.sort()
+
 writeFileSync(join(OUT, 'assets/site.css'), CSS, 'utf8')
 writeFileSync(join(OUT, 'assets/icon.svg'), ICON_SHIELD, 'utf8')
 writeFileSync(join(OUT, 'assets/site.js'), SITE_JS, 'utf8')
@@ -2423,12 +2541,13 @@ writeFileSync(join(OUT, '404.html'), render404(), 'utf8')
 writeFileSync(join(OUT, 'privacy.html'), renderPrivacy(), 'utf8')
 writeFileSync(join(OUT, 'map.html'), renderMapPage(buildMindmap()), 'utf8')
 writeFileSync(join(OUT, 'center.html'), renderCenter(), 'utf8')
+writeFileSync(join(OUT, 'ima.html'), renderIma(), 'utf8')
 
 policyCategories.forEach((p, i) => {
   writeFileSync(join(OUT, 'policies', `${p.id}.html`), renderPolicy(p, i), 'utf8')
 })
 
-const pages = ['index.html', 'map.html', 'center.html', 'privacy.html'].concat(
+const pages = ['index.html', 'map.html', 'center.html', 'ima.html', 'privacy.html'].concat(
   policyCategories.map((p) => `policies/${p.id}.html`),
 )
 
@@ -2450,4 +2569,4 @@ ${pages.map((u) => `  <url><loc>${SITE.url}/${u}</loc></url>`).join('\n')}
 }
 
 console.log(`站点已生成：${OUT}/`)
-console.log(`  首页 1 · 政策页 ${policyCategories.length} · 导图页 1 · 资助中心 1 · 隐私 1 · 404 1`)
+console.log(`  首页 1 · 政策页 ${policyCategories.length} · 导图页 1 · 资助中心 1 · 资料库 1 · 隐私 1 · 404 1`)

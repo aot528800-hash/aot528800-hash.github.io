@@ -568,8 +568,35 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .qr-card figcaption { margin-top: 10px; display: grid; gap: 2px; }
 .qr-card figcaption strong { font-size: 13.5px; font-weight: 600; }
 .qr-card figcaption span { font-size: 12px; color: var(--text-3); }
+/* IMA 知识库卡片：竖版长图，按比例缩放，不裁切 */
+.qr-card.qr-tall img { width: 240px; height: auto; }
 .contact-id { margin: 16px 0 0; font-size: 14px; color: var(--text-2); }
 .contact-id strong { color: var(--text); font-weight: 600; }
+
+/* IMA 知识库区块：宽屏左右排布，窄屏上下堆叠 */
+.ima-wrap { margin-top: 56px; }
+.ima-block {
+  display: grid; grid-template-columns: 1fr 240px; gap: 48px; align-items: center;
+  padding-top: 28px; border-top: 1px solid var(--line-2);
+}
+.ima-block h3 { font-size: 22px; letter-spacing: -.02em; margin: 0 0 12px; }
+.ima-block p { margin: 0 0 10px; max-width: 56ch; font-size: 15px; line-height: 1.75; color: var(--text-2); }
+.ima-note { margin-top: 4px !important; font-size: 12.5px !important; color: var(--text-3) !important; }
+@media (max-width: 820px) { .ima-block { grid-template-columns: 1fr; gap: 24px; align-items: start; } }
+
+/* 独立分享页 /ima.html */
+.ima-page { max-width: 980px; padding: 72px 0 96px; }
+.ima-page h1 { margin: 0 0 14px; font-size: clamp(30px, 4.4vw, 42px); letter-spacing: -.03em; }
+.ima-page .lede { max-width: 62ch; margin-bottom: 36px; }
+.ima-steps { display: grid; gap: 14px; margin: 0 0 16px; padding: 0; list-style: none; }
+.ima-steps li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; line-height: 1.65; color: var(--text-2); }
+.ima-steps li span {
+  flex: none; width: 22px; height: 22px; margin-top: 2px; border-radius: 50%;
+  background: var(--bg-alt); color: var(--text); font-size: 12px; font-weight: 700;
+  display: grid; place-items: center;
+}
+.ima-back { margin-top: 40px; font-size: 14px; }
+.ima-page .ima-block { align-items: start; }
 
 @media print { .contact { break-inside: avoid; } }
 

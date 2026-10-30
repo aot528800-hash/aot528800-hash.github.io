@@ -378,7 +378,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .nav-cta.ghost:hover { background: var(--bg-alt); }
 }
 @media (max-width: 1100px) { .nav-cta { display: none; } .nav-links { gap: 16px; } }
-@media (max-width: 720px) { .nav-links { display: none; } }
+@media (max-width: 560px) { .nav-links { display: none; } }
 
 /* ---------- 适用范围提示条 ---------- */
 .scope-bar {
@@ -1563,20 +1563,11 @@ const nav = (base, active, home) => {
   <div class="wrap">
     <a class="nav-brand" href="${base}index.html">${ICON_SHIELD}CQPUE资助政策</a>
     <div class="nav-links">
-      ${link(home ? '#top' : base + 'index.html', '首页', 'home')}
       ${link(jump('policies'), '资助项目', 'policies')}
-      ${link(jump('mindmap'), '体系全景', 'mindmap')}
-      ${link(jump('schedule'), '全年日程', 'schedule')}
+      ${link(base + 'map.html', '体系全景', 'mindmap')}
       ${link(base + 'center.html', '资助中心', 'center')}
-      ${link(jump('channels'), '站点导览', 'channels')}
-      ${link(jump('ima'), '资料库', 'ima')}
-      ${link(jump('author'), '关于作者', 'author')}
+      ${link(base + 'ima.html', '大学生资助数据库', 'ima')}
     </div>
-    <a class="nav-cta" href="${base}ima.html">加入 IMA 知识库</a>
-    <a class="nav-cta ghost" href="${SITE.apk.url}" title="仅支持安卓手机">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 9.5 19 7.1a.4.4 0 0 0-.7-.4l-1.4 2.4a8.4 8.4 0 0 0-3.9-.9 8.4 8.4 0 0 0-3.9.9L7.7 6.7a.4.4 0 0 0-.7.4l1.4 2.4A7 7 0 0 0 5 15h14a7 7 0 0 0-3.4-5.5ZM9 12.6a.8.8 0 1 1 0-1.6.8.8 0 0 1 0 1.6Zm6 0a.8.8 0 1 1 0-1.6.8.8 0 0 1 0 1.6ZM5 16h14v3.5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1V18h-4v1.5a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V16Z"/></svg>
-      下载安卓版
-    </a>
   </div>
 </nav>`
 }
@@ -1584,11 +1575,14 @@ const nav = (base, active, home) => {
 const footer = (base) => `<footer>
   <div class="wrap">
     <div class="links">
-      <a href="${base}index.html">首页</a>
-      <a href="${base}center.html">资助中心业务全景</a>
+      <a href="${base}index.html#policies">资助项目</a>
+      <a href="${base}map.html">体系全景</a>
+      <a href="${base}index.html#schedule">全年日程</a>
+      <a href="${base}center.html">资助中心 · 业务全景</a>
+      <a href="${base}ima.html">大学生资助数据库</a>
       <a href="${base}privacy.html">隐私政策</a>
+      <a href="${base}index.html#author">关于作者</a>
       <a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}（仅安卓）</a>
-      <a href="${base}policies/difficulty-assessment.html">从困难认定开始</a>
     </div>
     <div>本站由周泽维个人整理，<strong>完全免费、无广告、无商业用途</strong>，仅用于学习与研究。</div>
     <div>非重庆工程职业技术大学官方产品，内容仅供参考，具体政策以学校资助管理中心当年通知为准。本站内容仅对应本校执行口径，不适用于其他高校。</div>
@@ -1663,7 +1657,7 @@ const CHANNELS = [
 function channelsSection() {
   return `<section id="channels" class="chan-section">
   <div class="wrap">
-    <p class="eyebrow">站点导览</p>
+    <p class="eyebrow">完整板块</p>
     <h2>首页之外，还有这些完整板块</h2>
     <p class="lede" style="margin-bottom: 36px">首页只放常用查询，完整内容在独立板块里。</p>
     <div class="chan-grid">${CHANNELS.map((c) => `<a class="chan-card" href="${c.href}">${c.icon}<div><h3>${c.title}</h3><p>${c.desc}</p></div><span class="chan-go">进入 →</span></a>`).join('')}</div>

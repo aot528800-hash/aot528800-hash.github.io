@@ -415,6 +415,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 
 /* ---------- Hero ---------- */
 .hero { padding: clamp(72px, 12vw, 132px) 0 clamp(64px, 10vw, 108px); text-align: center; }
+.hero-eyebrow { margin: 0 0 18px; font-size: 13px; font-weight: 600; letter-spacing: .12em; color: var(--accent); }
 .hero h1 {
   font-size: clamp(44px, 7.4vw, 96px);
   line-height: 1.03; letter-spacing: -0.04em; font-weight: 700;
@@ -1563,11 +1564,11 @@ const nav = (base, active, home) => {
     <a class="nav-brand" href="${base}index.html">${ICON_SHIELD}CQPUE资助政策</a>
     <div class="nav-links">
       ${link(home ? '#top' : base + 'index.html', '首页', 'home')}
-      ${link(jump('ima'), '资料库', 'ima')}
       ${link(jump('policies'), '资助项目', 'policies')}
       ${link(jump('mindmap'), '体系全景', 'mindmap')}
       ${link(jump('schedule'), '全年日程', 'schedule')}
       ${link(base + 'center.html', '资助中心', 'center')}
+      ${link(jump('ima'), '资料库', 'ima')}
       ${link(jump('author'), '关于作者', 'author')}
     </div>
     <a class="nav-cta" href="${base}ima.html">加入 IMA 知识库</a>
@@ -2019,8 +2020,9 @@ function renderIndex() {
   const body = `
 <header class="hero">
   <div class="wrap">
+    <p class="hero-eyebrow">重庆工程职业技术大学 · 学生资助</p>
     <h1>把学生资助政策<br>讲清楚</h1>
-    <p>21 个资助项目。条件、流程、材料，一页看完。</p>
+    <p>21 个资助项目，条件、流程、材料一页看全；资助工作者的 47 项业务全景；全国 100+ 所高校的公众号资料，也在这里。</p>
     <p class="fresh-line">内容核对于 ${SITE.verifiedShort} · 建议 ${SITE.reviewBy}前复核</p>
     <div class="hero-actions">
       <a class="btn" href="#policies">浏览全部项目</a>
@@ -2037,46 +2039,7 @@ function renderIndex() {
   </div>
 </header>
 
-<section id="download" class="dl-section">
-  <div class="wrap dl-wrap">
-    <div class="dl-text">
-      <p class="eyebrow">安卓应用</p>
-      <h2>装到手机上，离线也能查</h2>
-      <p class="lede">21 个资助项目、办理流程、材料清单，全部内置在安装包里，断网也能看。</p>
-      <ul class="dl-req">
-        <li><span class="ok">✓</span>仅支持 <strong>安卓手机</strong>（${SITE.apk.platform}）</li>
-        <li><span class="no">✕</span><strong>不支持 iPhone / iPad</strong>：苹果系统不识别 APK 安装包，无法安装</li>
-        <li><span class="dot-i">·</span>首次安装需在系统设置里允许「安装未知来源应用」</li>
-      </ul>
-    </div>
 
-    <div class="dl-card">
-      <div class="dl-card-head">
-        <span class="dl-icon">${ICON_SHIELD}</span>
-        <div>
-          <strong>CQPUE资助政策</strong>
-          <span>安卓安装包</span>
-        </div>
-      </div>
-      <dl class="dl-meta">
-        <div><dt>版本</dt><dd>v${SITE.apk.version}（${SITE.apk.versionCode}）</dd></div>
-        <div><dt>大小</dt><dd>${SITE.apk.size}</dd></div>
-        <div><dt>系统</dt><dd>Android 7.0+</dd></div>
-        <div><dt>费用</dt><dd>完全免费</dd></div>
-      </dl>
-      <a class="btn dl-btn" href="${SITE.apk.url}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
-        下载安卓安装包
-      </a>
-      <p class="dl-hash">SHA256 ${SITE.apk.sha256.slice(0, 24)}…</p>
-      <p class="dl-alt">苹果手机没有对应版本。如需在手机上查看，请直接用浏览器访问本站。</p>
-    </div>
-  </div>
-</section>
-
-${channelsSection()}
-
-${imaSection()}
 
 <section id="policies" class="alt">
   <div class="wrap">
@@ -2192,6 +2155,46 @@ ${imaSection()}
   </div>
 </section>
 
+${channelsSection()}
+
+${imaSection()}
+
+<section id="download" class="dl-section">
+  <div class="wrap dl-wrap">
+    <div class="dl-text">
+      <p class="eyebrow">安卓应用</p>
+      <h2>装到手机上，离线也能查</h2>
+      <p class="lede">21 个资助项目、办理流程、材料清单，全部内置在安装包里，断网也能看。</p>
+      <ul class="dl-req">
+        <li><span class="ok">✓</span>仅支持 <strong>安卓手机</strong>（${SITE.apk.platform}）</li>
+        <li><span class="no">✕</span><strong>不支持 iPhone / iPad</strong>：苹果系统不识别 APK 安装包，无法安装</li>
+        <li><span class="dot-i">·</span>首次安装需在系统设置里允许「安装未知来源应用」</li>
+      </ul>
+    </div>
+
+    <div class="dl-card">
+      <div class="dl-card-head">
+        <span class="dl-icon">${ICON_SHIELD}</span>
+        <div>
+          <strong>CQPUE资助政策</strong>
+          <span>安卓安装包</span>
+        </div>
+      </div>
+      <dl class="dl-meta">
+        <div><dt>版本</dt><dd>v${SITE.apk.version}（${SITE.apk.versionCode}）</dd></div>
+        <div><dt>大小</dt><dd>${SITE.apk.size}</dd></div>
+        <div><dt>系统</dt><dd>Android 7.0+</dd></div>
+        <div><dt>费用</dt><dd>完全免费</dd></div>
+      </dl>
+      <a class="btn dl-btn" href="${SITE.apk.url}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+        下载安卓安装包
+      </a>
+      <p class="dl-hash">SHA256 ${SITE.apk.sha256.slice(0, 24)}…</p>
+      <p class="dl-alt">苹果手机没有对应版本。如需在手机上查看，请直接用浏览器访问本站。</p>
+    </div>
+  </div>
+</section>
 <section id="disclaimer">
   <div class="wrap narrow">
     <p class="eyebrow">适用范围</p>

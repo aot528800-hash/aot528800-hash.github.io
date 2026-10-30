@@ -368,6 +368,31 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 .nav-cta svg { width: 14px; height: 14px; }
 .nav-cta:hover { background: var(--accent-2); text-decoration: none; }
+/* ===== 引流与联系组件 ===== */
+.nav-new {
+  display: inline-flex; align-items: center; margin-left: 6px;
+  padding: 1px 7px; border-radius: 999px;
+  background: var(--accent); color: #fff;
+  font-size: 10.5px; font-weight: 600; font-style: normal; letter-spacing: 0;
+}
+@media (prefers-color-scheme: dark) { .nav-new { color: #0b1120; } }
+
+.scope-bar a { margin-left: 0; }
+.scope-bar a + a { margin-left: 10px; }
+.scope-bar a.scope-join { margin-left: auto; color: var(--accent); font-weight: 600; }
+.scope-bar a.scope-join:hover { color: var(--accent-2); }
+
+.ima-join { display: flex; align-items: center; gap: 14px; margin: 2px 0 0; font-size: 13px; }
+
+.ima-cta-line {
+  margin: 24px 0 0; padding: 12px 16px;
+  background: var(--bg-alt); border-radius: 12px;
+  text-align: center; font-size: 13.5px; color: var(--text-2);
+}
+.ima-cta-line a { color: var(--accent); font-weight: 600; }
+
+.author-cta { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+
 .nav-cta.ghost {
   background: transparent; color: var(--accent);
   border: 1px solid rgba(15, 23, 42, .14);
@@ -1566,8 +1591,9 @@ const nav = (base, active, home) => {
       ${link(jump('policies'), '资助项目', 'policies')}
       ${link(base + 'map.html', '站点导图', 'mindmap')}
       ${link(base + 'center.html', '资助中心', 'center')}
-      ${link(base + 'ima.html', '大学生资助数据库', 'ima')}
+      ${link(base + 'ima.html', '大学生资助数据库<em class="nav-new">免费加入</em>', 'ima')}
     </div>
+    <a class="nav-cta" href="${SITE.apk.url}" title="仅支持安卓手机">下载APP</a>
   </div>
 </nav>`
 }
@@ -1585,6 +1611,7 @@ const footer = (base) => `<footer>
       <a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}（仅安卓）</a>
     </div>
     <div>本站由周泽维个人整理，<strong>完全免费、无广告、无商业用途</strong>，仅用于学习与研究。</div>
+    <div>联系作者：微信 <strong>${SITE.wechat.id}</strong>　·　<a href="tel:15736152295">15736152295</a></div>
     <div>非重庆工程职业技术大学官方产品，内容仅供参考，具体政策以学校资助管理中心当年通知为准。本站内容仅对应本校执行口径，不适用于其他高校。</div>
     <div>数据更新：${SITE.updated} · 21 个资助项目 · 13 份政策依据</div>
   </div>
@@ -1597,7 +1624,7 @@ const WECHAT_LABELS = [
 
 function contactBlock() {
   if (!wechatFiles.length) {
-    return `<div class="contact">
+    return `<div class="contact" id="contact">
       <div class="contact-head">联系开发者</div>
       <p class="contact-id">微信：<strong>${esc(SITE.wechat.id)}</strong></p>
     </div>`
@@ -1614,7 +1641,7 @@ function contactBlock() {
     })
     .join('')
   const hasMp = wechatFiles.some((n) => /gongzhonghao|公众号|mp-|account/i.test(n))
-  return `<div class="contact">
+  return `<div class="contact" id="contact">
     <div class="contact-head">联系开发者</div>
     <div class="qr-row">${cards}</div>
     ${hasMp ? '' : `<p class="contact-id">微信：<strong>${esc(SITE.wechat.id)}</strong></p>`}
@@ -1676,7 +1703,8 @@ function imaSection() {
         <h2>${IMA_NAME}</h2>
         <p class="ima-stat">${IMA_STAT}</p>
         <p>收了全国${IMA_SCHOOLS}高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。想查某个项目怎么写、别的学校怎么表述，可以直接问它。</p>
-        <p class="ima-note">微信扫码即可加入，不需要申请。　<a href="ima.html">查看完整介绍 →</a></p>
+        <p class="ima-note">微信扫码即可加入，不需要申请，内容持续更新。</p>
+        <p class="ima-join"><a class="btn" href="ima.html">立即加入 · 免费</a><a href="ima.html">查看完整介绍 →</a></p>
       </div>
       <div class="qr-row">${imaCards()}</div>
     </div>
@@ -1767,6 +1795,7 @@ ${nav(base, active, home)}
     <span>只面向 <strong>重庆工程职业技术大学</strong></span>
     <span class="dot"></span>
     <span>不适用于其他高校 · 非官方，仅供参考</span>
+    <a class="scope-join" href="${base}ima.html">免费加入资料库 →</a>
     <a href="${home ? '#disclaimer' : base + 'index.html#disclaimer'}">免责声明</a>
   </div>
 </div>
@@ -2267,9 +2296,13 @@ ${imaSection()}
       <p class="eyebrow">关于作者</p>
       <h2>周泽维</h2>
       <p>我做这个项目的原因很直接：政策散在十几个文件里，学生找不到，辅导员也记不住全。整理成能查的资料，先做成安卓应用，后来又搬到网页上。</p>
-      <p>没有广告，没有内购，也不收集个人信息。别的学校想做一份，直接拿去改就行。</p>
-      <p><a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}</a>　·　<a href="privacy.html">隐私政策</a>　·　<a href="tel:15736152295">15736152295</a></p>
-      <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">安装包 ${SITE.apk.size}　·　仅支持安卓手机，不支持 iPhone / iPad</p>
+      <p>没有广告，没有内购，也不收集个人信息。21 个项目的条件、流程、材料逐条对照文件核对，资助中心的业务全景来自实地梳理。</p>
+      <p>别的学校想做成自己的版本？<strong>联系我</strong>，可以帮你们适配、更新。</p>
+      <div class="author-cta">
+        <a class="btn" href="tel:15736152295">电话联系</a>
+        <a class="btn ghost" href="#contact">加微信聊</a>
+      </div>
+      <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">微信：${SITE.wechat.id}　·　<a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}</a>（仅安卓）　·　<a href="privacy.html">隐私政策</a></p>
     </div>
     <div>
       <dl>
@@ -2428,6 +2461,7 @@ function renderPolicy(p, index) {
 
       ${rel ? `<div class="block" id="s6"><h2><span class="num">06</span>相关资助</h2><div class="rel">${rel}</div></div>` : ''}
 
+      <p class="ima-cta-line">想查全国 100+ 所高校的同类资料？<a href="../ima.html">免费加入大学生资助数据库 →</a></p>
       <div class="pager">
         <a href="${prev.id}.html">← ${esc(prev.title)}</a>
         <a href="${next.id}.html">${esc(next.title)} →</a>

@@ -597,6 +597,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 }
 .ima-back { margin-top: 40px; font-size: 14px; }
 /* 知识库内容清单 */
+.ima-stat { display: inline-block; margin: 0 0 16px; padding: 5px 12px; border-radius: 999px; background: var(--bg-alt); color: var(--text-2); font-size: 12.5px; font-weight: 600; letter-spacing: .02em; }
 .ima-list { margin: 0 0 22px; padding-left: 18px; display: grid; gap: 9px; font-size: 15px; line-height: 1.7; color: var(--text-2); }
 .ima-list b { color: var(--text); font-weight: 600; }
 

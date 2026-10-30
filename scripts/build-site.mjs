@@ -44,7 +44,7 @@ const SITE = {
     dir: 'assets/ima',
     title: '大学生资助数据库',
     // 已收录高校数量：填准确数字后自动显示「已收录 N 所高校」；留 0 则显示「上百所高校」
-    schools: 0,
+    schools: '100+',
     hint: '微信扫码加入',
   },
   apk: {
@@ -60,7 +60,8 @@ const SITE = {
 
 // 知识库展示用常量
 const IMA_NAME = SITE.ima.title
-const IMA_SCHOOLS = SITE.ima.schools > 0 ? `${SITE.ima.schools} 所` : '上百所'
+const IMA_SCHOOLS = SITE.ima.schools ? `${SITE.ima.schools}所` : '上百所'
+const IMA_STAT = `已收录 ${SITE.ima.schools || '100+'} 所高校`
 
 const esc = (s) =>
   String(s ?? '')
@@ -848,6 +849,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 }
 .ima-back { margin-top: 40px; font-size: 14px; }
 /* 知识库内容清单 */
+.ima-stat { display: inline-block; margin: 0 0 16px; padding: 5px 12px; border-radius: 999px; background: var(--bg-alt); color: var(--text-2); font-size: 12.5px; font-weight: 600; letter-spacing: .02em; }
 .ima-list { margin: 0 0 22px; padding-left: 18px; display: grid; gap: 9px; font-size: 15px; line-height: 1.7; color: var(--text-2); }
 .ima-list b { color: var(--text); font-weight: 600; }
 
@@ -1510,6 +1512,7 @@ function imaBlock() {
     <div class="ima-text">
       <p class="eyebrow">资料库</p>
       <h3>加入${IMA_NAME}</h3>
+      <p class="ima-stat">${IMA_STAT}</p>
       <p>收了全国${IMA_SCHOOLS}高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。可以按关键词检索，也可以直接向它提问。</p>
       <p class="ima-note">微信扫码即可加入，不需要申请。　<a href="ima.html">打开单独页面 →</a></p>
     </div>
@@ -1523,6 +1526,7 @@ function renderIma() {
 <div class="wrap ima-page">
   <p class="eyebrow">资料库</p>
   <h1>${IMA_NAME}</h1>
+  <p class="ima-stat">${IMA_STAT}</p>
   <p class="lede">一个可以直接提问的资助资料库：全国${IMA_SCHOOLS}高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。想查某个项目怎么写、别的学校怎么表述，可以直接问它。</p>
 
   <div class="ima-block">

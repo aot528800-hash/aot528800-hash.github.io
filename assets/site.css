@@ -125,7 +125,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .nav-cta.ghost { border-color: rgba(241, 245, 249, .2); }
   .nav-cta.ghost:hover { background: var(--bg-alt); }
 }
-@media (max-width: 900px) { .nav-cta { display: none; } }
+@media (max-width: 1100px) { .nav-cta { display: none; } .nav-links { gap: 16px; } }
 @media (max-width: 720px) { .nav-links { display: none; } }
 
 /* ---------- 适用范围提示条 ---------- */

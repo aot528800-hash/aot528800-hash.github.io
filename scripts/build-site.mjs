@@ -42,7 +42,9 @@ const SITE = {
   ima: {
     // IMA 知识库二维码：放进 assets/ima/ 即可自动出现在首页「资料库」区块
     dir: 'assets/ima',
-    title: 'IMA 知识库',
+    title: '大学生资助数据库',
+    // 已收录高校数量：填准确数字后自动显示「已收录 N 所高校」；留 0 则显示「上百所高校」
+    schools: 0,
     hint: '微信扫码加入',
   },
   apk: {
@@ -55,6 +57,10 @@ const SITE = {
     contact: '15736152295',
   },
 }
+
+// 知识库展示用常量
+const IMA_NAME = SITE.ima.title
+const IMA_SCHOOLS = SITE.ima.schools > 0 ? `${SITE.ima.schools} 所` : '上百所'
 
 const esc = (s) =>
   String(s ?? '')
@@ -1503,8 +1509,8 @@ function imaBlock() {
   return `<div class="ima-block" id="ima">
     <div class="ima-text">
       <p class="eyebrow">资料库</p>
-      <h3>加入 IMA 知识库</h3>
-      <p>收了全国上百所高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。可以按关键词检索，也可以直接向它提问。</p>
+      <h3>加入${IMA_NAME}</h3>
+      <p>收了全国${IMA_SCHOOLS}高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。可以按关键词检索，也可以直接向它提问。</p>
       <p class="ima-note">微信扫码即可加入，不需要申请。　<a href="ima.html">打开单独页面 →</a></p>
     </div>
     <div class="qr-row">${imaCards()}</div>
@@ -1516,14 +1522,14 @@ function renderIma() {
   const body = `
 <div class="wrap ima-page">
   <p class="eyebrow">资料库</p>
-  <h1>加入 IMA 知识库</h1>
-  <p class="lede">一个可以直接提问的资助资料库：全国上百所高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。想查某个项目怎么写、别的学校怎么表述，可以直接问它。</p>
+  <h1>${IMA_NAME}</h1>
+  <p class="lede">一个可以直接提问的资助资料库：全国${IMA_SCHOOLS}高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。想查某个项目怎么写、别的学校怎么表述，可以直接问它。</p>
 
   <div class="ima-block">
     <div class="ima-text">
       <h3>里面有什么</h3>
       <ul class="ima-list">
-        <li><b>全国高校公众号文章</b>：上百所高校学生资助相关的推文、通知与经验稿</li>
+        <li><b>全国高校公众号文章</b>：${IMA_SCHOOLS}高校学生资助相关的推文、通知与经验稿</li>
         <li><b>政策文件原文</b>：国家、重庆市与学校公开的资助政策全文</li>
         <li><b>历年通知与整理稿</b>：按项目归档的办理口径、时间节点与材料要求</li>
       </ul>
@@ -1543,16 +1549,16 @@ function renderIma() {
 
   const extraHead = [
     `<meta property="og:type" content="website">`,
-    `<meta property="og:title" content="加入 IMA 知识库 · ${esc(SITE.name)}">`,
-    `<meta property="og:description" content="收录全国上百所高校学生资助类公众号文章与公开政策文件原文，微信扫码加入，可按关键词检索或直接提问。">`,
+    `<meta property="og:title" content="${IMA_NAME} · ${esc(SITE.name)}">`,
+    `<meta property="og:description" content="收录全国${IMA_SCHOOLS}高校学生资助类公众号文章与公开政策文件原文，微信扫码加入，可按关键词检索或直接提问。">`,
     SITE.url ? `<meta property="og:image" content="${SITE.url}/assets/ima/${encodeURI(imaFiles[0] || '')}">` : '',
   ]
     .filter(Boolean)
     .join('\n')
 
   return layout({
-    title: `加入 IMA 知识库 · ${SITE.name}`,
-    description: '收录全国上百所高校学生资助类公众号文章与公开政策文件原文的资助资料库，微信扫码加入。',
+    title: `${IMA_NAME} · ${SITE.name}`,
+    description: `收录全国${IMA_SCHOOLS}高校学生资助类公众号文章与公开政策文件原文的资助资料库，微信扫码加入。`,
     active: 'ima',
     body,
     extraHead,
@@ -1847,7 +1853,7 @@ function renderIndex() {
     <div class="hero-actions">
       <a class="btn" href="#policies">浏览全部项目</a>
       <a class="btn ghost" href="#mindmap">看体系全景</a>
-      <a class="btn ghost" href="ima.html">加入 IMA 知识库</a>
+      <a class="btn ghost" href="ima.html">${IMA_NAME}</a>
     </div>
     <div class="stats">
       <div><b>21</b><span>资助项目</span></div>

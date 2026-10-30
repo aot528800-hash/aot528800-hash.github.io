@@ -30,3 +30,7 @@ keystore.properties
 
 # Local build scratch
 .build-check
+
+# 本地验证用的临时文件
+home.html
+preview-*.png

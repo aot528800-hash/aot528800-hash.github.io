@@ -116,6 +116,15 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 .nav-cta svg { width: 14px; height: 14px; }
 .nav-cta:hover { background: var(--accent-2); text-decoration: none; }
+.nav-cta.ghost {
+  background: transparent; color: var(--accent);
+  border: 1px solid rgba(15, 23, 42, .14);
+}
+.nav-cta.ghost:hover { background: var(--bg-alt); }
+@media (prefers-color-scheme: dark) {
+  .nav-cta.ghost { border-color: rgba(241, 245, 249, .2); }
+  .nav-cta.ghost:hover { background: var(--bg-alt); }
+}
 @media (max-width: 900px) { .nav-cta { display: none; } }
 @media (max-width: 720px) { .nav-links { display: none; } }
 

@@ -368,6 +368,15 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 .nav-cta svg { width: 14px; height: 14px; }
 .nav-cta:hover { background: var(--accent-2); text-decoration: none; }
+.nav-cta.ghost {
+  background: transparent; color: var(--accent);
+  border: 1px solid rgba(15, 23, 42, .14);
+}
+.nav-cta.ghost:hover { background: var(--bg-alt); }
+@media (prefers-color-scheme: dark) {
+  .nav-cta.ghost { border-color: rgba(241, 245, 249, .2); }
+  .nav-cta.ghost:hover { background: var(--bg-alt); }
+}
 @media (max-width: 900px) { .nav-cta { display: none; } }
 @media (max-width: 720px) { .nav-links { display: none; } }
 
@@ -1561,7 +1570,8 @@ const nav = (base, active, home) => {
       ${link(base + 'center.html', '资助中心', 'center')}
       ${link(jump('author'), '关于作者', 'author')}
     </div>
-    <a class="nav-cta" href="${SITE.apk.url}" title="仅支持安卓手机">
+    <a class="nav-cta" href="${base}ima.html">加入 IMA 知识库</a>
+    <a class="nav-cta ghost" href="${SITE.apk.url}" title="仅支持安卓手机">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 9.5 19 7.1a.4.4 0 0 0-.7-.4l-1.4 2.4a8.4 8.4 0 0 0-3.9-.9 8.4 8.4 0 0 0-3.9.9L7.7 6.7a.4.4 0 0 0-.7.4l1.4 2.4A7 7 0 0 0 5 15h14a7 7 0 0 0-3.4-5.5ZM9 12.6a.8.8 0 1 1 0-1.6.8.8 0 0 1 0 1.6Zm6 0a.8.8 0 1 1 0-1.6.8.8 0 0 1 0 1.6ZM5 16h14v3.5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1V18h-4v1.5a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V16Z"/></svg>
       下载安卓版
     </a>

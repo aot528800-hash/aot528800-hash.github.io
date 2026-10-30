@@ -1591,7 +1591,7 @@ const nav = (base, active, home) => {
       ${link(jump('policies'), '资助项目', 'policies')}
       ${link(base + 'map.html', '站点导图', 'mindmap')}
       ${link(base + 'center.html', '资助中心', 'center')}
-      ${link(base + 'ima.html', '大学生资助数据库<em class="nav-new">免费加入</em>', 'ima')}
+      ${link(base + 'ima.html', '大学生资助数据库<em class="nav-new">共享资料</em>', 'ima')}
     </div>
     <a class="nav-cta" href="${SITE.apk.url}" title="仅支持安卓手机">下载APP</a>
   </div>
@@ -1610,7 +1610,7 @@ const footer = (base) => `<footer>
       <a href="${base}index.html#author">关于作者</a>
       <a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}（仅安卓）</a>
     </div>
-    <div>本站由周泽维个人整理，<strong>完全免费、无广告、无商业用途</strong>，仅用于学习与研究。</div>
+    <div>本站由周泽维个人整理，<strong>公益整理、无广告、无商业用途</strong>，仅用于学习与研究。</div>
     <div>联系作者：微信 <strong>${SITE.wechat.id}</strong>　·　<a href="tel:15736152295">15736152295</a></div>
     <div>非重庆工程职业技术大学官方产品，内容仅供参考，具体政策以学校资助管理中心当年通知为准。本站内容仅对应本校执行口径，不适用于其他高校。</div>
     <div>数据更新：${SITE.updated} · 21 个资助项目 · 13 份政策依据</div>
@@ -1704,7 +1704,7 @@ function imaSection() {
         <p class="ima-stat">${IMA_STAT}</p>
         <p>收了全国${IMA_SCHOOLS}高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。想查某个项目怎么写、别的学校怎么表述，可以直接问它。</p>
         <p class="ima-note">微信扫码即可加入，不需要申请，内容持续更新。</p>
-        <p class="ima-join"><a class="btn" href="ima.html">立即加入 · 免费</a><a href="ima.html">查看完整介绍 →</a></p>
+        <p class="ima-join"><a class="btn" href="ima.html">加入共享资料库</a><a href="ima.html">查看完整介绍 →</a></p>
       </div>
       <div class="qr-row">${imaCards()}</div>
     </div>
@@ -1795,7 +1795,7 @@ ${nav(base, active, home)}
     <span>只面向 <strong>重庆工程职业技术大学</strong></span>
     <span class="dot"></span>
     <span>不适用于其他高校 · 非官方，仅供参考</span>
-    <a class="scope-join" href="${base}ima.html">免费加入资料库 →</a>
+    <a class="scope-join" href="${base}ima.html">共享资料库 →</a>
     <a href="${home ? '#disclaimer' : base + 'index.html#disclaimer'}">免责声明</a>
   </div>
 </div>
@@ -2250,7 +2250,7 @@ ${imaSection()}
         <div><dt>版本</dt><dd>v${SITE.apk.version}（${SITE.apk.versionCode}）</dd></div>
         <div><dt>大小</dt><dd>${SITE.apk.size}</dd></div>
         <div><dt>系统</dt><dd>Android 7.0+</dd></div>
-        <div><dt>费用</dt><dd>完全免费</dd></div>
+        <div><dt>费用</dt><dd>公益提供</dd></div>
       </dl>
       <a class="btn dl-btn" href="${SITE.apk.url}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
@@ -2281,7 +2281,7 @@ ${imaSection()}
         <p>政策随年度调整，具体条件、金额与办理时间以学校学生资助管理中心当年通知为准。</p>
       </div>
       <div class="disc-item">
-        <h3>完全免费</h3>
+        <h3>纯公益</h3>
         <p>无广告、无内购、无付费服务，不收集任何个人信息，也不提供付费咨询。</p>
       </div>
     </div>
@@ -2311,7 +2311,7 @@ ${imaSection()}
         <dt>范围</dt><dd>21 个资助项目 · 10 个月段日程</dd>
         <dt>依据</dt><dd>13 份国家与校内政策文件</dd>
         <dt>形态</dt><dd>安卓应用 ＋ 本网页</dd>
-        <dt>费用</dt><dd>完全免费，无商业用途</dd>
+        <dt>费用</dt><dd>纯公益，无商业用途</dd>
         <dt>更新</dt><dd>${SITE.updated}</dd>
       </dl>
       ${contactBlock()}
@@ -2461,7 +2461,7 @@ function renderPolicy(p, index) {
 
       ${rel ? `<div class="block" id="s6"><h2><span class="num">06</span>相关资助</h2><div class="rel">${rel}</div></div>` : ''}
 
-      <p class="ima-cta-line">想查全国 100+ 所高校的同类资料？<a href="../ima.html">免费加入大学生资助数据库 →</a></p>
+      <p class="ima-cta-line">想查全国 100+ 所高校的同类资料？<a href="../ima.html">加入共享资料库 →</a></p>
       <div class="pager">
         <a href="${prev.id}.html">← ${esc(prev.title)}</a>
         <a href="${next.id}.html">${esc(next.title)} →</a>

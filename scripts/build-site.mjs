@@ -841,6 +841,10 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
   display: grid; place-items: center;
 }
 .ima-back { margin-top: 40px; font-size: 14px; }
+/* 知识库内容清单 */
+.ima-list { margin: 0 0 22px; padding-left: 18px; display: grid; gap: 9px; font-size: 15px; line-height: 1.7; color: var(--text-2); }
+.ima-list b { color: var(--text); font-weight: 600; }
+
 .ima-page .ima-block { align-items: start; }
 
 @media print { .contact { break-inside: avoid; } }
@@ -1500,7 +1504,7 @@ function imaBlock() {
     <div class="ima-text">
       <p class="eyebrow">资料库</p>
       <h3>加入 IMA 知识库</h3>
-      <p>资助政策的原文、整理稿和历年通知都放在这个知识库里，可以在 IMA 里按关键词检索，也能直接向它提问。内容与本页同步更新。</p>
+      <p>收了全国上百所高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。可以按关键词检索，也可以直接向它提问。</p>
       <p class="ima-note">微信扫码即可加入，不需要申请。　<a href="ima.html">打开单独页面 →</a></p>
     </div>
     <div class="qr-row">${imaCards()}</div>
@@ -1513,16 +1517,23 @@ function renderIma() {
 <div class="wrap ima-page">
   <p class="eyebrow">资料库</p>
   <h1>加入 IMA 知识库</h1>
-  <p class="lede">把重庆工程职业技术大学的资助政策原文、整理稿和历年通知收在一个知识库里，加入后可以按关键词检索，也可以直接向它提问。</p>
+  <p class="lede">一个可以直接提问的资助资料库：全国上百所高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。想查某个项目怎么写、别的学校怎么表述，可以直接问它。</p>
 
   <div class="ima-block">
     <div class="ima-text">
+      <h3>里面有什么</h3>
+      <ul class="ima-list">
+        <li><b>全国高校公众号文章</b>：上百所高校学生资助相关的推文、通知与经验稿</li>
+        <li><b>政策文件原文</b>：国家、重庆市与学校公开的资助政策全文</li>
+        <li><b>历年通知与整理稿</b>：按项目归档的办理口径、时间节点与材料要求</li>
+      </ul>
+      <h3>怎么用</h3>
       <ol class="ima-steps">
         <li><span>1</span>用微信扫描右侧二维码</li>
         <li><span>2</span>在 IMA 里确认「加入知识库」</li>
-        <li><span>3</span>之后搜「奖学金」「助学金」「困难认定」等关键词，或直接提问</li>
+        <li><span>3</span>之后搜「国家励志奖学金」「困难认定」等关键词，或直接提问</li>
       </ol>
-      <p class="ima-note">扫码即可加入，不需要申请。内容与本页同步更新。</p>
+      <p class="ima-note">扫码即可加入，不需要申请。资料均来自公开渠道；外校内容只作参考，本校口径以学校当年通知为准。</p>
     </div>
     ${imaFiles.length ? `<div class="qr-row">${imaCards()}</div>` : ''}
   </div>
@@ -1533,7 +1544,7 @@ function renderIma() {
   const extraHead = [
     `<meta property="og:type" content="website">`,
     `<meta property="og:title" content="加入 IMA 知识库 · ${esc(SITE.name)}">`,
-    `<meta property="og:description" content="重庆工程职业技术大学资助政策知识库，微信扫码加入，可按关键词检索或直接提问。">`,
+    `<meta property="og:description" content="收录全国上百所高校学生资助类公众号文章与公开政策文件原文，微信扫码加入，可按关键词检索或直接提问。">`,
     SITE.url ? `<meta property="og:image" content="${SITE.url}/assets/ima/${encodeURI(imaFiles[0] || '')}">` : '',
   ]
     .filter(Boolean)
@@ -1541,7 +1552,7 @@ function renderIma() {
 
   return layout({
     title: `加入 IMA 知识库 · ${SITE.name}`,
-    description: '重庆工程职业技术大学资助政策知识库，微信扫码加入，可按关键词检索或直接提问。',
+    description: '收录全国上百所高校学生资助类公众号文章与公开政策文件原文的资助资料库，微信扫码加入。',
     active: 'ima',
     body,
     extraHead,
@@ -1836,6 +1847,7 @@ function renderIndex() {
     <div class="hero-actions">
       <a class="btn" href="#policies">浏览全部项目</a>
       <a class="btn ghost" href="#mindmap">看体系全景</a>
+      <a class="btn ghost" href="ima.html">加入 IMA 知识库</a>
     </div>
     <div class="stats">
       <div><b>21</b><span>资助项目</span></div>

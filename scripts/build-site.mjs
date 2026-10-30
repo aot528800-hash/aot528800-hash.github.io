@@ -826,6 +826,29 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .contact-id strong { color: var(--text); font-weight: 600; }
 
 /* IMA 知识库区块：宽屏左右排布，窄屏上下堆叠 */
+/* 首页站点导览卡 */
+.chan-section { padding: 0 0 clamp(48px, 7vw, 88px); }
+.chan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 900px) { .chan-grid { grid-template-columns: 1fr; } }
+.chan-card {
+  display: flex; flex-direction: column; gap: 14px; align-items: flex-start;
+  background: var(--card); border: 1px solid rgba(15, 23, 42, .07);
+  border-radius: 16px; padding: 22px; color: inherit;
+  transition: transform .2s cubic-bezier(.16, 1, .3, 1), box-shadow .2s, border-color .2s;
+}
+.chan-card:hover {
+  text-decoration: none; transform: translateY(-3px);
+  border-color: rgba(15, 23, 42, .14);
+  box-shadow: 0 20px 44px -18px rgba(15, 23, 42, .16);
+}
+.chan-card svg { width: 26px; height: 26px; stroke: var(--accent); }
+.chan-card h3 { margin: 0; font-size: 16px; letter-spacing: -.02em; }
+.chan-card p { margin: 0; font-size: 13px; line-height: 1.55; color: var(--text-2); }
+.chan-go { margin-top: auto; font-size: 12.5px; font-weight: 500; color: var(--accent); }
+@media (prefers-color-scheme: dark) {
+  .chan-card { border-color: rgba(241, 245, 249, .08); }
+  .chan-card:hover { border-color: rgba(241, 245, 249, .16); box-shadow: 0 20px 44px -18px rgba(0, 0, 0, .6); }
+}
 /* 首页资料库入口带 */
 .ima-section { padding: clamp(16px, 3vw, 32px) 0 clamp(56px, 8vw, 96px); }
 .ima-band {
@@ -1603,6 +1626,39 @@ const imaCards = () =>
     )
     .join('')
 
+// 首页「站点导览」：把独立板块亮出来（资料库已有专属入口带，不在此重复）
+const CHANNELS = [
+  {
+    href: 'center.html',
+    title: '资助中心 · 业务全景',
+    desc: '10 个门类、' + BIZ_ROWS_ALL.length + ' 项业务，全年节奏与风险防控',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21h16"/><path d="M5 21V9l7-4 7 4v12"/><path d="M9 21v-6h6v6"/></svg>',
+  },
+  {
+    href: 'map.html',
+    title: '体系全景 · 全屏',
+    desc: '21 个资助项目的完整思维导图，适合投屏讲解与打印',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="1.7"/><circle cx="19" cy="6" r="1.7"/><circle cx="12" cy="18" r="1.7"/><path d="M6.4 7.2 10.9 16M17.6 7.2 13.1 16M6.4 7.2h11.2"/></svg>',
+  },
+  {
+    href: 'privacy.html',
+    title: '隐私政策',
+    desc: '本站不收集任何个人信息，无 Cookie、无统计、无广告',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v6c0 4 3 7 7 8 4-1 7-4 7-8V6z"/><path d="M9.5 11.5a2.5 2.5 0 0 1 5 0c0 2-2.5 2.7-2.5 2.7S9.5 13.5 9.5 11.5z"/><path d="M12 16.4v.1"/></svg>',
+  },
+]
+
+function channelsSection() {
+  return `<section id="channels" class="chan-section">
+  <div class="wrap">
+    <p class="eyebrow">站点导览</p>
+    <h2>首页之外，还有这些完整板块</h2>
+    <p class="lede" style="margin-bottom: 36px">首页只放常用查询，完整内容在独立板块里。</p>
+    <div class="chan-grid">${CHANNELS.map((c) => `<a class="chan-card" href="${c.href}">${c.icon}<div><h3>${c.title}</h3><p>${c.desc}</p></div><span class="chan-go">进入 →</span></a>`).join('')}</div>
+  </div>
+</section>`
+}
+
 // 首页资料库入口带：放在下载区之后，独立成区块（与导航顺序一致）
 function imaSection() {
   if (!imaFiles.length) return ''
@@ -2007,6 +2063,8 @@ function renderIndex() {
     </div>
   </div>
 </section>
+
+${channelsSection()}
 
 ${imaSection()}
 

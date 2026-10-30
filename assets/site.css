@@ -116,6 +116,31 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 .nav-cta svg { width: 14px; height: 14px; }
 .nav-cta:hover { background: var(--accent-2); text-decoration: none; }
+/* ===== 引流与联系组件 ===== */
+.nav-new {
+  display: inline-flex; align-items: center; margin-left: 6px;
+  padding: 1px 7px; border-radius: 999px;
+  background: var(--accent); color: #fff;
+  font-size: 10.5px; font-weight: 600; font-style: normal; letter-spacing: 0;
+}
+@media (prefers-color-scheme: dark) { .nav-new { color: #0b1120; } }
+
+.scope-bar a { margin-left: 0; }
+.scope-bar a + a { margin-left: 10px; }
+.scope-bar a.scope-join { margin-left: auto; color: var(--accent); font-weight: 600; }
+.scope-bar a.scope-join:hover { color: var(--accent-2); }
+
+.ima-join { display: flex; align-items: center; gap: 14px; margin: 2px 0 0; font-size: 13px; }
+
+.ima-cta-line {
+  margin: 24px 0 0; padding: 12px 16px;
+  background: var(--bg-alt); border-radius: 12px;
+  text-align: center; font-size: 13.5px; color: var(--text-2);
+}
+.ima-cta-line a { color: var(--accent); font-weight: 600; }
+
+.author-cta { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+
 .nav-cta.ghost {
   background: transparent; color: var(--accent);
   border: 1px solid rgba(15, 23, 42, .14);

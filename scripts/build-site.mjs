@@ -1238,6 +1238,89 @@ p { text-wrap: pretty; }
   .role-chip.is-on { background: #eee; color: #000; }
   .prose table { font-size: 9pt; }
 }
+/* ===== 视觉升级（dsh-ui-ux-pro-max：institution navy + funding green，Slate 中性，柔和阴影） ===== */
+:root {
+  --bg: #f8fafc;
+  --bg-alt: #f1f5f9;
+  --card: #ffffff;
+  --text: #0f172a;
+  --text-2: #475569;
+  --text-3: #94a3b8;
+  --line: #cbd5e1;
+  --line-2: #e2e8f0;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "tnum" 1, "cv11" 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1120;
+    --bg-alt: #0f172a;
+    --card: #111c2e;
+    --text: #f1f5f9;
+    --text-2: #94a3b8;
+    --text-3: #64748b;
+    --line: #334155;
+    --line-2: #1e293b;
+    --accent: #4ade80;
+    --accent-2: #86efac;
+    --accent-soft: #22c55e;
+  }
+}
+
+/* 导航：更细的描边、更稳的字号 */
+.nav { border-bottom-color: rgba(15, 23, 42, .06); }
+.nav-links a { font-size: 13px; }
+@media (prefers-color-scheme: dark) { .nav { border-bottom-color: rgba(241, 245, 249, .06); } }
+
+/* 按钮：主按钮柔和光环 + 悬停抬升 */
+.btn {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 10px 24px -12px rgba(11, 79, 50, .45);
+  transition: transform .18s cubic-bezier(.16, 1, .3, 1), box-shadow .18s cubic-bezier(.16, 1, .3, 1), background .18s ease;
+}
+.btn:hover {
+  background: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, .08), 0 14px 30px -10px rgba(11, 79, 50, .5);
+}
+.btn:active { transform: scale(.97); }
+.btn.ghost { border-color: rgba(15, 23, 42, .12); box-shadow: none; }
+.btn.ghost:hover { background: var(--card); border-color: rgba(15, 23, 42, .22); }
+@media (prefers-color-scheme: dark) {
+  .btn.ghost { border-color: rgba(241, 245, 249, .16); }
+  .btn.ghost:hover { background: var(--bg-alt); border-color: rgba(241, 245, 249, .3); }
+}
+
+/* 卡片：更轻的边框、更柔的阴影 */
+.card { border-color: rgba(15, 23, 42, .07); box-shadow: 0 1px 2px rgba(15, 23, 42, .04); }
+.card:hover {
+  border-color: rgba(15, 23, 42, .12);
+  box-shadow: 0 20px 44px -18px rgba(15, 23, 42, .16);
+}
+.card h3 { letter-spacing: -0.025em; }
+@media (prefers-color-scheme: dark) {
+  .card { border-color: rgba(241, 245, 249, .08); box-shadow: none; }
+  .card:hover { border-color: rgba(241, 245, 249, .16); box-shadow: 0 20px 44px -18px rgba(0, 0, 0, .6); }
+}
+
+/* 标题与眉标 */
+.eyebrow { font-size: 12px; letter-spacing: .14em; }
+h2 { letter-spacing: -0.035em; }
+.hero h1 { letter-spacing: -0.05em; }
+.stats b { font-feature-settings: "tnum" 1; }
+
+/* 资料库入口带 */
+.ima-band { border-color: rgba(15, 23, 42, .08); box-shadow: 0 24px 48px -24px rgba(15, 23, 42, .12); }
+@media (prefers-color-scheme: dark) { .ima-band { border-color: rgba(241, 245, 249, .1); box-shadow: none; } }
+
 `
 
 /* ------------------------------------------------------------------ 交互脚本 */

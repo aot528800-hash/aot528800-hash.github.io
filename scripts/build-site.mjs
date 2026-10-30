@@ -377,7 +377,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .nav-cta.ghost { border-color: rgba(241, 245, 249, .2); }
   .nav-cta.ghost:hover { background: var(--bg-alt); }
 }
-@media (max-width: 900px) { .nav-cta { display: none; } }
+@media (max-width: 1100px) { .nav-cta { display: none; } .nav-links { gap: 16px; } }
 @media (max-width: 720px) { .nav-links { display: none; } }
 
 /* ---------- 适用范围提示条 ---------- */
@@ -1568,6 +1568,7 @@ const nav = (base, active, home) => {
       ${link(jump('mindmap'), '体系全景', 'mindmap')}
       ${link(jump('schedule'), '全年日程', 'schedule')}
       ${link(base + 'center.html', '资助中心', 'center')}
+      ${link(jump('channels'), '站点导览', 'channels')}
       ${link(jump('ima'), '资料库', 'ima')}
       ${link(jump('author'), '关于作者', 'author')}
     </div>

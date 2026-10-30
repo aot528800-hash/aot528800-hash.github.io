@@ -291,7 +291,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
   background: var(--card); border: 1px solid var(--line-2); border-radius: var(--radius);
   padding: 12px; overflow: auto;
 }
-.map-frame svg { display: block; min-width: 720px; width: 100%; height: auto; }
+.map-frame svg { display: block; min-width: 960px; width: 100%; height: auto; }
 .map-hint { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 14px; font-size: 13px; color: var(--text-3); flex-wrap: wrap; }
 
 .deps { margin-top: 20px; padding: 18px 20px; background: var(--bg-alt); border-radius: var(--radius); }

@@ -543,7 +543,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
   background: var(--card); border: 1px solid var(--line-2); border-radius: var(--radius);
   padding: 12px; overflow: auto;
 }
-.map-frame svg { display: block; min-width: 720px; width: 100%; height: auto; }
+.map-frame svg { display: block; min-width: 960px; width: 100%; height: auto; }
 .map-hint { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 14px; font-size: 13px; color: var(--text-3); flex-wrap: wrap; }
 
 .deps { margin-top: 20px; padding: 18px 20px; background: var(--bg-alt); border-radius: var(--radius); }
@@ -1564,7 +1564,7 @@ const nav = (base, active, home) => {
     <a class="nav-brand" href="${base}index.html">${ICON_SHIELD}CQPUE资助政策</a>
     <div class="nav-links">
       ${link(jump('policies'), '资助项目', 'policies')}
-      ${link(base + 'map.html', '体系全景', 'mindmap')}
+      ${link(base + 'map.html', '站点导图', 'mindmap')}
       ${link(base + 'center.html', '资助中心', 'center')}
       ${link(base + 'ima.html', '大学生资助数据库', 'ima')}
     </div>
@@ -1576,7 +1576,7 @@ const footer = (base) => `<footer>
   <div class="wrap">
     <div class="links">
       <a href="${base}index.html#policies">资助项目</a>
-      <a href="${base}map.html">体系全景</a>
+      <a href="${base}map.html">站点导图</a>
       <a href="${base}index.html#schedule">全年日程</a>
       <a href="${base}center.html">资助中心 · 业务全景</a>
       <a href="${base}ima.html">大学生资助数据库</a>
@@ -1835,11 +1835,27 @@ function buildPareto(year, total) {
   </svg>`
 }
 
-function buildMindmap() {
+// 站点导图：根 = 整站；「资助项目」分支展开为 21 个项目的资助体系
+const SITE_BRANCHES = [
+  { label: '资助项目', href: '#policies' },
+  { label: '办理流程', href: '#flow' },
+  { label: '全年日程', href: '#schedule' },
+  { label: '资助中心 · 业务全景', href: 'center.html' },
+  { label: '大学生资助数据库', href: 'ima.html' },
+  { label: '隐私政策', href: 'privacy.html' },
+  { label: '关于作者', href: '#author' },
+]
+
+function buildMindmap(home = true) {
   const ROW = 32
   const PAD_TOP = 40
-  const X = { root: 24, cat: 220, grp: 432, leaf: 596 }
-  const W = 900
+  const X = { site: 20, branch: 250, cat: 470, grp: 630, leaf: 790 }
+  const W = 980
+  const branchW = 196
+  const siteW = 200
+
+  // 首页用页内锚点；独立页回到 index.html 再滚
+  const hrefOf = (h) => (h.startsWith('#') ? (home ? h : 'index.html' + h) : h)
 
   const leaves = []
   let y = PAD_TOP
@@ -1849,13 +1865,12 @@ function buildMindmap() {
     const catItem = { label: cat.label, color: cat.color, x: X.cat, groups: [] }
     let firstLeafY = null
     let lastLeafY = null
-
     for (const g of cat.groups) {
       const grpItem = { label: g.label, x: X.grp, ys: [] }
       for (const id of g.ids) {
-        const p = byId(id)
-        if (!p) continue
-        leaves.push({ id, title: p.title, color: cat.color, x: X.leaf, y })
+        const pol = byId(id)
+        if (!pol) continue
+        leaves.push({ id, title: pol.title, color: cat.color, x: X.leaf, y })
         grpItem.ys.push(y)
         if (firstLeafY === null) firstLeafY = y
         lastLeafY = y
@@ -1870,19 +1885,32 @@ function buildMindmap() {
     y += 26
   }
 
-  const H = y - 6
-  // 根节点放在整张图的正中，而不是两个分支的重心（否则会被更长的分支拽偏）
+  const H = Math.max(y - 6, 460)
   const rootY = Math.round(H / 2)
+  // 资助项目分支的垂直中心 = 两大类的中心
+  const policyY = Math.round((catNodes[0].y + catNodes[catNodes.length - 1].y) / 2)
+
+  // 6 个单节点分支沿高度均匀分布，避开正中被「资助项目」占用的位置
+  const singles = SITE_BRANCHES.slice(1)
+  const usable = H - 2 * PAD_TOP
+  const FRAC = [0.04, 0.2, 0.36, 0.64, 0.8, 0.96]
+  const singleYs = singles.map((_, i) => Math.round(PAD_TOP + usable * FRAC[i])).map((sy) => {
+    // 避让「资助项目」分支节点，避免矩形重叠
+    if (Math.abs(sy - policyY) < 66) return sy < policyY ? policyY - 66 : policyY + 66
+    return sy
+  })
 
   const curve = (x1, y1, x2, y2) => {
     const mx = (x1 + x2) / 2
     return `M${x1} ${y1} C${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`
   }
 
-  let out = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="学生资助体系思维导图：国家政策 11 项、校内政策 10 项">`
+  let out = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="站点导图：从站点根出发的完整板块与 21 个资助项目">`
   out += `<style>
     .mm-root-bg{fill:#1d1d1f}
     .mm-root{font:700 17px var(--font,system-ui);fill:#fff}
+    .mm-branch-bg{fill:var(--accent,#0b4f32)}
+    .mm-branch{font:700 14.5px var(--font,system-ui);fill:#fff}
     .mm-cat{font:700 15px var(--font,system-ui);fill:#fff}
     .mm-grp{font:600 13px var(--font,system-ui);fill:#86868b}
     .mm-leaf{font:400 13.5px var(--font,system-ui);fill:#1d1d1f}
@@ -1892,23 +1920,38 @@ function buildMindmap() {
     @media (prefers-color-scheme: dark){
       .mm-root-bg{fill:#f5f5f7}
       .mm-root{fill:#1d1d1f}
+      .mm-branch-bg{fill:#4ade80}
+      .mm-branch{fill:#0b1120}
       .mm-grp{fill:#86868b}.mm-leaf{fill:#f5f5f7}
       .mm-link{stroke:#3a3a3c}.mm-link2{stroke:#2c2c2e}
     }
   </style>`
 
-  out += `<rect class="mm-root-bg" x="${X.root}" y="${rootY - 22}" width="152" height="44" rx="12"/>`
-  out += `<text class="mm-root" x="${X.root + 18}" y="${rootY + 5}">学生资助体系</text>`
+  // 站点根
+  out += `<a href="${home ? '#top' : 'index.html'}"><rect class="mm-root-bg" x="${X.site}" y="${rootY - 24}" width="${siteW}" height="48" rx="13"/>
+  <text class="mm-root" x="${X.site + 20}" y="${rootY + 5}">CQPUE资助政策</text></a>`
 
+  // 一级分支：资助项目（带 21 项体系）
+  out += `<path class="mm-link" d="${curve(X.site + siteW, rootY, X.branch, policyY)}"/>`
+  out += `<a href="${hrefOf('#policies')}"><rect class="mm-branch-bg" x="${X.branch}" y="${policyY - 22}" width="${branchW}" height="44" rx="11"/>
+  <text class="mm-branch" x="${X.branch + 18}" y="${policyY + 5}">资助项目 · 21 项</text></a>`
+
+  // 其余 6 个单节点分支
+  singles.forEach((b, i) => {
+    const by = singleYs[i]
+    out += `<path class="mm-link" d="${curve(X.site + siteW, rootY, X.branch, by)}"/>`
+    out += `<a href="${hrefOf(b.href)}"><rect class="mm-branch-bg" x="${X.branch}" y="${by - 22}" width="${branchW}" height="44" rx="11"/>
+    <text class="mm-branch" x="${X.branch + 18}" y="${by + 5}">${esc(b.label)}</text></a>`
+  })
+
+  // 政策体系：从「资助项目」分支继续延伸
   for (const cat of catNodes) {
-    out += `<path class="mm-link" d="${curve(X.root + 152, rootY, cat.x, cat.y - 22)}"/>`
+    out += `<path class="mm-link" d="${curve(X.branch + branchW, policyY, cat.x, cat.y)}"/>`
     out += `<rect x="${cat.x}" y="${cat.y - 22}" width="138" height="44" rx="11" fill="${cat.color}"/>`
     out += `<text class="mm-cat" x="${cat.x + 16}" y="${cat.y + 5}">${esc(cat.label)}</text>`
-
     for (const g of cat.groups) {
       out += `<path class="mm-link2" d="${curve(cat.x + 138, cat.y, g.x, g.y)}"/>`
       out += `<text class="mm-grp" x="${g.x}" y="${g.y + 4.5}">${esc(g.label)}</text>`
-
       for (const ly of g.ys) {
         const leaf = leaves.find((l) => l.y === ly)
         if (!leaf) continue
@@ -1922,7 +1965,6 @@ function buildMindmap() {
   out += `</svg>`
   return out
 }
-
 /* ------------------------------------------------------------------ 页面 */
 
 function renderIndex() {
@@ -2021,7 +2063,7 @@ function renderIndex() {
     <p class="fresh-line">内容核对于 ${SITE.verifiedShort} · 建议 ${SITE.reviewBy}前复核</p>
     <div class="hero-actions">
       <a class="btn" href="#policies">浏览全部项目</a>
-      <a class="btn ghost" href="#mindmap">看体系全景</a>
+      <a class="btn ghost" href="#mindmap">看站点导图</a>
       <a class="btn ghost" href="ima.html">${IMA_NAME}</a>
     </div>
     <div class="stats">
@@ -2057,19 +2099,19 @@ function renderIndex() {
 
 <section id="mindmap">
   <div class="wrap">
-    <p class="eyebrow">体系全景</p>
-    <h2>一张图看懂资助体系</h2>
-    <p class="lede">三支：国家政策、校内政策、社会捐资。按用途分类，点节点进对应项目。</p>
+    <p class="eyebrow">站点导图</p>
+    <h2>一张图逛完整个网站</h2>
+    <p class="lede">从「CQPUE资助政策」出发：资助项目、办理流程、全年日程、资助中心、大学生资助数据库……点击任意节点，直达对应内容。</p>
     <div class="map-frame">${mindmap}</div>
     <div class="map-hint">
-      <span>点节点可直接进入对应项目</span>
+      <span>点击节点直达对应板块与项目</span>
       <a href="map.html">全屏查看 →</a>
     </div>
     ${DEPS}
   </div>
 </section>
 
-<section class="alt">
+<section id="flow" class="alt">
   <div class="wrap">
     <p class="eyebrow">办理流程</p>
     <h2>一份申请，要过五道关</h2>
@@ -2416,14 +2458,14 @@ function renderPolicy(p, index) {
 function renderMapPage(mindmap) {
   const body = `
 <div class="wrap" style="padding:48px 0 80px">
-  <p class="eyebrow">体系全景</p>
-  <h2 style="margin-bottom:28px">学生资助体系思维导图</h2>
+  <p class="eyebrow">站点导图</p>
+  <h2 style="margin-bottom:28px">一张图逛完整个网站</h2>
   <div class="map-frame">${mindmap}</div>
-  <p style="margin-top:18px;font-size:13px;color:var(--text-3)">点击节点进入对应项目；带箭头的连线表示「困难认定」是这些项目的前置条件。</p>
+  <p style="margin-top:18px;font-size:13px;color:var(--text-3)">点击任意节点直达对应页面；「资助项目」分支展开为 21 个项目的资助体系。</p>
 </div>`
   return layout({
-    title: `体系全景 · ${SITE.name}`,
-    description: '学生资助体系思维导图：国家政策与校内政策的层级关系，以及困难认定作为前置条件的依赖关系。',
+    title: `站点导图 · ${SITE.name}`,
+    description: 'CQPUE资助政策全站导图：资助项目、办理流程、全年日程、资助中心、大学生资助数据库与隐私政策，点击节点直达。',
     active: 'mindmap',
     body,
   })
@@ -2728,7 +2770,7 @@ writeFileSync(join(OUT, '.nojekyll'), '', 'utf8')
 writeFileSync(join(OUT, 'index.html'), renderIndex(), 'utf8')
 writeFileSync(join(OUT, '404.html'), render404(), 'utf8')
 writeFileSync(join(OUT, 'privacy.html'), renderPrivacy(), 'utf8')
-writeFileSync(join(OUT, 'map.html'), renderMapPage(buildMindmap()), 'utf8')
+writeFileSync(join(OUT, 'map.html'), renderMapPage(buildMindmap(false)), 'utf8')
 writeFileSync(join(OUT, 'center.html'), renderCenter(), 'utf8')
 writeFileSync(join(OUT, 'ima.html'), renderIma(), 'utf8')
 

@@ -48,11 +48,11 @@ const SITE = {
     hint: '微信扫码加入',
   },
   numcheck: {
-    version: '1.3.0',
+    version: '1.3.1',
     size: '43.4 MB',
     platform: 'Windows 10 / 11（64 位）',
-    url: 'https://github.com/aot528800-hash/aot528800-hash.github.io/releases/latest/download/numcheck-1.3.0-portable.zip',
-    sha256: '83C9721029DD31992B380F69CD386ACCAE41D6613DDB0EF6D6F6716F206D38F7',
+    url: 'https://github.com/aot528800-hash/aot528800-hash.github.io/releases/latest/download/numcheck-1.3.1-portable.zip',
+    sha256: '4F0EBF473C30B535DC1C3CD91988E3550CBE423E7FD7A42473339A073E3B9A49',
     updated: '2026-11-10',
   },
   apk: {
@@ -2276,7 +2276,7 @@ ${imaSection()}
       <h2>号码校验工具：离线批量校验</h2>
       <p class="lede">中国大陆身份证、银行卡、手机号三类号码的离线批量校验：格式 / 校验位 / 归属地 / 派生信息一次校验，整表结果一键导出 Excel 或 CSV。附带符合校验规则的填写模板（表头 / 序号 / 文本格式防精度丢失），并支持表内重复检测（姓名 / 身份证 / 银行卡 / 手机号，定位到行）。全部在本机完成，不上传任何数据。</p>
       <ul class="dl-req">
-        <li><span class="ok">✓</span>仅支持 <strong>Windows 10 / 11（64 位）</strong>，绿色便携版：下载后解压，双击 <strong>号码校验工具-1.3.0.exe</strong> 即可运行</li>
+        <li><span class="ok">✓</span>仅支持 <strong>Windows 10 / 11（64 位）</strong>，绿色便携版：下载后解压，双击 <strong>号码校验工具-1.3.1.exe</strong> 即可运行</li>
         <li><span class="ok">✓</span>纯离线运行：断网可用，不收集任何个人信息</li>
         <li><span class="no">✕</span>不适用于 macOS / Linux；不支持 iPhone / iPad</li>
         <li><span class="dot-i">·</span>校验结果仅供参考，最终认定以主管部门或有关机构官方渠道为准</li>
@@ -2303,7 +2303,7 @@ ${imaSection()}
         下载 Windows 便携版（ZIP）
       </a>
       <p class="dl-hash">SHA256 ${SITE.numcheck.sha256.slice(0, 24)}…</p>
-      <p class="dl-alt">本工具由周泽维个人独立开发（numcheck 项目组），与任何学校、机构无隶属关系，非官方发布的产品。校验结果仅供参考，不构成任何法律效力的认定；纯离线运行，无广告、无内购、不收集个人信息。下载后解压到任意目录即可使用。</p>
+      <p class="dl-alt">本工具由周泽维个人独立开发（numcheck 项目组），所属：重庆工程职业技术大学；联系电话：15736152295。个人作品，非学校官方发布产品。校验结果仅供参考，不构成任何法律效力的认定；纯离线运行，无广告、无内购、不收集个人信息。下载后解压到任意目录即可使用。</p>
     </div>
   </div>
 </section>
@@ -2317,7 +2317,7 @@ ${imaSection()}
     <div class="disc-grid">
       <div class="disc-item">
         <h3>非官方资料</h3>
-        <p>由周泽维个人独立整理，与学校无隶属关系，不是学校官方发布的产品。</p>
+        <p>由周泽维（重庆工程职业技术大学）个人独立整理，不是学校官方发布的产品。</p>
       </div>
       <div class="disc-item">
         <h3>仅供参考</h3>

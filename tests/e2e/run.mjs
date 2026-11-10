@@ -7,7 +7,7 @@
  * 运行：node tests/e2e/run.mjs
  */
 import { spawn } from 'node:child_process'
-import { readdirSync, statSync } from 'node:fs'
+import { existsSync, readdirSync, statSync } from 'node:fs'
 import { setTimeout as sleep } from 'node:timers/promises'
 import { preview } from 'vite'
 
@@ -139,9 +139,28 @@ async function startServer() {
 
 /* ---------------- 主流程 ---------------- */
 
-const server = await startServer()
-const { chrome, ws, send, ev, viewport, colorScheme, goto, errors } = await launch()
+// 前置条件：缺少浏览器或构建产物时明确跳过（退出码 2），不再静默"0 项通过"
+if (!existsSync(CHROME)) {
+  console.error(`SKIP 未找到 Chrome（${CHROME}），未执行 e2e；可设置 CHROME_PATH 指定`)
+  process.exit(2)
+}
+if (!existsSync('dist') || !existsSync('dist/index.html')) {
+  console.error('SKIP 未找到 dist/（请先运行 npm run build），未执行 e2e')
+  process.exit(2)
+}
 
+let server
+let browser
+try {
+  server = await startServer()
+  browser = await launch()
+} catch (e) {
+  console.error('e2e 启动失败：', e && e.message ? e.message : e)
+  process.exit(2)
+}
+const { chrome, ws, send, ev, viewport, colorScheme, goto, errors } = browser
+
+let failure = null
 try {
   await viewport(390)
   await colorScheme('light')
@@ -568,6 +587,9 @@ try {
     assert(added.length === 0, `异常: ${added.slice(0, 2).join(' | ')}`)
     return '50 次输入，0 异常'
   })
+} catch (e) {
+  failure = e
+  console.error('\ne2e 执行中止（异常）：', e && e.stack ? e.stack : e)
 } finally {
   try { ws.close() } catch {}
   try { chrome.kill() } catch {}
@@ -577,5 +599,8 @@ try {
   console.log(`\n总计 ${results.length} 项：通过 ${pass}，失败 ${failed}`)
   const totalMs = results.reduce((s, r) => s + r.ms, 0)
   console.log(`耗时 ${(totalMs / 1000).toFixed(1)}s`)
-  process.exit(failed ? 1 : 0)
+  if (results.length === 0) {
+    console.error('没有任何用例被执行，视为失败（此前会被 exit 0 静默吞掉）')
+  }
+  process.exit(failed || failure || results.length === 0 ? 1 : 0)
 }

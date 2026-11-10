@@ -1392,6 +1392,10 @@ h2 { letter-spacing: -0.035em; }
 /* ------------------------------------------------------------------ 交互脚本 */
 
 const SITE_JS = `(function () {
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action="print"]')
+    if (btn) { e.preventDefault(); window.print() }
+  })
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* 搜索：按卡片文本过滤 */
@@ -1764,6 +1768,7 @@ function renderIma() {
     title: `${IMA_NAME} · ${SITE.name}`,
     description: `收录全国${IMA_SCHOOLS}高校学生资助类公众号文章与公开政策文件原文的资助资料库，微信扫码加入。`,
     active: 'ima',
+    path: 'ima.html',
     body,
     extraHead,
   })
@@ -1782,13 +1787,25 @@ const DEPS = `<div class="deps">
   <p>这些项目都要求先通过困难认定；认定等级同时决定助学金的档次。</p>
 </div>`
 
-const layout = ({ title, description, base = '', active, home = false, body, extraHead = '' }) => `<!doctype html>
+const pageUrl = (p) => (SITE.url ? `${SITE.url}/${p}` : '')
+
+const layout = ({ title, description, path = '', base = '', active, home = false, body, extraHead = '', noindex = false, image = '' }) => `<!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
+<link rel="canonical" href="${pageUrl(path)}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="${esc(SITE.name)}">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(description)}">
+<meta property="og:url" content="${pageUrl(path)}">
+<meta property="og:locale" content="zh_CN">
+${image ? '<meta property="og:image" content="' + esc(image) + '">' : ''}
+<meta name="twitter:card" content="summary">
+${noindex ? '<meta name="robots" content="noindex,follow">' : '<meta name="robots" content="index,follow">'}
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
@@ -2372,6 +2389,7 @@ ${imaSection()}
     description: SITE.desc,
     active: 'home',
     home: true,
+    path: 'index.html',
     body,
   })
 }
@@ -2457,7 +2475,7 @@ function renderPolicy(p, index) {
         <h1>${esc(p.title)}</h1>
         <p class="sub">${esc(p.subtitle)}</p>
       </div>
-      <button class="print-btn" type="button" onclick="window.print()">
+      <button class="print-btn" type="button" data-action="print">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 16h10v4H7z"/></svg>
         打印
       </button>
@@ -2530,6 +2548,7 @@ function renderPolicy(p, index) {
   return layout({
     title: `${p.title} · ${SITE.name}`,
     description: `${p.title}：${p.subtitle}。${(p.description || '').slice(0, 80)}`,
+    path: `policies/${p.id}.html`,
     base: '../',
     active: 'policies',
     body,
@@ -2540,7 +2559,7 @@ function renderMapPage(mindmap) {
   const body = `
 <div class="wrap" style="padding:48px 0 80px">
   <p class="eyebrow">站点导图</p>
-  <h2 style="margin-bottom:28px">一张图逛完整个网站</h2>
+  <h1 style="margin-bottom:28px">一张图逛完整个网站</h1>
   <div class="map-frame">${mindmap}</div>
   <p style="margin-top:18px;font-size:13px;color:var(--text-3)">点击任意节点直达对应页面；「资助项目」分支展开为 21 个项目的资助体系。</p>
 </div>`
@@ -2548,6 +2567,7 @@ function renderMapPage(mindmap) {
     title: `站点导图 · ${SITE.name}`,
     description: 'CQPUE资助政策全站导图：资助项目、办理流程、全年日程、资助中心、大学生资助数据库与隐私政策，点击节点直达。',
     active: 'mindmap',
+    path: 'map.html',
     body,
   })
 }
@@ -2767,6 +2787,7 @@ function renderCenter() {
   return layout({
     title: `资助中心业务全景 · ${SITE.name}`,
     description: '重庆工程职业技术大学学生资助管理中心 10 大门类、47 项业务的全景梳理，含全年工作节奏与风险防控要点。',
+    path: 'center.html',
     active: 'center',
     body,
   })
@@ -2792,10 +2813,10 @@ function renderPrivacy() {
   const body = `
 <div class="wrap" style="padding:48px 0 96px;max-width:760px">
   <p class="eyebrow">隐私</p>
-  <h2>隐私政策</h2>
+  <h1>隐私政策</h1>
   <div class="prose" style="margin-top:24px">${marked.parse(md)}</div>
 </div>`
-  return layout({ title: `隐私政策 · ${SITE.name}`, description: '本站不收集任何个人信息，无 Cookie、无统计、无广告。', body })
+  return layout({ title: `隐私政策 · ${SITE.name}`, description: '本站不收集任何个人信息，无 Cookie、无统计、无广告。', path: 'privacy.html', body })
 }
 
 function render404() {
@@ -2805,7 +2826,7 @@ function render404() {
   <p style="color:var(--text-2);margin:0 0 28px">这个地址没有对应的内容，可能是链接过期了。</p>
   <a class="btn" href="index.html">返回首页</a>
 </div>`
-  return layout({ title: '页面未找到 · CQPUE资助政策', description: '页面不存在', body })
+  return layout({ title: '页面未找到 · CQPUE资助政策', description: '页面不存在或已迁移：请从站点首页重新进入，或用站点导图与搜索找到目标政策页面。', path: '404.html', noindex: true, body })
 }
 
 /* ------------------------------------------------------------------ 输出 */
@@ -2859,7 +2880,7 @@ policyCategories.forEach((p, i) => {
   writeFileSync(join(OUT, 'policies', `${p.id}.html`), renderPolicy(p, i), 'utf8')
 })
 
-const pages = ['index.html', 'map.html', 'center.html', 'ima.html', 'privacy.html'].concat(
+const pages = ['', 'map.html', 'center.html', 'ima.html', 'privacy.html'].concat(
   policyCategories.map((p) => `policies/${p.id}.html`),
 )
 
@@ -2874,7 +2895,7 @@ if (SITE.url) {
     join(OUT, 'sitemap.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${pages.map((u) => `  <url><loc>${SITE.url}/${u}</loc></url>`).join('\n')}
+${pages.map((u) => `  <url><loc>${SITE.url}/${u}</loc><lastmod>${SITE.verifiedShort}</lastmod></url>`).join('\n')}
 </urlset>`,
     'utf8',
   )

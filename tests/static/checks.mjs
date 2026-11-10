@@ -3,7 +3,7 @@
  * 运行：node tests/static/checks.mjs
  */
 import { execFileSync } from 'node:child_process'
-import { readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 
 const APK = 'android/app/build/outputs/apk/release/app-release.apk'
 const AAPT2 = 'C:/Users/Administrator/Android/build-tools/35.0.0/aapt2.exe'
@@ -12,6 +12,25 @@ const APKSIGNER = 'C:/Users/Administrator/Android/build-tools/35.0.0/apksigner.b
 const results = []
 let failed = 0
 let warnings = 0
+let skipped = 0
+
+// 环境缺失时跳过（而不是崩溃）：APK / Android build-tools / Vite 构建产物
+const HAS_APK = existsSync(APK) && existsSync(AAPT2) && existsSync(APKSIGNER)
+const HAS_DIST = existsSync('dist') && existsSync('dist/index.html')
+
+function skip(name, why) {
+  skipped++
+  results.push({ name, ok: true, skip: true, detail: why })
+  console.log(`SKIP  ${name}  — ${why}`)
+}
+function androidCheck(name, fn) {
+  if (!HAS_APK) return skip(name, '缺少 APK 或 Android build-tools（未构建安卓产物）')
+  check(name, fn)
+}
+function distCheck(name, fn) {
+  if (!HAS_DIST) return skip(name, '缺少 dist/（请先运行 npm run build）')
+  check(name, fn)
+}
 
 function check(name, fn) {
   try {
@@ -41,9 +60,9 @@ const runBat = (bat, args) => execFileSync('cmd', ['/c', bat, ...args], { encodi
 
 /* ---------------- 安装包 ---------------- */
 
-const badging = run(AAPT2, ['dump', 'badging', APK])
+const badging = HAS_APK ? run(AAPT2, ['dump', 'badging', APK]) : ''
 
-check('安装包基本信息', () => {
+androidCheck('安装包基本信息', () => {
   const pkg = /package: name='([^']+)' versionCode='(\d+)' versionName='([^']+)'/.exec(badging)
   assert(pkg, '无法解析 badging')
   const [, name, vc, vn] = pkg
@@ -57,7 +76,7 @@ check('安装包基本信息', () => {
   return `${name} v${vn} (${vc}) · sdk ${min[1]}→${target[1]}`
 })
 
-check('升级覆盖可行性（versionCode 递增 + 同一签名）', () => {
+androidCheck('升级覆盖可行性（versionCode 递增 + 同一签名）', () => {
   const vc = Number(/versionCode='(\d+)'/.exec(badging)[1])
   const sign = runBat(APKSIGNER, ['verify', '--print-certs', APK])
   const sha = /SHA-256 digest: ([0-9a-f]+)/.exec(sign)
@@ -69,7 +88,7 @@ check('升级覆盖可行性（versionCode 递增 + 同一签名）', () => {
   return `versionCode ${vc}，证书 ${sha[1].slice(0, 16)}…（与 0.2 / 0.2.1 一致，可覆盖安装）`
 })
 
-check('签名方案有效', () => {
+androidCheck('签名方案有效', () => {
   const out = runBat(APKSIGNER, ['verify', '--verbose', APK])
   assert(/Verifies/.test(out), '签名校验未通过')
   assert(/v2 scheme \(APK Signature Scheme v2\): true/.test(out), '缺少 v2 签名')
@@ -78,7 +97,7 @@ check('签名方案有效', () => {
 
 /* ---------------- 权限 ---------------- */
 
-check('权限最小化（无敏感权限）', () => {
+androidCheck('权限最小化（无敏感权限）', () => {
   const perms = [...badging.matchAll(/uses-permission: name='([^']+)'/g)].map((m) => m[1])
   const dangerous = perms.filter((p) =>
     /CAMERA|RECORD_AUDIO|READ_CONTACTS|ACCESS_FINE_LOCATION|ACCESS_COARSE_LOCATION|READ_SMS|SEND_SMS|READ_PHONE_STATE|CALL_PHONE|WRITE_EXTERNAL|READ_EXTERNAL|MANAGE_EXTERNAL|QUERY_ALL_PACKAGES|READ_CALL_LOG/.test(p),
@@ -87,7 +106,7 @@ check('权限最小化（无敏感权限）', () => {
   return perms.join(', ')
 })
 
-check('导出组件可控', () => {
+androidCheck('导出组件可控', () => {
   const xml = run(AAPT2, ['dump', 'xmltree', '--file', 'AndroidManifest.xml', APK])
   const exported = (xml.match(/exported\(0x01010010\)=true/g) || []).length
   assert(exported <= 2, `导出组件 ${exported} 个`)
@@ -107,19 +126,19 @@ const js = assets
 const html = readFileSync('dist/index.html', 'utf8')
 const all = js + html
 
-check('构建产物无 eval / new Function / document.write', () => {
+distCheck('构建产物无 eval / new Function / document.write', () => {
   const hits = (all.match(/\beval\s*\(|new Function\s*\(|document\.write\s*\(/g) || []).length
   assert(hits === 0, `命中 ${hits} 处`)
   return '0 处'
 })
 
-check('无运行时外发请求（无 XHR / WebSocket / sendBeacon）', () => {
+distCheck('无运行时外发请求（无 XHR / WebSocket / sendBeacon）', () => {
   const hits = (js.match(/XMLHttpRequest|new WebSocket|navigator\.sendBeacon/g) || []).length
   assert(hits === 0, `命中 ${hits} 处`)
   return '0 处'
 })
 
-check('外部域名仅剩文档/错误提示', () => {
+distCheck('外部域名仅剩文档/错误提示', () => {
   const urls = [...all.matchAll(/https?:\/\/[a-z0-9.\-]+/gi)].map((m) => m[0].toLowerCase())
   const domains = [...new Set(urls.map((u) => u.replace(/^https?:\/\//, '')))]
   const allowed = /^(www\.)?(w3\.org|github\.com|vuejs\.org|localhost|127\.0\.0\.1)$/
@@ -128,7 +147,7 @@ check('外部域名仅剩文档/错误提示', () => {
   return domains.join(', ')
 })
 
-check('无硬编码密钥', () => {
+distCheck('无硬编码密钥', () => {
   const secret = /(AKIA[0-9A-Z]{16}|api[_-]?key\s*[:=]\s*['"][^'"]{12,}|Bearer\s+[A-Za-z0-9\-_.]{20,}|-----BEGIN [A-Z ]+PRIVATE KEY-----)/i.exec(all)
   assert(!secret, `疑似密钥: ${secret && secret[0].slice(0, 40)}`)
   return '未发现'
@@ -151,10 +170,11 @@ check('无第三方统计/推送/广告 SDK', () => {
   return `${deps.length} 个依赖，均为构建/运行时基础库`
 })
 
-check('本地存储不含个人信息', () => {
+distCheck('本地存储不含个人信息', () => {
   const keys = [...new Set([...js.matchAll(/['"`](aid_[a-z_]+)['"`]/g)].map((m) => m[1]))]
   assert(keys.length > 0, '未发现本地存储键')
-  assert(keys.every((k) => /^aid_(materials|search)/.test(k)), `未知键: ${keys.join(', ')}`)
+  assert(keys.every((k) => /^aid_(materials|search|font|timeline)/.test(k)), `未知键: ${keys.join(', ')}`)
+  assert(!keys.some((k) => /name|phone|idcard|identity|mobile|address/i.test(k)), `疑似个人信息键: ${keys.join(', ')}`)
   return `${keys.join(', ')}（学习进度与搜索词，无身份信息）`
 })
 
@@ -221,5 +241,9 @@ info('次要文字与链接色对比度（低于 AA 正文要求，属系统色�
 /* ---------------- 汇总 ---------------- */
 
 const pass = results.filter((r) => r.ok && !r.info).length
-console.log(`\n静态检查 ${results.length} 项：通过 ${pass}，失败 ${failed}，提示 ${warnings}`)
+console.log(`\n静态检查 ${results.length} 项：通过 ${pass}，失败 ${failed}，跳过 ${skipped}，提示 ${warnings}`)
+if (results.length === 0) {
+  console.error('没有任何检查项被执行，视为失败')
+  process.exit(1)
+}
 process.exit(failed ? 1 : 0)

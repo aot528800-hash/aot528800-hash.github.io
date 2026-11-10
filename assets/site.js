@@ -1,4 +1,8 @@
 (function () {
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action="print"]')
+    if (btn) { e.preventDefault(); window.print() }
+  })
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* 搜索：按卡片文本过滤 */

@@ -47,6 +47,14 @@ const SITE = {
     schools: '100+',
     hint: '微信扫码加入',
   },
+  numcheck: {
+    version: '1.1.0',
+    size: '43.4 MB',
+    platform: 'Windows 10 / 11（64 位）',
+    url: 'https://github.com/aot528800-hash/aot528800-hash.github.io/releases/latest/download/numcheck-1.1.0-portable.zip',
+    sha256: '720CEED4E831B51A0DEF1809C15A3C8800E95D627B229232AFC903EF4421468C',
+    updated: '2026-11-10',
+  },
   apk: {
     version: '0.3.3',
     versionCode: 15,
@@ -2261,6 +2269,44 @@ ${imaSection()}
     </div>
   </div>
 </section>
+<section id="numcheck" class="dl-section">
+  <div class="wrap dl-wrap">
+    <div class="dl-text">
+      <p class="eyebrow">Windows 桌面应用</p>
+      <h2>号码校验工具：离线批量校验</h2>
+      <p class="lede">身份证、银行卡、手机号三类号码的离线批量校验：格式 / 校验位 / 归属地 / 派生信息一次校验，整表结果一键导出 Excel 或 CSV。全部在本机完成，不上传任何数据。</p>
+      <ul class="dl-req">
+        <li><span class="ok">✓</span>仅支持 <strong>Windows 10 / 11（64 位）</strong>，绿色便携版：下载后解压，双击 <strong>号码校验工具-1.1.0.exe</strong> 即可运行</li>
+        <li><span class="ok">✓</span>纯离线运行：断网可用，不收集任何个人信息</li>
+        <li><span class="no">✕</span>不适用于 macOS / Linux；不支持 iPhone / iPad</li>
+        <li><span class="dot-i">·</span>校验结果仅供参考，最终认定以主管部门或有关机构官方渠道为准</li>
+      </ul>
+    </div>
+
+    <div class="dl-card">
+      <div class="dl-card-head">
+        <span class="dl-icon">${ICON_SHIELD}</span>
+        <div>
+          <strong>号码校验工具</strong>
+          <span>Windows 桌面版 · 便携包</span>
+        </div>
+      </div>
+      <dl class="dl-meta">
+        <div><dt>版本</dt><dd>v${SITE.numcheck.version}</dd></div>
+        <div><dt>大小</dt><dd>${SITE.numcheck.size}</dd></div>
+        <div><dt>系统</dt><dd>Windows 10/11 64 位</dd></div>
+        <div><dt>费用</dt><dd>公益提供</dd></div>
+      </dl>
+      <a class="btn dl-btn" href="${SITE.numcheck.url}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+        下载 Windows 便携版（ZIP）
+      </a>
+      <p class="dl-hash">SHA256 ${SITE.numcheck.sha256.slice(0, 24)}…</p>
+      <p class="dl-alt">本工具由周泽维个人独立开发（numcheck 项目组），与任何学校、机构无隶属关系，非官方发布的产品。校验结果仅供参考，不构成任何法律效力的认定；纯离线运行，无广告、无内购、不收集个人信息。下载后解压到任意目录即可使用。</p>
+    </div>
+  </div>
+</section>
+
 <section id="disclaimer">
   <div class="wrap narrow">
     <p class="eyebrow">适用范围</p>

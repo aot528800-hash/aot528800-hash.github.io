@@ -265,7 +265,7 @@ const CSS = `
   --card: #ffffff;
   --text: #14201a;
   --text-2: #58655f;
-  --text-3: #8a938d;
+  --text-3: #64748b;
   --line: #d7dfd9;
   --line-2: #e8eeea;
   --accent: #0b4f32;
@@ -292,7 +292,7 @@ const CSS = `
     --card: #10201a;
     --text: #eef3ef;
     --text-2: #a8b5ae;
-    --text-3: #7d8a83;
+    --text-3: #94a3b8;
     --line: #22332b;
     --line-2: #1a2a22;
     --accent: #5cbb8a;
@@ -1311,7 +1311,7 @@ p { text-wrap: pretty; }
   --card: #ffffff;
   --text: #0f172a;
   --text-2: #475569;
-  --text-3: #94a3b8;
+  --text-3: #64748b;
   --line: #cbd5e1;
   --line-2: #e2e8f0;
   --radius: 16px;
@@ -1333,7 +1333,7 @@ body {
     --card: #111c2e;
     --text: #f1f5f9;
     --text-2: #94a3b8;
-    --text-3: #64748b;
+    --text-3: #94a3b8;
     --line: #334155;
     --line-2: #1e293b;
     --accent: #4ade80;
@@ -1793,6 +1793,7 @@ const layout = ({ title, description, path = '', base = '', active, home = false
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">

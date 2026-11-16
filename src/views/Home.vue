@@ -236,13 +236,13 @@ onBeforeUnmount(() => {
           </span>
           <span class="cell-detail cell-detail--accent">拨号</span>
         </a>
-        <a class="cell cell--tappable" href="tel:15736152295">
+        <div class="cell">
           <span class="tile" style="background: var(--blue-tint)">👤</span>
           <span class="cell-body">
             <span class="cell-title">开发者 · 周泽维</span>
-            <span class="cell-subtitle">15736152295 · 意见反馈与内容纠错</span>
+            <span class="cell-subtitle">意见反馈与内容纠错（微信联系）</span>
           </span>
-          <span class="cell-detail cell-detail--accent">拨号</span>
+          <span class="cell-detail">微信</span>
         </a>
         <div class="cell">
           <span class="tile" style="background: var(--blue-tint)">💬</span>

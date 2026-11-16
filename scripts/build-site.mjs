@@ -25,7 +25,7 @@ const SITE = {
   tagline: '把学生资助政策讲清楚',
   desc: '重庆工程职业技术大学学生资助政策的结构化整理：21 个资助项目，含资格条件、办理流程、时间节点与材料清单。',
   author: '周泽维',
-  phone: '15736152295',
+  phone: '',  // 2026-11-16 移除：本人私人手机号不得公开
   updated: '2026 年 10 月 24 日',
   overridesNote: true,
   verified: '2026 年 10 月 24 日',
@@ -62,7 +62,7 @@ const SITE = {
     platform: 'Android 7.0 及以上',
     url: 'https://github.com/aot528800-hash/aot528800-hash.github.io/releases/latest/download/cqpue-aid.apk',
     sha256: '711085978F95CFFB22CA0A78288DF0A600AD8DE9B3785D918EFF259E7E2DD28E',
-    contact: '15736152295',
+    contact: '',  // 2026-11-16 移除：同上
   },
 }
 
@@ -1623,7 +1623,7 @@ const footer = (base) => `<footer>
       <a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}（仅安卓）</a>
     </div>
     <div>本站由周泽维个人整理，<strong>公益整理、无广告、无商业用途</strong>，仅用于学习与研究。</div>
-    <div>联系作者：微信 <strong>${SITE.wechat.id}</strong>　·　<a href="tel:15736152295">15736152295</a></div>
+        <div>联系作者：微信 <strong>${SITE.wechat.id}</strong></div>
     <div>非重庆工程职业技术大学官方产品，内容仅供参考，具体政策以学校资助管理中心当年通知为准。本站内容仅对应本校执行口径，不适用于其他高校。</div>
     <div>数据更新：${SITE.updated} · 21 个资助项目 · 13 份政策依据</div>
   </div>
@@ -2321,7 +2321,7 @@ ${imaSection()}
         下载 Windows 便携版（ZIP）
       </a>
       <p class="dl-hash">SHA256 ${SITE.numcheck.sha256.slice(0, 24)}…</p>
-      <p class="dl-alt">本工具由周泽维个人独立开发（numcheck 项目组），所属：重庆工程职业技术大学；联系电话：15736152295。个人作品，非学校官方发布产品。校验结果仅供参考，不构成任何法律效力的认定；纯离线运行，无广告、无内购、不收集个人信息。下载后解压到任意目录即可使用。</p>
+            <p class="dl-alt">本工具由周泽维个人独立开发（numcheck 项目组），所属：重庆工程职业技术大学。个人作品，非学校官方发布产品。校验结果仅供参考，不构成任何法律效力的认定；纯离线运行，无广告、无内购、不收集个人信息。下载后解压到任意目录即可使用。</p>
     </div>
   </div>
 </section>
@@ -2364,7 +2364,7 @@ ${imaSection()}
       <p>没有广告，没有内购，也不收集个人信息。21 个项目的条件、流程、材料逐条对照文件核对，资助中心的业务全景来自实地梳理。</p>
       <p>别的学校想做成自己的版本？<strong>联系我</strong>，可以帮你们适配、更新。</p>
       <div class="author-cta">
-        <a class="btn" href="tel:15736152295">电话联系</a>
+            <a class="btn ghost" href="#contact">加微信聊</a>
         <a class="btn ghost" href="#contact">加微信聊</a>
       </div>
       <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">微信：${SITE.wechat.id}　·　<a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}</a>（仅安卓）　·　<a href="privacy.html">隐私政策</a></p>
@@ -2797,7 +2797,7 @@ function renderCenter() {
 function renderPrivacy() {
   const md = `本站不收集任何个人信息，不使用 Cookie，不接入统计或广告服务。所有页面均为静态文件，托管在 GitHub Pages 上。
 
-开发者：周泽维（个人开发者，非学校官方）　联系电话：15736152295
+开发者：周泽维（个人开发者，非学校官方）
 
 本站内容依据学校及国家、重庆市公开的资助政策文件整理，**非学校官方发布**。政策可能随年度调整，具体条件、金额与办理时间**以学校学生资助管理中心当年通知为准**。本站不构成任何政策承诺或法律依据。
 

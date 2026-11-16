@@ -420,7 +420,7 @@ try {
     assert(hash === '#/privacy', `跳转到 ${hash}`)
 
     const text = await ev(`document.body.innerText`)
-    for (const kw of ['周泽维', '15736152295', '不收集', '完全免费', '生效日期']) {
+  for (const kw of ['周泽维', '不收集', '完全免费', '生效日期']) {
       assert(text.includes(kw), `隐私政策缺少「${kw}」`)
     }
     const back = await ev(`document.querySelector('.nav-back span')?.textContent`)

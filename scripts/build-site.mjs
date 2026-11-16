@@ -1620,7 +1620,7 @@ const footer = (base) => `<footer>
       <a href="${base}ima.html">大学生资助数据库</a>
       <a href="${base}privacy.html">隐私政策</a>
       <a href="${base}index.html#author">关于作者</a>
-      <a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}（仅安卓）</a>
+      <a href="${SITE.apk.url}">下载安卓版</a>
     </div>
     <div>本站由周泽维个人整理，<strong>公益整理、无广告、无商业用途</strong>，仅用于学习与研究。</div>
         <div>联系作者：微信 <strong>${SITE.wechat.id}</strong></div>
@@ -2368,7 +2368,7 @@ ${imaSection()}
             <a class="btn ghost" href="#contact">加微信聊</a>
         <a class="btn ghost" href="#contact">加微信聊</a>
       </div>
-      <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">微信：${SITE.wechat.id}　·　<a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}</a>（仅安卓）　·　<a href="privacy.html">隐私政策</a></p>
+      <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">微信：${SITE.wechat.id}　·　<a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}</a>　·　<a href="privacy.html">隐私政策</a></p>
     </div>
     <div>
       <dl>

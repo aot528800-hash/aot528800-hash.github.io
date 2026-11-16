@@ -1620,6 +1620,7 @@ const footer = (base) => `<footer>
       <a href="${base}ima.html">大学生资助数据库</a>
       <a href="${base}privacy.html">隐私政策</a>
       <a href="${base}index.html#author">关于作者</a>
+      <a href="https://aot528800-hash.github.io/me/" target="_blank" rel="noopener">作者个人主页</a>
       <a href="${SITE.apk.url}">下载安卓版</a>
     </div>
     <div>本站由周泽维个人整理，<strong>公益整理、无广告、无商业用途</strong>，仅用于学习与研究。</div>
@@ -2365,7 +2366,6 @@ ${imaSection()}
       <p>没有广告，没有内购，也不收集个人信息。21 个项目的条件、流程、材料逐条对照文件核对，资助中心的业务全景来自实地梳理。</p>
       <p>别的学校想做成自己的版本？<strong>联系我</strong>，可以帮你们适配、更新。</p>
       <div class="author-cta">
-            <a class="btn ghost" href="#contact">加微信聊</a>
         <a class="btn ghost" href="#contact">加微信聊</a>
       </div>
       <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">微信：${SITE.wechat.id}　·　<a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}</a>　·　<a href="privacy.html">隐私政策</a></p>
@@ -2377,6 +2377,7 @@ ${imaSection()}
         <dt>范围</dt><dd>21 个资助项目 · 10 个月段日程</dd>
         <dt>依据</dt><dd>13 份国家与校内政策文件</dd>
         <dt>形态</dt><dd>安卓应用 ＋ 本网页</dd>
+        <dt>主页</dt><dd><a href="https://aot528800-hash.github.io/me/" target="_blank" rel="noopener">aot528800-hash.github.io/me</a></dd>
         <dt>费用</dt><dd>纯公益，无商业用途</dd>
         <dt>更新</dt><dd>${SITE.updated}</dd>
       </dl>

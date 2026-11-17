@@ -169,6 +169,38 @@
     targets.forEach(function (t) { spy.observe(t); });
   }
 
+  /* 快捷跳转：右下角一键到顶 / 到底；滚过一屏才出现，减少动效时直接跳。
+     到底之后「↓」自动淡出，回顶之后「↑」自动淡出——不让按钮做无用功。 */
+  var jump = document.getElementById('jump');
+  if (jump) {
+    var jumpTop = jump.querySelector('[data-jump="top"]');
+    var jumpBottom = jump.querySelector('[data-jump="bottom"]');
+    var jumpRaf = 0;
+    function syncJump() {
+      jumpRaf = 0;
+      var y = window.scrollY || window.pageYOffset;
+      var max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      jump.classList.toggle('is-on', y > window.innerHeight * 0.9);
+      if (jumpTop) jumpTop.classList.toggle('is-off', y < 8);
+      if (jumpBottom) jumpBottom.classList.toggle('is-off', y > max - 8);
+    }
+    function queueJump() {
+      if (!jumpRaf) jumpRaf = window.requestAnimationFrame(syncJump);
+    }
+    window.addEventListener('scroll', queueJump, { passive: true });
+    window.addEventListener('resize', queueJump, { passive: true });
+    jump.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-jump]');
+      if (!btn || btn.classList.contains('is-off')) return;
+      var toTop = btn.getAttribute('data-jump') === 'top';
+      window.scrollTo({
+        top: toTop ? 0 : document.documentElement.scrollHeight,
+        behavior: reduce ? 'auto' : 'smooth'
+      });
+    });
+    syncJump();
+  }
+
   /* 入场动效 */
   if (!reduce && 'IntersectionObserver' in window) {
     var targets = [].slice.call(document.querySelectorAll('.card, .flow > li, .timeline > li, .author > div'));

@@ -1387,6 +1387,48 @@ h2 { letter-spacing: -0.035em; }
 .ima-band { border-color: rgba(15, 23, 42, .08); box-shadow: 0 24px 48px -24px rgba(15, 23, 42, .12); }
 @media (prefers-color-scheme: dark) { .ima-band { border-color: rgba(241, 245, 249, .1); box-shadow: none; } }
 
+/* 快捷跳转：右下角一键到顶 / 到底，滚过一屏才出现 */
+.jump {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity .22s ease, transform .22s cubic-bezier(.16, 1, .3, 1);
+}
+.jump.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.jump button {
+  width: 46px; height: 46px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text-2);
+  font-size: 18px; line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 8px 22px -10px rgba(15, 23, 42, .3);
+  transition: transform .16s ease, color .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+.jump button:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px -10px rgba(11, 79, 50, .45);
+}
+.jump button:active { transform: scale(.94); }
+.jump button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.jump button.is-off { opacity: 0; pointer-events: none; }
+@media (prefers-color-scheme: dark) {
+  .jump button { border-color: rgba(241, 245, 249, .16); box-shadow: 0 8px 22px -8px rgba(0, 0, 0, .7); }
+  .jump button:hover { box-shadow: 0 12px 26px -8px rgba(0, 0, 0, .8); }
+}
+@media print { .jump { display: none; } }
+
 `
 
 /* ------------------------------------------------------------------ 交互脚本 */
@@ -1560,6 +1602,38 @@ const SITE_JS = `(function () {
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     targets.forEach(function (t) { spy.observe(t); });
+  }
+
+  /* 快捷跳转：右下角一键到顶 / 到底；滚过一屏才出现，减少动效时直接跳。
+     到底之后「↓」自动淡出，回顶之后「↑」自动淡出——不让按钮做无用功。 */
+  var jump = document.getElementById('jump');
+  if (jump) {
+    var jumpTop = jump.querySelector('[data-jump="top"]');
+    var jumpBottom = jump.querySelector('[data-jump="bottom"]');
+    var jumpRaf = 0;
+    function syncJump() {
+      jumpRaf = 0;
+      var y = window.scrollY || window.pageYOffset;
+      var max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      jump.classList.toggle('is-on', y > window.innerHeight * 0.9);
+      if (jumpTop) jumpTop.classList.toggle('is-off', y < 8);
+      if (jumpBottom) jumpBottom.classList.toggle('is-off', y > max - 8);
+    }
+    function queueJump() {
+      if (!jumpRaf) jumpRaf = window.requestAnimationFrame(syncJump);
+    }
+    window.addEventListener('scroll', queueJump, { passive: true });
+    window.addEventListener('resize', queueJump, { passive: true });
+    jump.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-jump]');
+      if (!btn || btn.classList.contains('is-off')) return;
+      var toTop = btn.getAttribute('data-jump') === 'top';
+      window.scrollTo({
+        top: toTop ? 0 : document.documentElement.scrollHeight,
+        behavior: reduce ? 'auto' : 'smooth'
+      });
+    });
+    syncJump();
   }
 
   /* 入场动效 */
@@ -1831,6 +1905,10 @@ ${nav(base, active, home)}
 ${body}
 </main>
 ${footer(base)}
+<div class="jump" id="jump" aria-label="页面快捷跳转">
+  <button type="button" data-jump="top" aria-label="回到页面顶部" title="回到顶部">↑</button>
+  <button type="button" data-jump="bottom" aria-label="跳到页面底部" title="跳到页面底部">↓</button>
+</div>
 <script src="${base}assets/site.js" defer></script>
 </body>
 </html>`

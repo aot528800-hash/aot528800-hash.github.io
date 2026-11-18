@@ -2452,8 +2452,7 @@ const SOFTWARE = [
     system: 'Windows 10/11 64 位',
     version: 'v1.0.0',
     size: '45.1 MB',
-    file: 'conscription-aid-calc-v1.0.0.zip',
-    saveAs: '入伍资助代偿利息测算工具-v1.0.0.zip',
+    file: '入伍资助代偿利息测算工具-v1.0.0.zip',
     sha256: 'EC293B97C23BADE9068417B7C73EB5E1C83D6CAEACD83BC6DC0EFC0502249EB7',
     fallback: '',
     btn: '下载 Windows 便携版（ZIP）',
@@ -2486,7 +2485,7 @@ function downloadSection() {
   <ul class="dl-req sw-points">
     ${s.points.map((p) => `<li><span class="${p.k === 'ok' ? 'ok' : p.k === 'no' ? 'no' : 'dot-i'}">${p.k === 'ok' ? '✓' : p.k === 'no' ? '✕' : '·'}</span>${esc(p.t)}</li>`).join('\n    ')}
   </ul>
-  <a class="btn dl-btn" href="downloads/${s.file}" download="${s.saveAs || ''}">
+  <a class="btn dl-btn" href="downloads/${encodeURIComponent(s.file)}" download>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
     ${esc(s.btn)}
   </a>

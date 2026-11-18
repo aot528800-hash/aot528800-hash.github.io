@@ -34,3 +34,6 @@ keystore.properties
 # 本地验证用的临时文件
 home.html
 preview-*.png
+
+# 安装包：源文件放仓库根 downloads/（进版本库），构建时复制到 site/downloads/（不进版本库，避免仓库里存两份）
+/site/downloads/

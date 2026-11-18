@@ -51,6 +51,9 @@ const SITE = {
     version: '1.3.1',
     size: '43.4 MB',
     platform: 'Windows 10 / 11（64 位）',
+    // 2026-11-18 起主通道改为本站同源（downloads/ 由构建脚本从仓库根 downloads/ 复制），
+    // 不再依赖 release-assets.githubusercontent.com —— 那个域名在部分网络下连不上，是「下载不了」的主因。
+    file: 'numcheck-1.3.1-portable.zip',
     url: 'https://github.com/aot528800-hash/aot528800-hash.github.io/releases/latest/download/numcheck-1.3.1-portable.zip',
     sha256: '4F0EBF473C30B535DC1C3CD91988E3550CBE423E7FD7A42473339A073E3B9A49',
     updated: '2026-11-10',
@@ -60,6 +63,7 @@ const SITE = {
     versionCode: 15,
     size: '3.1 MB',
     platform: 'Android 7.0 及以上',
+    file: 'cqpue-aid.apk',
     url: 'https://github.com/aot528800-hash/aot528800-hash.github.io/releases/latest/download/cqpue-aid.apk',
     sha256: '711085978F95CFFB22CA0A78288DF0A600AD8DE9B3785D918EFF259E7E2DD28E',
     contact: '',  // 2026-11-16 移除：同上
@@ -1679,7 +1683,7 @@ const nav = (base, active, home) => {
       ${link(base + 'center.html', '资助中心', 'center')}
       ${link(base + 'ima.html', '大学生资助数据库<em class="nav-new">共享资料</em>', 'ima')}
     </div>
-    <a class="nav-cta" href="${SITE.apk.url}" title="仅支持安卓手机">下载APP</a>
+    <a class="nav-cta" href="${base}downloads/${SITE.apk.file}" download title="仅支持安卓手机">下载APP</a>
   </div>
 </nav>`
 }
@@ -1695,7 +1699,7 @@ const footer = (base) => `<footer>
       <a href="${base}privacy.html">隐私政策</a>
       <a href="${base}index.html#author">关于作者</a>
       <a href="https://aot528800-hash.github.io/me/" target="_blank" rel="noopener"><strong>作者个人主页</strong></a>
-      <a href="${SITE.apk.url}">下载安卓版</a>
+      <a href="${base}downloads/${SITE.apk.file}" download>下载安卓版</a>
     </div>
     <div>本站由周泽维个人整理，<strong>公益整理、无广告、无商业用途</strong>，仅用于学习与研究。</div>
         <div>联系作者：微信 <strong>${SITE.wechat.id}</strong></div>
@@ -2358,12 +2362,13 @@ ${imaSection()}
         <div><dt>系统</dt><dd>Android 7.0+</dd></div>
         <div><dt>费用</dt><dd>公益提供</dd></div>
       </dl>
-      <a class="btn dl-btn" href="${SITE.apk.url}">
+      <a class="btn dl-btn" href="downloads/${SITE.apk.file}" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
         下载安卓安装包
       </a>
       <p class="dl-hash">SHA256 ${SITE.apk.sha256.slice(0, 24)}…</p>
       <p class="dl-alt">苹果手机没有对应版本。如需在手机上查看，请直接用浏览器访问本站。</p>
+      <p class="dl-alt">下载慢或断了？<a href="${SITE.apk.url}">走 GitHub 备用通道</a>。</p>
     </div>
   </div>
 </section>
@@ -2396,11 +2401,12 @@ ${imaSection()}
         <div><dt>系统</dt><dd>Windows 10/11 64 位</dd></div>
         <div><dt>费用</dt><dd>公益提供</dd></div>
       </dl>
-      <a class="btn dl-btn" href="${SITE.numcheck.url}">
+      <a class="btn dl-btn" href="downloads/${SITE.numcheck.file}" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
         下载 Windows 便携版（ZIP）
       </a>
       <p class="dl-hash">SHA256 ${SITE.numcheck.sha256.slice(0, 24)}…</p>
+      <p class="dl-alt">下载慢或断了？<a href="${SITE.numcheck.url}">走 GitHub 备用通道</a>。</p>
             <p class="dl-alt">本工具由周泽维个人独立开发（numcheck 项目组），所属：重庆工程职业技术大学。个人作品，非学校官方发布产品。校验结果仅供参考，不构成任何法律效力的认定；纯离线运行，无广告、无内购、不收集个人信息。下载后解压到任意目录即可使用。</p>
     </div>
   </div>
@@ -2447,7 +2453,7 @@ ${imaSection()}
         <a class="btn" href="https://aot528800-hash.github.io/me/" target="_blank" rel="noopener">看作者个人主页 ↗</a>
         <a class="btn ghost" href="#contact">加微信聊</a>
       </div>
-      <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">微信：${SITE.wechat.id}　·　<a href="${SITE.apk.url}">下载安卓版 v${SITE.apk.version}</a>　·　<a href="privacy.html">隐私政策</a></p>
+      <p style="font-size:12.5px;color:var(--text-3);margin-top:6px">微信：${SITE.wechat.id}　·　<a href="downloads/${SITE.apk.file}" download>下载安卓版 v${SITE.apk.version}</a>　·　<a href="privacy.html">隐私政策</a></p>
     </div>
     <div>
       <dl>
@@ -2946,6 +2952,20 @@ if (existsSync(imaSrc)) {
   }
 }
 imaFiles.sort()
+
+// 安装包：仓库根 downloads/ → site/downloads/。
+// 2026-11-18 起下载走本站同源，不再依赖 release-assets.githubusercontent.com。
+// 文件缺失时不生成占位按钮，只在构建日志里提示，避免线上出现 404 的下载键。
+const dlSrc = 'downloads'
+const MISSING_DL = []
+for (const name of [SITE.apk.file, SITE.numcheck.file]) {
+  const from = join(dlSrc, name)
+  if (!existsSync(from)) { MISSING_DL.push(name); continue }
+  const to = join(OUT, 'downloads', name)
+  mkdirSync(dirname(to), { recursive: true })
+  copyFileSync(from, to)
+}
+if (MISSING_DL.length) console.warn('⚠ 缺少安装包，下载按钮会 404：' + MISSING_DL.join('、'))
 
 writeFileSync(join(OUT, 'assets/site.css'), CSS, 'utf8')
 writeFileSync(join(OUT, 'assets/icon.svg'), ICON_SHIELD, 'utf8')

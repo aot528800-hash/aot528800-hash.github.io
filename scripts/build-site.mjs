@@ -11,8 +11,12 @@ import { join } from 'node:path'
 import { marked } from 'marked'
 import { annualSchedule, policyCategories } from '../src/data/policies.js'
 import { relatedPolicies, relationReason } from '../src/lib/policy.js'
+import { COLUMN_META } from './column-data.mjs'
 
 marked.setOptions({ gfm: true, breaks: true })
+
+// 专栏正文（由 H:\专栏 的 15 份 docx 抽出，见 src/data/column.json）
+const COLUMN_DOCS = JSON.parse(readFileSync('src/data/column.json', 'utf8'))
 
 // 资助中心业务数据（由 学生资助管理中心业务全景总表.xlsx 导出）
 const CENTER = JSON.parse(readFileSync('src/data/center.json', 'utf8'))
@@ -842,6 +846,56 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .prose td { padding: 9px 10px; border-bottom: 1px solid var(--line-2); vertical-align: top; }
 .prose blockquote { margin: 16px 0; padding: 12px 16px; background: var(--bg-alt); border-radius: 12px; font-size: 14.5px; color: var(--text-2); }
 .prose blockquote p { margin: 4px 0; }
+.prose h2 {
+  font-size: 22px; line-height: 1.35; margin: 40px 0 10px;
+  letter-spacing: -0.02em; padding-top: 6px;
+}
+.prose > h2:first-child { margin-top: 0; }
+.prose h2::before {
+  content: ""; display: inline-block; width: 4px; height: 16px; margin-right: 10px;
+  background: var(--accent); border-radius: 2px; vertical-align: -2px;
+}
+
+/* ---------- 专栏 ---------- */
+.col-hero { padding-block: 40px 8px; }
+.col-hero h1 { font-size: clamp(30px, 4.6vw, 46px); letter-spacing: -0.035em; margin: 6px 0 12px; }
+.col-hero .lede { max-width: 62ch; color: var(--text-2); font-size: 16.5px; margin: 0; }
+.col-grid { display: grid; grid-template-columns: 1fr; gap: 18px; margin: 32px 0 0; }
+@media (min-width: 720px) { .col-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .col-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.col-card {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 20px; border: 1px solid var(--line); border-radius: 14px;
+  background: var(--card); color: inherit;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.col-card:hover {
+  text-decoration: none; transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 18px 36px -20px rgba(11, 79, 50, .35);
+}
+.col-card-no { font-family: ui-monospace, monospace; font-size: 12px; color: var(--text-3); letter-spacing: .06em; }
+.col-card-title { font-size: 17px; font-weight: 650; letter-spacing: -0.02em; line-height: 1.4; }
+.col-card-sub { font-size: 13px; color: var(--accent); }
+.col-card-sum { font-size: 13.5px; line-height: 1.7; color: var(--text-2); margin: 2px 0 0; }
+
+.col-art { margin: 26px 0 8px; padding: 18px; background: var(--bg-alt); border-radius: 14px; }
+.col-art svg { width: 100%; height: auto; display: block; }
+.col-art figcaption { margin-top: 10px; font-size: 12px; color: var(--text-3); text-align: center; }
+
+.col-head { padding-block: 34px 0; }
+.col-head .crumb { font-size: 13px; color: var(--text-3); margin-bottom: 14px; }
+.col-head .crumb a { color: var(--text-2); }
+.col-head h1 { font-size: clamp(26px, 3.8vw, 38px); line-height: 1.35; letter-spacing: -0.03em; margin: 0 0 8px; }
+.col-head .col-sub { font-size: clamp(16px, 2vw, 19px); color: var(--text-2); margin: 0 0 10px; }
+.col-head .col-byline { font-size: 13px; color: var(--text-3); margin: 0; }
+.col-body { padding-block: 8px 40px; }
+.col-nav {
+  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  margin: 8px 0 0; padding-block: 22px 60px; border-top: 1px solid var(--line-2);
+  font-size: 14px;
+}
+.col-nav a { color: var(--accent); }
 .prose code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 14px; background: var(--bg-alt); padding: 1px 6px; border-radius: 5px; }
 
 .steps { display: grid; gap: 0; }
@@ -1750,6 +1804,7 @@ const nav = (base, active, home) => {
     <div class="nav-links" id="navLinks">
       ${link(jump('policies'), '资助项目', 'policies')}
       ${link(base + 'schedule.html', '全年日程', 'schedule')}
+      ${link(base + 'column.html', '专栏', 'column')}
       ${link(base + 'map.html', '站点导图', 'mindmap')}
       ${link(base + 'center.html', '资助中心', 'center')}
       ${link(base + 'ima.html', '大学生资助数据库<em class="nav-new">共享资料</em>', 'ima')}
@@ -1769,6 +1824,7 @@ const footer = (base) => `<footer>
       <a href="${base}index.html#policies">资助项目</a>
       <a href="${base}map.html">站点导图</a>
       <a href="${base}schedule.html">全年日程</a>
+      <a href="${base}column.html">学生资助实务专栏</a>
       <a href="${base}center.html">资助中心 · 业务全景</a>
       <a href="${base}ima.html">大学生资助数据库</a>
       <a href="${base}privacy.html">隐私政策</a>
@@ -2331,6 +2387,127 @@ function scheduleSection(opts = {}) {
 `
 }
 
+/* ---------------- 首页专栏入口 ---------------- */
+
+function columnTeaser() {
+  const picks = COLUMN_META.slice(0, 3)
+  return `<section id="column-teaser">
+  <div class="wrap">
+    <p class="eyebrow">专栏 · 学生资助实务</p>
+    <h2>${COLUMN_META.length} 篇，写给申请资助的学生和做资助的同行</h2>
+    <p class="lede">困难认定、助学贷款、奖学金、勤工助学、还款与财务规划，每篇对着政策原文核过，讲的是能照着做的步骤。</p>
+    <div class="col-grid">
+${picks.map((c, i) => `      <a class="col-card" href="column/${c.slug}.html">
+        <span class="col-card-no">第 ${i + 1} 篇</span>
+        <span class="col-card-title">${esc(c.title)}</span>
+        <span class="col-card-sub">${esc(c.subtitle)}</span>
+        <p class="col-card-sum">${esc(c.summary)}</p>
+      </a>`).join('\n')}
+    </div>
+    <p style="margin:22px 0 0"><a class="btn ghost" href="column.html">查看全部 ${COLUMN_META.length} 篇 →</a></p>
+  </div>
+</section>`
+}
+
+/* ---------------- 专栏 ---------------- */
+
+const COL_BY_SLUG = Object.fromEntries(COLUMN_DOCS.map((d) => [d.slug, d]))
+
+/* 把抽取出来的块序列渲染成 HTML；连续的列表项合成一个 <ul> */
+function columnBodyHtml(items) {
+  const out = []
+  let list = []
+  const flush = () => {
+    if (!list.length) return
+    out.push(`<ul>${list.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`)
+    list = []
+  }
+  for (const it of items) {
+    if (it.t === 'li') { list.push(it.text); continue }
+    flush()
+    if (it.t === 'h2') out.push(`<h2>${esc(it.text)}</h2>`)
+    else if (it.t === 'h3') out.push(`<h3>${esc(it.text)}</h3>`)
+    else if (it.t === 'table') {
+      const [head, ...rest] = it.rows
+      out.push(
+        `<table><thead><tr>${head.map((c) => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${
+          rest.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')
+        }</tbody></table>`,
+      )
+    } else if (it.t === 'p') out.push(`<p>${esc(it.text)}</p>`)
+  }
+  flush()
+  return out.join('\n')
+}
+
+function renderColumnIndex() {
+  const cards = COLUMN_META.map((c, i) => `<a class="col-card" href="column/${c.slug}.html">
+  <span class="col-card-no">第 ${i + 1} 篇</span>
+  <span class="col-card-title">${esc(c.title)}</span>
+  <span class="col-card-sub">${esc(c.subtitle)}</span>
+  <p class="col-card-sum">${esc(c.summary)}</p>
+</a>`).join('\n')
+
+  const body = `
+<div class="wrap col-hero">
+  <p class="eyebrow">专栏</p>
+  <h1>学生资助实务</h1>
+  <p class="lede">${COLUMN_META.length} 篇，写给正在申请资助的学生，也写给做资助工作的同行。每篇都对着政策原文核过，讲的是能照着做的步骤，不是口号。</p>
+</div>
+<div class="wrap">
+  <div class="col-grid">
+${cards}
+  </div>
+</div>`
+
+  return layout({
+    title: `学生资助实务 · ${SITE.name}`,
+    description: `学生资助实务专栏：${COLUMN_META.length} 篇，覆盖困难认定、助学贷款、奖学金、勤工助学、还款与财务规划。`,
+    path: 'column.html',
+    active: 'column',
+    body,
+  })
+}
+
+function renderColumnArticle(c) {
+  const doc = COL_BY_SLUG[c.slug]
+  const idx = COLUMN_META.findIndex((x) => x.slug === c.slug)
+  const prev = COLUMN_META[idx - 1]
+  const next = COLUMN_META[idx + 1]
+  const byline = (doc.items.find((it) => it.t === 'byline') || {}).text || ''
+
+  const body = `
+<div class="wrap col-head">
+  <p class="crumb"><a href="../column.html">专栏</a> / 第 ${idx + 1} 篇</p>
+  <h1>${esc(c.title)}</h1>
+  ${c.subtitle ? `<p class="col-sub">${esc(c.subtitle)}</p>` : ''}
+  <p class="col-byline">${esc(byline)}</p>
+</div>
+<div class="wrap">
+  <figure class="col-art">${c.art}<figcaption>${esc(c.summary)}</figcaption></figure>
+</div>
+<div class="wrap col-body">
+  <div class="prose">
+${columnBodyHtml(doc.items)}
+  </div>
+</div>
+<div class="wrap">
+  <nav class="col-nav" aria-label="专栏翻页">
+    ${prev ? `<a href="${prev.slug}.html">← 上一篇：${esc(prev.title)}</a>` : '<span></span>'}
+    ${next ? `<a href="${next.slug}.html">下一篇：${esc(next.title)} →</a>` : '<span></span>'}
+  </nav>
+</div>`
+
+  return layout({
+    title: `${c.title} · 学生资助实务 · ${SITE.name}`,
+    description: c.summary,
+    path: `column/${c.slug}.html`,
+    base: '../',
+    active: 'column',
+    body,
+  })
+}
+
 function renderSchedule() {
   const body = `
 <div class="wrap" style="padding:40px 0 0">
@@ -2428,6 +2605,8 @@ function renderIndex() {
 </section>
 
 ${scheduleSection()}
+
+${columnTeaser()}
 
 ${channelsSection()}
 
@@ -3077,13 +3256,20 @@ writeFileSync(join(OUT, 'center.html'), renderCenter(), 'utf8')
 writeFileSync(join(OUT, 'ima.html'), renderIma(), 'utf8')
 writeFileSync(join(OUT, 'schedule.html'), renderSchedule(), 'utf8')
 
+// 专栏：索引页 + 15 篇文章页
+mkdirSync(join(OUT, 'column'), { recursive: true })
+writeFileSync(join(OUT, 'column.html'), renderColumnIndex(), 'utf8')
+COLUMN_META.forEach((c) => {
+  writeFileSync(join(OUT, 'column', `${c.slug}.html`), renderColumnArticle(c), 'utf8')
+})
+
 policyCategories.forEach((p, i) => {
   writeFileSync(join(OUT, 'policies', `${p.id}.html`), renderPolicy(p, i), 'utf8')
 })
 
-const pages = ['', 'map.html', 'center.html', 'ima.html', 'privacy.html', 'schedule.html'].concat(
-  policyCategories.map((p) => `policies/${p.id}.html`),
-)
+const pages = ['', 'map.html', 'center.html', 'ima.html', 'privacy.html', 'schedule.html', 'column.html']
+  .concat(COLUMN_META.map((c) => `column/${c.slug}.html`))
+  .concat(policyCategories.map((p) => `policies/${p.id}.html`))
 
 writeFileSync(
   join(OUT, 'robots.txt'),

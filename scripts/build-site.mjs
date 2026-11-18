@@ -569,6 +569,21 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 
 /* ---------- 下载 ---------- */
 .dl-section { padding: 96px 0; }
+/* 软件下载：卡片网格，加一项就多一张卡，不再固定两栏 */
+.sw-grid {
+  display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 32px;
+}
+@media (min-width: 860px) { .sw-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.sw-card {
+  display: flex; flex-direction: column;
+  padding: 24px; border: 1px solid var(--line); border-radius: 18px;
+  background: var(--card);
+}
+.sw-card .dl-btn { margin-top: 18px; }
+.sw-points { margin: 14px 0 0; padding: 0; list-style: none; }
+.sw-points li { display: flex; gap: 8px; font-size: 13px; line-height: 1.7; color: var(--text-2); margin: 6px 0; }
+.sw-points .ok { color: var(--accent); flex: none; }
+.sw-points .no { color: #b91c1c; flex: none; }
 .dl-wrap {
   display: grid; grid-template-columns: 1fr 380px;
   gap: 72px; align-items: center;
@@ -1808,9 +1823,9 @@ const nav = (base, active, home) => {
       ${link(base + 'map.html', '站点导图', 'mindmap')}
       ${link(base + 'center.html', '资助中心', 'center')}
       ${link(base + 'ima.html', '大学生资助数据库<em class="nav-new">共享资料</em>', 'ima')}
-      <a class="nav-dl" href="${base}downloads/${SITE.apk.file}" download>下载 APP（安卓）</a>
+      <a class="nav-dl" href="${jump('download')}">下载软件</a>
     </div>
-    <a class="nav-cta" href="${base}downloads/${SITE.apk.file}" download title="仅支持安卓手机">下载APP</a>
+    <a class="nav-cta" href="${jump('download')}">下载软件</a>
     <button class="nav-burger" id="navBurger" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="打开导航菜单">
       <span></span><span></span><span></span>
     </button>
@@ -1830,7 +1845,7 @@ const footer = (base) => `<footer>
       <a href="${base}privacy.html">隐私政策</a>
       <a href="${base}index.html#author">关于作者</a>
       <a href="https://aot528800-hash.github.io/me/" target="_blank" rel="noopener"><strong>作者个人主页</strong></a>
-      <a href="${base}downloads/${SITE.apk.file}" download>下载安卓版</a>
+      <a href="${base}index.html#download">软件下载</a>
     </div>
     <div>本站由周泽维个人整理，<strong>公益整理、无广告、无商业用途</strong>，仅用于学习与研究。</div>
         <div>联系作者：微信 <strong>${SITE.wechat.id}</strong></div>
@@ -2387,6 +2402,91 @@ function scheduleSection(opts = {}) {
 `
 }
 
+/* ---------------- 软件下载 ----------------
+   一个数组决定首页「软件下载」区块里有哪些软件：加一项就在 SOFTWARE 里加一个对象，
+   其余（卡片、按钮、备用通道、sitemap 之外的东西）全部自动生成。 */
+const SOFTWARE = [
+  {
+    id: 'cqpue-android',
+    name: 'CQPUE资助政策',
+    tag: '安卓安装包',
+    platform: '安卓手机',
+    system: 'Android 7.0+',
+    version: `v${SITE.apk.version}（${SITE.apk.versionCode}）`,
+    size: SITE.apk.size,
+    file: SITE.apk.file,
+    sha256: SITE.apk.sha256,
+    fallback: SITE.apk.url,
+    btn: '下载安卓安装包',
+    points: [
+      { k: 'ok', t: '21 个资助项目、办理流程、材料清单全部内置，断网也能查' },
+      { k: 'no', t: '不支持 iPhone / iPad：苹果系统不识别 APK 安装包' },
+      { k: 'note', t: '首次安装需在系统设置里允许「安装未知来源应用」' },
+    ],
+    note: '苹果手机没有对应版本。如需在手机上查看，请直接用浏览器访问本站。',
+  },
+  {
+    id: 'numcheck-win',
+    name: '号码校验工具',
+    tag: 'Windows 便携包',
+    platform: 'Windows',
+    system: 'Windows 10/11 64 位',
+    version: `v${SITE.numcheck.version}`,
+    size: SITE.numcheck.size,
+    file: SITE.numcheck.file,
+    sha256: SITE.numcheck.sha256,
+    fallback: SITE.numcheck.url,
+    btn: '下载 Windows 便携版（ZIP）',
+    points: [
+      { k: 'ok', t: '身份证、银行卡、手机号三类号码离线批量校验，结果可导出 Excel / CSV' },
+      { k: 'ok', t: '绿色便携版：下载后解压，双击 exe 即可运行，不写注册表' },
+      { k: 'no', t: '不适用于 macOS / Linux；不支持 iPhone / iPad' },
+    ],
+    note: '本工具由周泽维个人独立开发（numcheck 项目组），非学校官方发布产品。校验结果仅供参考，不构成任何法律效力的认定；纯离线运行，无广告、无内购、不收集个人信息。',
+  },
+]
+
+function downloadSection() {
+  const cards = SOFTWARE.map(
+    (s) => `<article class="sw-card" id="${s.id}">
+  <div class="dl-card-head">
+    <span class="dl-icon">${ICON_SHIELD}</span>
+    <div>
+      <strong>${esc(s.name)}</strong>
+      <span>${esc(s.tag)}</span>
+    </div>
+  </div>
+  <dl class="dl-meta">
+    <div><dt>版本</dt><dd>${esc(s.version)}</dd></div>
+    <div><dt>大小</dt><dd>${esc(s.size)}</dd></div>
+    <div><dt>系统</dt><dd>${esc(s.system)}</dd></div>
+    <div><dt>费用</dt><dd>公益提供</dd></div>
+  </dl>
+  <ul class="dl-req sw-points">
+    ${s.points.map((p) => `<li><span class="${p.k === 'ok' ? 'ok' : p.k === 'no' ? 'no' : 'dot-i'}">${p.k === 'ok' ? '✓' : p.k === 'no' ? '✕' : '·'}</span>${esc(p.t)}</li>`).join('\n    ')}
+  </ul>
+  <a class="btn dl-btn" href="downloads/${s.file}" download>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+    ${esc(s.btn)}
+  </a>
+  <p class="dl-hash">SHA256 ${esc(s.sha256.slice(0, 24))}…</p>
+  <p class="dl-alt">${esc(s.note)}</p>
+  <p class="dl-alt">下载慢或断了？<a href="${s.fallback}">走 GitHub 备用通道</a>。</p>
+</article>`,
+  ).join('\n')
+
+  return `<section id="download" class="dl-section">
+  <div class="wrap">
+    <p class="eyebrow">软件下载</p>
+    <h2>本站提供的软件：${SOFTWARE.length} 个，都是离线工具</h2>
+    <p class="lede">都是公益提供、不联网、不收集信息。下载后能直接用，不需要注册账号。</p>
+    <div class="sw-grid">
+${cards}
+    </div>
+  </div>
+</section>`
+}
+
 /* ---------------- 首页专栏入口 ---------------- */
 
 function columnTeaser() {
@@ -2612,82 +2712,7 @@ ${channelsSection()}
 
 ${imaSection()}
 
-<section id="download" class="dl-section">
-  <div class="wrap dl-wrap">
-    <div class="dl-text">
-      <p class="eyebrow">安卓应用</p>
-      <h2>装到手机上，离线也能查</h2>
-      <p class="lede">21 个资助项目、办理流程、材料清单，全部内置在安装包里，断网也能看。</p>
-      <ul class="dl-req">
-        <li><span class="ok">✓</span>仅支持 <strong>安卓手机</strong>（${SITE.apk.platform}）</li>
-        <li><span class="no">✕</span><strong>不支持 iPhone / iPad</strong>：苹果系统不识别 APK 安装包，无法安装</li>
-        <li><span class="dot-i">·</span>首次安装需在系统设置里允许「安装未知来源应用」</li>
-      </ul>
-    </div>
-
-    <div class="dl-card">
-      <div class="dl-card-head">
-        <span class="dl-icon">${ICON_SHIELD}</span>
-        <div>
-          <strong>CQPUE资助政策</strong>
-          <span>安卓安装包</span>
-        </div>
-      </div>
-      <dl class="dl-meta">
-        <div><dt>版本</dt><dd>v${SITE.apk.version}（${SITE.apk.versionCode}）</dd></div>
-        <div><dt>大小</dt><dd>${SITE.apk.size}</dd></div>
-        <div><dt>系统</dt><dd>Android 7.0+</dd></div>
-        <div><dt>费用</dt><dd>公益提供</dd></div>
-      </dl>
-      <a class="btn dl-btn" href="downloads/${SITE.apk.file}" download>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
-        下载安卓安装包
-      </a>
-      <p class="dl-hash">SHA256 ${SITE.apk.sha256.slice(0, 24)}…</p>
-      <p class="dl-alt">苹果手机没有对应版本。如需在手机上查看，请直接用浏览器访问本站。</p>
-      <p class="dl-alt">下载慢或断了？<a href="${SITE.apk.url}">走 GitHub 备用通道</a>。</p>
-    </div>
-  </div>
-</section>
-<section id="numcheck" class="dl-section">
-  <div class="wrap dl-wrap">
-    <div class="dl-text">
-      <p class="eyebrow">Windows 桌面应用</p>
-      <h2>号码校验工具：离线批量校验</h2>
-      <p class="lede">中国大陆身份证、银行卡、手机号三类号码的离线批量校验：格式 / 校验位 / 归属地 / 派生信息一次校验，整表结果一键导出 Excel 或 CSV。附带符合校验规则的填写模板（表头 / 序号 / 文本格式防精度丢失），并支持表内重复检测（姓名 / 身份证 / 银行卡 / 手机号，定位到行）。全部在本机完成，不上传任何数据。</p>
-      <ul class="dl-req">
-        <li><span class="ok">✓</span>仅支持 <strong>Windows 10 / 11（64 位）</strong>，绿色便携版：下载后解压，双击 <strong>号码校验工具-1.3.1.exe</strong> 即可运行</li>
-        <li><span class="ok">✓</span>纯离线运行：断网可用，不收集任何个人信息</li>
-        <li><span class="no">✕</span>不适用于 macOS / Linux；不支持 iPhone / iPad</li>
-        <li><span class="dot-i">·</span>校验结果仅供参考，最终认定以主管部门或有关机构官方渠道为准</li>
-        <li><span class="dot-i">·</span>校验规则为中国大陆制式：18 / 15 位身份证、11 位手机号、银行卡 Luhn（含国际卡）</li>
-      </ul>
-    </div>
-
-    <div class="dl-card">
-      <div class="dl-card-head">
-        <span class="dl-icon">${ICON_SHIELD}</span>
-        <div>
-          <strong>号码校验工具</strong>
-          <span>Windows 桌面版 · 便携包</span>
-        </div>
-      </div>
-      <dl class="dl-meta">
-        <div><dt>版本</dt><dd>v${SITE.numcheck.version}</dd></div>
-        <div><dt>大小</dt><dd>${SITE.numcheck.size}</dd></div>
-        <div><dt>系统</dt><dd>Windows 10/11 64 位</dd></div>
-        <div><dt>费用</dt><dd>公益提供</dd></div>
-      </dl>
-      <a class="btn dl-btn" href="downloads/${SITE.numcheck.file}" download>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
-        下载 Windows 便携版（ZIP）
-      </a>
-      <p class="dl-hash">SHA256 ${SITE.numcheck.sha256.slice(0, 24)}…</p>
-      <p class="dl-alt">下载慢或断了？<a href="${SITE.numcheck.url}">走 GitHub 备用通道</a>。</p>
-            <p class="dl-alt">本工具由周泽维个人独立开发（numcheck 项目组），所属：重庆工程职业技术大学。个人作品，非学校官方发布产品。校验结果仅供参考，不构成任何法律效力的认定；纯离线运行，无广告、无内购、不收集个人信息。下载后解压到任意目录即可使用。</p>
-    </div>
-  </div>
-</section>
+${downloadSection()}
 
 <section id="disclaimer">
   <div class="wrap narrow">

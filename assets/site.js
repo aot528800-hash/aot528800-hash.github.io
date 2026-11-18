@@ -201,6 +201,34 @@
     syncJump();
   }
 
+  /* 手机端导航：≤560px 点「菜单」展开下拉，点链接 / 按 ESC / 点外面收起 */
+  var burger = document.getElementById('navBurger');
+  var navEl = burger ? burger.closest('.nav') : null;
+  if (burger && navEl) {
+    function closeMenu() {
+      navEl.classList.remove('nav-open');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.setAttribute('aria-label', '打开导航菜单');
+    }
+    burger.addEventListener('click', function () {
+      var open = navEl.classList.toggle('nav-open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? '收起导航菜单' : '打开导航菜单');
+    });
+    navEl.addEventListener('click', function (e) {
+      if (e.target.closest('.nav-links a')) closeMenu();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && navEl.classList.contains('nav-open')) closeMenu();
+    });
+    document.addEventListener('click', function (e) {
+      if (!navEl.contains(e.target)) closeMenu();
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 560) closeMenu();
+    });
+  }
+
   /* 入场动效 */
   if (!reduce && 'IntersectionObserver' in window) {
     var targets = [].slice.call(document.querySelectorAll('.card, .flow > li, .timeline > li, .author > div'));

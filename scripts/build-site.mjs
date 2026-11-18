@@ -415,7 +415,49 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .nav-cta.ghost:hover { background: var(--bg-alt); }
 }
 @media (max-width: 1100px) { .nav-cta { display: none; } .nav-links { gap: 16px; } }
-@media (max-width: 560px) { .nav-links { display: none; } }
+
+/* 手机端导航（2026-11-18）：之前 ≤560px 直接把导航整块 display:none，
+   手机上除了 Logo 没有任何入口。现在收成「菜单」按钮 + 下拉面板。 */
+.nav-burger {
+  display: none;
+  margin-left: auto;
+  width: 42px; height: 38px;
+  flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  border: 1px solid var(--line); border-radius: 10px;
+  background: transparent; color: var(--text); cursor: pointer;
+}
+.nav-burger span { display: block; width: 16px; height: 2px; border-radius: 1px; background: currentColor; transition: transform .18s ease, opacity .18s ease; }
+.nav-burger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.nav-links .nav-dl { display: none; }
+
+.nav.nav-open .nav-burger span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav.nav-open .nav-burger span:nth-child(2) { opacity: 0; }
+.nav.nav-open .nav-burger span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+@media (max-width: 560px) {
+  .nav-burger { display: flex; }
+  .nav-links {
+    display: none;
+    position: absolute; left: 0; right: 0; top: 100%;
+    flex-direction: column; gap: 0;
+    margin-left: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 18px 40px -22px rgba(15, 23, 42, .28);
+    padding: 6px 0 10px;
+  }
+  .nav.nav-open .nav-links { display: flex; }
+  .nav-links a { padding: 13px 20px; font-size: 15px; }
+  .nav-links .nav-dl {
+    display: block;
+    margin-top: 6px; padding-top: 15px;
+    border-top: 1px solid var(--line-2);
+    color: var(--accent); font-weight: 600;
+  }
+  @media (prefers-color-scheme: dark) {
+    .nav-links { box-shadow: 0 18px 40px -20px rgba(0, 0, 0, .8); }
+  }
+}
 
 /* ---------- 适用范围提示条 ---------- */
 .scope-bar {
@@ -1640,6 +1682,34 @@ const SITE_JS = `(function () {
     syncJump();
   }
 
+  /* 手机端导航：≤560px 点「菜单」展开下拉，点链接 / 按 ESC / 点外面收起 */
+  var burger = document.getElementById('navBurger');
+  var navEl = burger ? burger.closest('.nav') : null;
+  if (burger && navEl) {
+    function closeMenu() {
+      navEl.classList.remove('nav-open');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.setAttribute('aria-label', '打开导航菜单');
+    }
+    burger.addEventListener('click', function () {
+      var open = navEl.classList.toggle('nav-open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? '收起导航菜单' : '打开导航菜单');
+    });
+    navEl.addEventListener('click', function (e) {
+      if (e.target.closest('.nav-links a')) closeMenu();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && navEl.classList.contains('nav-open')) closeMenu();
+    });
+    document.addEventListener('click', function (e) {
+      if (!navEl.contains(e.target)) closeMenu();
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 560) closeMenu();
+    });
+  }
+
   /* 入场动效 */
   if (!reduce && 'IntersectionObserver' in window) {
     var targets = [].slice.call(document.querySelectorAll('.card, .flow > li, .timeline > li, .author > div'));
@@ -1677,13 +1747,18 @@ const nav = (base, active, home) => {
 <nav class="nav" aria-label="主导航">
   <div class="wrap">
     <a class="nav-brand" href="${base}index.html">${ICON_SHIELD}CQPUE资助政策</a>
-    <div class="nav-links">
+    <div class="nav-links" id="navLinks">
       ${link(jump('policies'), '资助项目', 'policies')}
+      ${link(base + 'schedule.html', '全年日程', 'schedule')}
       ${link(base + 'map.html', '站点导图', 'mindmap')}
       ${link(base + 'center.html', '资助中心', 'center')}
       ${link(base + 'ima.html', '大学生资助数据库<em class="nav-new">共享资料</em>', 'ima')}
+      <a class="nav-dl" href="${base}downloads/${SITE.apk.file}" download>下载 APP（安卓）</a>
     </div>
     <a class="nav-cta" href="${base}downloads/${SITE.apk.file}" download title="仅支持安卓手机">下载APP</a>
+    <button class="nav-burger" id="navBurger" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="打开导航菜单">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>`
 }
@@ -1693,7 +1768,7 @@ const footer = (base) => `<footer>
     <div class="links">
       <a href="${base}index.html#policies">资助项目</a>
       <a href="${base}map.html">站点导图</a>
-      <a href="${base}index.html#schedule">全年日程</a>
+      <a href="${base}schedule.html">全年日程</a>
       <a href="${base}center.html">资助中心 · 业务全景</a>
       <a href="${base}ima.html">大学生资助数据库</a>
       <a href="${base}privacy.html">隐私政策</a>
@@ -1978,7 +2053,7 @@ function buildPareto(year, total) {
 const SITE_BRANCHES = [
   { label: '资助项目', href: '#policies' },
   { label: '办理流程', href: '#flow' },
-  { label: '全年日程', href: '#schedule' },
+  { label: '全年日程', href: 'schedule.html' },
   { label: '资助中心 · 业务全景', href: 'center.html' },
   { label: '大学生资助数据库', href: 'ima.html' },
   { label: '隐私政策', href: 'privacy.html' },
@@ -2106,17 +2181,7 @@ function buildMindmap(home = true) {
 }
 /* ------------------------------------------------------------------ 页面 */
 
-function renderIndex() {
-  const mindmap = buildMindmap()
-
-  const policySections = GROUPS.map(
-    (g) => `<div class="group-block">
-      <h3 style="font-size:22px;letter-spacing:-.02em;margin:48px 0 6px">${esc(g.title)} <span style="color:var(--text-3);font-weight:400;font-size:15px">${g.items.length} 项</span></h3>
-      <p style="color:var(--text-2);font-size:14.5px;margin:0 0 20px">${esc(g.desc)}</p>
-      <div class="grid">${g.items.map((p) => card(p, '')).join('')}</div>
-    </div>`,
-  ).join('')
-
+function scheduleSection(opts = {}) {
   const year = buildYearSchedule()
   // 与月卡同口径：跨月段（如 2-3 月）在两个月中各计一次
   const STUDENT_TOTAL = year.reduce((n, m) => n + m.student.length, 0)
@@ -2193,6 +2258,107 @@ function renderIndex() {
     })
     .join('')
 
+  return `
+<section id="schedule">
+  <div class="wrap">
+    ${opts.bare ? '' : '<p class="eyebrow">全年日程</p>'}
+    <h2>${BIZ_ROWS_ALL.length} 项业务：${VISIBLE_BIZ_COUNT} 项对接学生，${INTERNAL_BIZ_COUNT} 项支撑运行</h2>
+    <p class="lede">学生日历上的申请节点集中在 9 月和 10 月。中心的 ${BIZ_ROWS_ALL.length} 项业务里，${VISIBLE_BIZ_COUNT} 项与学生直接对接，${INTERNAL_BIZ_COUNT} 项用于资金分配、监督检查、系统报送和材料归档。最忙的是 <strong>${peak.month} 月</strong>：${peak.student.length} 项学生事项，同时在办 ${(peak.projects || []).length} 个项目。</p>
+    <div class="load-bars">${loadBar}</div>
+    <div class="month-grid">${monthCards}</div>
+    <div class="payout">
+      <h3 class="wl-sub">钱是怎么发到学生手上的</h3>
+      <p class="payout-lede">按文件里的规定：只有三项按月发放，国家奖学金和国家励志奖学金是 12 月 31 日前一次性发。</p>
+      <div class="payout-table">
+        <div class="pt-row pt-head"><div>项目</div><div>方式</div><div>时间</div><div>依据</div></div>
+        ${PAYOUT.map(
+          (p) => `<div class="pt-row"><div class="pt-name">${esc(p.name)}</div><div><span class="pt-method pt-${p.method === '按月' ? 'month' : p.method === '一次性' ? 'once' : 'other'}">${esc(p.method)}</span></div><div class="pt-when">${esc(p.when)}</div><div class="pt-basis">${esc(p.basis)}</div></div>`,
+        ).join('')}
+      </div>
+      <p class="schedule-note">发放方式与时间依据《重庆工程职业技术学院学生资助政策汇编》原文；未写明具体月份的，以学校当年通知为准。</p>
+    </div>
+
+    <div class="analysis">
+      <h3>两套节奏：学生按通知，中心按年度</h3>
+      <p class="an-lede">学生的申请集中在 9 月和 10 月。中心的 18 项常态业务全年每月都在做，另有 24 项业务不对接学生。两类工作不在同一个节奏上。</p>
+
+      <div class="tracks">
+        <div class="track-row">
+          <span class="tr-label">学生事项</span>
+          <div class="tr-cells">
+            ${year
+              .map((m) => {
+                const h = Math.round((m.student.length / Math.max(1, peakStudent)) * 100)
+                return `<div class="tr-cell"><i style="height:${Math.max(3, h)}%"></i><em style="bottom:calc(${Math.max(3, h)}% + 4px)">${m.student.length}</em></div>`
+              })
+              .join('')}
+          </div>
+        </div>
+        <div class="track-row track-flat-row">
+          <span class="tr-label">中心常态业务</span>
+          <div class="tr-flat"><span>${routine.length} 项，每月都在跑：按月发放、动态认定、随时受理</span></div>
+        </div>
+        <div class="track-row track-axis">
+          <span class="tr-label"></span>
+          <div class="tr-cells">
+            ${year.map((m) => `<div class="tr-cell"><b>${m.month}</b></div>`).join('')}
+          </div>
+        </div>
+      </div>
+
+      <div class="an-grid an-grid-3">
+        <div class="an-card">
+          <b>${top2Student} / ${STUDENT_TOTAL}</b>
+          <span>9、10 两个月占学生事项的 ${Math.round((top2Student / STUDENT_TOTAL) * 100)}%</span>
+          <p>学生的事有淡旺季，10 月最多，1 月几乎没有。错过这段时间，多数只能等下一轮。</p>
+        </div>
+        <div class="an-card">
+          <b>${routine.length} 项</b>
+          <span>常态业务，不按月份计</span>
+          <p>按月发放、动态认定、随时受理、台账登记。这些每月都要做，但不会出现在任何一份申请通知里。</p>
+        </div>
+        <div class="an-card">
+          <b>${INTERNAL_BIZ_COUNT} 项</b>
+          <span>不对接学生的业务</span>
+          <p>资金分配、监督检查、系统报送、材料归档。占全部业务的 ${Math.round((INTERNAL_BIZ_COUNT / BIZ_ROWS_ALL.length) * 100)}%。</p>
+        </div>
+      </div>
+
+      <p class="an-close">申请通知只是资助工作的一个侧面。审计、核查、报送和归档不写在通知里，但同样占用时间。<a class="an-link" href="center.html#workload">看完整的工作量说明 →</a></p>
+    </div>
+  </div>
+</section>
+`
+}
+
+function renderSchedule() {
+  const body = `
+<div class="wrap" style="padding:40px 0 0">
+  <p class="eyebrow">全年日程</p>
+  <h1 style="font-size:clamp(32px,5vw,52px);letter-spacing:-.03em;margin:0 0 14px">资助工作的一年</h1>
+  <p class="lede" style="max-width:64ch;margin:0">学生会遇到的申请节点、中心全年在跑的业务、钱怎么发到手上，按月排开。具体时间以学校当年通知为准。</p>
+</div>
+${scheduleSection({ bare: true })}`;
+  return layout({
+    title: `全年日程 · ${SITE.name}`,
+    description: '重庆工程职业技术大学学生资助全年日程：按月排开的申请节点、中心业务节奏与发放方式。',
+    path: 'schedule.html',
+    active: 'schedule',
+    body,
+  });
+}
+
+function renderIndex() {
+  const mindmap = buildMindmap()
+
+  const policySections = GROUPS.map(
+    (g) => `<div class="group-block">
+      <h3 style="font-size:22px;letter-spacing:-.02em;margin:48px 0 6px">${esc(g.title)} <span style="color:var(--text-3);font-weight:400;font-size:15px">${g.items.length} 项</span></h3>
+      <p style="color:var(--text-2);font-size:14.5px;margin:0 0 20px">${esc(g.desc)}</p>
+      <div class="grid">${g.items.map((p) => card(p, '')).join('')}</div>
+    </div>`,
+  ).join('')
+
   const body = `
 <header class="hero">
   <div class="wrap">
@@ -2261,75 +2427,7 @@ function renderIndex() {
   </div>
 </section>
 
-<section id="schedule">
-  <div class="wrap">
-    <p class="eyebrow">全年日程</p>
-    <h2>${BIZ_ROWS_ALL.length} 项业务：${VISIBLE_BIZ_COUNT} 项对接学生，${INTERNAL_BIZ_COUNT} 项支撑运行</h2>
-    <p class="lede">学生日历上的申请节点集中在 9 月和 10 月。中心的 ${BIZ_ROWS_ALL.length} 项业务里，${VISIBLE_BIZ_COUNT} 项与学生直接对接，${INTERNAL_BIZ_COUNT} 项用于资金分配、监督检查、系统报送和材料归档。最忙的是 <strong>${peak.month} 月</strong>：${peak.student.length} 项学生事项，同时在办 ${(peak.projects || []).length} 个项目。</p>
-    <div class="load-bars">${loadBar}</div>
-    <div class="month-grid">${monthCards}</div>
-    <div class="payout">
-      <h3 class="wl-sub">钱是怎么发到学生手上的</h3>
-      <p class="payout-lede">按文件里的规定：只有三项按月发放，国家奖学金和国家励志奖学金是 12 月 31 日前一次性发。</p>
-      <div class="payout-table">
-        <div class="pt-row pt-head"><div>项目</div><div>方式</div><div>时间</div><div>依据</div></div>
-        ${PAYOUT.map(
-          (p) => `<div class="pt-row"><div class="pt-name">${esc(p.name)}</div><div><span class="pt-method pt-${p.method === '按月' ? 'month' : p.method === '一次性' ? 'once' : 'other'}">${esc(p.method)}</span></div><div class="pt-when">${esc(p.when)}</div><div class="pt-basis">${esc(p.basis)}</div></div>`,
-        ).join('')}
-      </div>
-      <p class="schedule-note">发放方式与时间依据《重庆工程职业技术学院学生资助政策汇编》原文；未写明具体月份的，以学校当年通知为准。</p>
-    </div>
-
-    <div class="analysis">
-      <h3>两套节奏：学生按通知，中心按年度</h3>
-      <p class="an-lede">学生的申请集中在 9 月和 10 月。中心的 18 项常态业务全年每月都在做，另有 24 项业务不对接学生。两类工作不在同一个节奏上。</p>
-
-      <div class="tracks">
-        <div class="track-row">
-          <span class="tr-label">学生事项</span>
-          <div class="tr-cells">
-            ${year
-              .map((m) => {
-                const h = Math.round((m.student.length / Math.max(1, peakStudent)) * 100)
-                return `<div class="tr-cell"><i style="height:${Math.max(3, h)}%"></i><em style="bottom:calc(${Math.max(3, h)}% + 4px)">${m.student.length}</em></div>`
-              })
-              .join('')}
-          </div>
-        </div>
-        <div class="track-row track-flat-row">
-          <span class="tr-label">中心常态业务</span>
-          <div class="tr-flat"><span>${routine.length} 项，每月都在跑：按月发放、动态认定、随时受理</span></div>
-        </div>
-        <div class="track-row track-axis">
-          <span class="tr-label"></span>
-          <div class="tr-cells">
-            ${year.map((m) => `<div class="tr-cell"><b>${m.month}</b></div>`).join('')}
-          </div>
-        </div>
-      </div>
-
-      <div class="an-grid an-grid-3">
-        <div class="an-card">
-          <b>${top2Student} / ${STUDENT_TOTAL}</b>
-          <span>9、10 两个月占学生事项的 ${Math.round((top2Student / STUDENT_TOTAL) * 100)}%</span>
-          <p>学生的事有淡旺季，10 月最多，1 月几乎没有。错过这段时间，多数只能等下一轮。</p>
-        </div>
-        <div class="an-card">
-          <b>${routine.length} 项</b>
-          <span>常态业务，不按月份计</span>
-          <p>按月发放、动态认定、随时受理、台账登记。这些每月都要做，但不会出现在任何一份申请通知里。</p>
-        </div>
-        <div class="an-card">
-          <b>${INTERNAL_BIZ_COUNT} 项</b>
-          <span>不对接学生的业务</span>
-          <p>资金分配、监督检查、系统报送、材料归档。占全部业务的 ${Math.round((INTERNAL_BIZ_COUNT / BIZ_ROWS_ALL.length) * 100)}%。</p>
-        </div>
-      </div>
-
-      <p class="an-close">申请通知只是资助工作的一个侧面。审计、核查、报送和归档不写在通知里，但同样占用时间。<a class="an-link" href="center.html#workload">看完整的工作量说明 →</a></p>
-    </div>
-  </div>
-</section>
+${scheduleSection()}
 
 ${channelsSection()}
 
@@ -2977,12 +3075,13 @@ writeFileSync(join(OUT, 'privacy.html'), renderPrivacy(), 'utf8')
 writeFileSync(join(OUT, 'map.html'), renderMapPage(buildMindmap(false)), 'utf8')
 writeFileSync(join(OUT, 'center.html'), renderCenter(), 'utf8')
 writeFileSync(join(OUT, 'ima.html'), renderIma(), 'utf8')
+writeFileSync(join(OUT, 'schedule.html'), renderSchedule(), 'utf8')
 
 policyCategories.forEach((p, i) => {
   writeFileSync(join(OUT, 'policies', `${p.id}.html`), renderPolicy(p, i), 'utf8')
 })
 
-const pages = ['', 'map.html', 'center.html', 'ima.html', 'privacy.html'].concat(
+const pages = ['', 'map.html', 'center.html', 'ima.html', 'privacy.html', 'schedule.html'].concat(
   policyCategories.map((p) => `policies/${p.id}.html`),
 )
 

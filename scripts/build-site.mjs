@@ -2444,6 +2444,27 @@ const SOFTWARE = [
     ],
     note: '本工具由周泽维个人独立开发（numcheck 项目组），非学校官方发布产品。校验结果仅供参考，不构成任何法律效力的认定；纯离线运行，无广告、无内购、不收集个人信息。',
   },
+  {
+    id: 'conscription-aid-calc',
+    name: '入伍资助代偿利息测算',
+    tag: 'Windows 桌面版 · 便携包',
+    platform: 'Windows',
+    system: 'Windows 10/11 64 位',
+    version: 'v1.0.0',
+    size: '45.1 MB',
+    file: 'conscription-aid-calc-v1.0.0.zip',
+    saveAs: '入伍资助代偿利息测算工具-v1.0.0.zip',
+    sha256: 'EC293B97C23BADE9068417B7C73EB5E1C83D6CAEACD83BC6DC0EFC0502249EB7',
+    fallback: '',
+    btn: '下载 Windows 便携版（ZIP）',
+    points: [
+      { k: 'ok', t: '把一名入伍学生一年度的贷款利息拆成四段，分到财政、学校、学生三方' },
+      { k: 'ok', t: '年度参数写在 config.json 里，换年只改配置，不用重新打包' },
+      { k: 'no', t: '只适用于生源地信用助学贷款；校园地国家助学贷款不适用' },
+      { k: 'note', t: '解压后请保持 exe 与 _internal 同目录，单独拷出 exe 无法运行' },
+    ],
+    note: '高校学生资助工作人员自行测算用的辅助工具，不替代任何官方系统或政策文件。测算结果仅供内部核对与分摊方案设计参考，不构成拨付依据。',
+  },
 ]
 
 function downloadSection() {
@@ -2465,13 +2486,13 @@ function downloadSection() {
   <ul class="dl-req sw-points">
     ${s.points.map((p) => `<li><span class="${p.k === 'ok' ? 'ok' : p.k === 'no' ? 'no' : 'dot-i'}">${p.k === 'ok' ? '✓' : p.k === 'no' ? '✕' : '·'}</span>${esc(p.t)}</li>`).join('\n    ')}
   </ul>
-  <a class="btn dl-btn" href="downloads/${s.file}" download>
+  <a class="btn dl-btn" href="downloads/${s.file}" download="${s.saveAs || ''}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
     ${esc(s.btn)}
   </a>
   <p class="dl-hash">SHA256 ${esc(s.sha256.slice(0, 24))}…</p>
   <p class="dl-alt">${esc(s.note)}</p>
-  <p class="dl-alt">下载慢或断了？<a href="${s.fallback}">走 GitHub 备用通道</a>。</p>
+  ${s.fallback ? `<p class="dl-alt">下载慢或断了？<a href="${s.fallback}">走 GitHub 备用通道</a>。</p>` : ''}
 </article>`,
   ).join('\n')
 
@@ -3260,7 +3281,7 @@ imaFiles.sort()
 // 文件缺失时不生成占位按钮，只在构建日志里提示，避免线上出现 404 的下载键。
 const dlSrc = 'downloads'
 const MISSING_DL = []
-for (const name of [SITE.apk.file, SITE.numcheck.file]) {
+for (const name of SOFTWARE.map((sw) => sw.file)) {
   const from = join(dlSrc, name)
   if (!existsSync(from)) { MISSING_DL.push(name); continue }
   const to = join(OUT, 'downloads', name)

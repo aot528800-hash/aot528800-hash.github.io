@@ -2450,10 +2450,10 @@ const SOFTWARE = [
     tag: 'Windows 桌面版 · 便携包',
     platform: 'Windows',
     system: 'Windows 10/11 64 位',
-    version: 'v1.0（2026-11-19 更新）',
+    version: 'v1.0（2026-11-19 11:32 构建）',
     size: '45.1 MB',
-    file: '入伍资助代偿利息测算工具-20261119.zip',
-    sha256: '4DF8E0D2A60320D2BAED0D3C12DE45166E3D3D74C205614D1A9E52FFA6241549',
+    file: '入伍资助代偿利息测算工具-20261119-1132.zip',
+    sha256: '832D3D22E6BF606E65FC61AC607FD275F5E8B0B0BF247400B8A1A0406EA2CB9D',
     fallback: '',
     btn: '下载 Windows 便携版（ZIP）',
     points: [

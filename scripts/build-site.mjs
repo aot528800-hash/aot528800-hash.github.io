@@ -1805,7 +1805,8 @@ const ICON_SHIELD = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 20
   <path d="M100 130 Q94 121 94 116 Q94 110 100 110 Q106 110 106 116 Q106 121 100 130Z" fill="#f59e0b"/>
 </svg>`
 
-const iconSVG = (emoji) => `<span class="tile">${emoji}</span>`
+// 精简：政策卡片不再显示 emoji 图标，标题+描述+分类角标已足够识别
+const iconSVG = (emoji) => ''
 
 const nav = (base, active, home) => {
   // 首页用页内锚点；其他页面必须回到 index.html 才能滚到对应区块
@@ -1822,7 +1823,7 @@ const nav = (base, active, home) => {
       ${link(base + 'column.html', '专栏', 'column')}
       ${link(base + 'map.html', '站点导图', 'mindmap')}
       ${link(base + 'center.html', '资助中心', 'center')}
-      ${link(base + 'ima.html', '大学生资助数据库<em class="nav-new">共享资料</em>', 'ima')}
+      ${link(base + 'ima.html', '大学生资助数据库', 'ima')}
       <a class="nav-dl" href="${jump('download')}">下载软件</a>
     </div>
     <a class="nav-cta" href="${jump('download')}">下载软件</a>
@@ -1922,7 +1923,6 @@ const CHANNELS = [
 function channelsSection() {
   return `<section id="channels" class="chan-section">
   <div class="wrap">
-    <p class="eyebrow">完整板块</p>
     <h2>首页之外，还有这些完整板块</h2>
     <p class="lede" style="margin-bottom: 36px">首页只放常用查询，完整内容在独立板块里。</p>
     <div class="chan-grid">${CHANNELS.map((c) => `<a class="chan-card" href="${c.href}">${c.icon}<div><h3>${c.title}</h3><p>${c.desc}</p></div><span class="chan-go">进入 →</span></a>`).join('')}</div>
@@ -1937,7 +1937,6 @@ function imaSection() {
   <div class="wrap">
     <div class="ima-band">
       <div class="ima-text">
-        <p class="eyebrow">资料库</p>
         <h2>${IMA_NAME}</h2>
         <p class="ima-stat">${IMA_STAT}</p>
         <p>收了全国${IMA_SCHOOLS}高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。想查某个项目怎么写、别的学校怎么表述，可以直接问它。</p>
@@ -1954,7 +1953,6 @@ function imaSection() {
 function renderIma() {
   const body = `
 <div class="wrap ima-page">
-  <p class="eyebrow">资料库</p>
   <h1>${IMA_NAME}</h1>
   <p class="ima-stat">${IMA_STAT}</p>
   <p class="lede">一个可以直接提问的资助资料库：全国${IMA_SCHOOLS}高校学生资助类公众号的文章，加上国家、重庆市和学校公开的政策文件原文。想查某个项目怎么写、别的学校怎么表述，可以直接问它。</p>
@@ -2332,7 +2330,6 @@ function scheduleSection(opts = {}) {
   return `
 <section id="schedule">
   <div class="wrap">
-    ${opts.bare ? '' : '<p class="eyebrow">全年日程</p>'}
     <h2>${BIZ_ROWS_ALL.length} 项业务：${VISIBLE_BIZ_COUNT} 项对接学生，${INTERNAL_BIZ_COUNT} 项支撑运行</h2>
     <p class="lede">学生日历上的申请节点集中在 9 月和 10 月。中心的 ${BIZ_ROWS_ALL.length} 项业务里，${VISIBLE_BIZ_COUNT} 项与学生直接对接，${INTERNAL_BIZ_COUNT} 项用于资金分配、监督检查、系统报送和材料归档。最忙的是 <strong>${peak.month} 月</strong>：${peak.student.length} 项学生事项，同时在办 ${(peak.projects || []).length} 个项目。</p>
     <div class="load-bars">${loadBar}</div>
@@ -2498,7 +2495,6 @@ function downloadSection() {
 
   return `<section id="download" class="dl-section">
   <div class="wrap">
-    <p class="eyebrow">软件下载</p>
     <h2>本站提供的软件：${SOFTWARE.length} 个，都是离线工具</h2>
     <p class="lede">都是公益提供、不联网、不收集信息。下载后能直接用，不需要注册账号。</p>
     <div class="sw-grid">
@@ -2514,7 +2510,6 @@ function columnTeaser() {
   const picks = COLUMN_META.slice(0, 3)
   return `<section id="column-teaser">
   <div class="wrap">
-    <p class="eyebrow">专栏 · 学生资助实务</p>
     <h2>${COLUMN_META.length} 篇，写给申请资助的学生和做资助的同行</h2>
     <p class="lede">困难认定、助学贷款、奖学金、勤工助学、还款与财务规划，每篇对着政策原文核过，讲的是能照着做的步骤。</p>
     <div class="col-grid">
@@ -2571,7 +2566,6 @@ function renderColumnIndex() {
 
   const body = `
 <div class="wrap col-hero">
-  <p class="eyebrow">专栏</p>
   <h1>学生资助实务</h1>
   <p class="lede">${COLUMN_META.length} 篇，写给正在申请资助的学生，也写给做资助工作的同行。每篇都对着政策原文核过，讲的是能照着做的步骤，不是口号。</p>
 </div>
@@ -2632,7 +2626,6 @@ ${columnBodyHtml(doc.items)}
 function renderSchedule() {
   const body = `
 <div class="wrap" style="padding:40px 0 0">
-  <p class="eyebrow">全年日程</p>
   <h1 style="font-size:clamp(32px,5vw,52px);letter-spacing:-.03em;margin:0 0 14px">资助工作的一年</h1>
   <p class="lede" style="max-width:64ch;margin:0">学生会遇到的申请节点、中心全年在跑的业务、钱怎么发到手上，按月排开。具体时间以学校当年通知为准。</p>
 </div>
@@ -2660,7 +2653,6 @@ function renderIndex() {
   const body = `
 <header class="hero">
   <div class="wrap">
-    <p class="hero-eyebrow">重庆工程职业技术大学 · 学生资助</p>
     <h1>把学生资助政策<br>讲清楚</h1>
     <p>21 个资助项目，条件、流程、材料一页看全；资助工作者的 47 项业务全景；全国 100+ 所高校的公众号资料，也在这里。</p>
     <p class="fresh-line">内容核对于 ${SITE.verifiedShort} · 建议 ${SITE.reviewBy}前复核</p>
@@ -2683,7 +2675,6 @@ function renderIndex() {
 
 <section id="policies" class="alt">
   <div class="wrap">
-    <p class="eyebrow">资助项目</p>
     <h2>按类别找到你要的项目</h2>
     <p class="lede">国家政策 10 项，覆盖奖、助、贷、补、免。校内政策 10 项，按学年和学期评。社会捐资 1 项。不知道从哪看起，先读「家庭经济困难学生认定」，多数项目要它当前置。</p>
 
@@ -2702,7 +2693,6 @@ function renderIndex() {
 
 <section id="mindmap">
   <div class="wrap">
-    <p class="eyebrow">站点导图</p>
     <h2>一张图逛完整个网站</h2>
     <p class="lede">从「CQPUE资助政策」出发：资助项目、办理流程、全年日程、资助中心、大学生资助数据库……点击任意节点，直达对应内容。</p>
     <div class="map-frame">${mindmap}</div>
@@ -2716,7 +2706,6 @@ function renderIndex() {
 
 <section id="flow" class="alt">
   <div class="wrap">
-    <p class="eyebrow">办理流程</p>
     <h2>一份申请，要过五道关</h2>
     <p class="lede">各项目细节不一样，主线相同：学生申请，班级评议，学院审核，学校审定，然后发放。每一级都要公示。</p>
     <ul class="flow">
@@ -2737,7 +2726,6 @@ ${downloadSection()}
 
 <section id="disclaimer">
   <div class="wrap narrow">
-    <p class="eyebrow">适用范围</p>
     <h2>只适用于重庆工程职业技术大学</h2>
     <p class="lede">这些内容对应重庆工程职业技术大学的执行口径（原重庆工程职业技术学院）。别的学校可以拿体例去改，条件和金额不能照搬。</p>
 
@@ -2767,7 +2755,6 @@ ${downloadSection()}
 <section id="author" class="alt">
   <div class="wrap author">
     <div>
-      <p class="eyebrow">关于作者</p>
       <h2>周泽维</h2>
       <p>我做这个项目的原因很直接：政策散在十几个文件里，学生找不到，辅导员也记不住全。整理成能查的资料，先做成安卓应用，后来又搬到网页上。</p>
       <p>没有广告，没有内购，也不收集个人信息。21 个项目的条件、流程、材料逐条对照文件核对，资助中心的业务全景来自实地梳理。</p>
@@ -2969,7 +2956,6 @@ function renderPolicy(p, index) {
 function renderMapPage(mindmap) {
   const body = `
 <div class="wrap" style="padding:48px 0 80px">
-  <p class="eyebrow">站点导图</p>
   <h1 style="margin-bottom:28px">一张图逛完整个网站</h1>
   <div class="map-frame">${mindmap}</div>
   <p style="margin-top:18px;font-size:13px;color:var(--text-3)">点击任意节点直达对应页面；「资助项目」分支展开为 21 个项目的资助体系。</p>
@@ -3119,7 +3105,6 @@ function renderCenter() {
   </div>
 
   <section class="workload" id="workload">
-    <p class="eyebrow">工作量说明</p>
     <h2>资助工作不只是"收表、发钱"</h2>
     <p class="lede">把 ${bizRows.length} 项业务的流程拆开看：${complianceCount} 项（${compliancePct}%）的日常就是审核、公示、核对、归档。下面这些数字，都是可以逐项核对的。</p>
 
@@ -3223,7 +3208,6 @@ function renderPrivacy() {
 
   const body = `
 <div class="wrap" style="padding:48px 0 96px;max-width:760px">
-  <p class="eyebrow">隐私</p>
   <h1>隐私政策</h1>
   <div class="prose" style="margin-top:24px">${marked.parse(md)}</div>
 </div>`

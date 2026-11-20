@@ -12,7 +12,10 @@
     "test": "vitest run tests/unit",
     "test:unit": "vitest run tests/unit",
     "test:e2e": "node tests/e2e/run.mjs",
-    "test:static": "node tests/static/checks.mjs"
+    "test:static": "node tests/static/checks.mjs",
+    "visual:baseline": "node tests/visual/capture.mjs tests/visual/baseline",
+    "visual:after": "node tests/visual/capture.mjs tests/visual/after",
+    "visual:compare": "node tests/visual/compare.mjs tests/visual/baseline tests/visual/after"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.2",

@@ -230,7 +230,7 @@ const GROUPS = [
 const MINDMAP = [
   {
     label: '国家政策',
-    color: '#3f6b55',
+    color: '#2f6b4f',
     groups: [
       { label: '奖优', ids: ['national-scholarship', 'encouragement-scholarship'] },
       { label: '助困', ids: ['national-grant'] },
@@ -268,18 +268,18 @@ const FLOW = [
 
 const CSS = `
 :root {
-  /* 低饱和暖米白底：减少纯白眩光，长时间阅读更放松（护眼/安静的视觉基调） */
-  --bg: #f7f6f1;          /* 大面积底：暖米白，减少眩光 */
-  --bg-alt: #eeede5;      /* 分区底：略加深，拉开与页面的层次 */
-  --card: #ffffff;        /* 卡片局部纯白：作为内容容器浮起，不等于大面积白 */
+  /* 皇家绿护眼底：偏绿的浅绿调，低饱和、亮度适中，长时间阅读不刺眼 */
+  --bg: #cfe3d1;          /* 大面积底：皇家绿浅调，护眼 */
+  --bg-alt: #c3d9c5;      /* 分区底：略深，拉开层次 */
+  --card: #f2f8f3;        /* 卡片：极浅绿白，靠边框+阴影浮起，不靠纯白 */
   --text: #1c2620;
-  --text-2: #5a665e;
-  --text-3: #6b736c;
-  --line: #cdd2c8;        /* 边框加深：让容器边界可辨 */
-  --line-2: #dfe3d8;      /* 次级边框 */
-  --accent: #3f6b55;
-  --accent-2: #335a47;
-  --accent-soft: #8fae9c;
+  --text-2: #51604f;
+  --text-3: #5f6f5d;
+  --line: #a9bfab;        /* 边框：偏绿灰，边界可辨 */
+  --line-2: #c0d3c2;      /* 次级边框 */
+  --accent: #2f6b4f;
+  --accent-2: #265741;
+  --accent-soft: #7ba88d;
   --gold: #8a6d2f;
   --amber: #b7791f;
   --green: #1f7a4d;
@@ -557,7 +557,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .card .badge {
   display: inline-flex; align-items: center; gap: 6px;
   margin-top: 10px; padding: 3px 9px; border-radius: 999px;
-  background: rgba(63,107,85,.09); color: var(--accent);   /* 主色淡底+主色字，让分类信息可见 */
+  background: rgba(47,107,79,.09); color: var(--accent);   /* 主色淡底+主色字，让分类信息可见 */
   font-size: 11px; font-weight: 600;
 }
 .badge::before {
@@ -714,7 +714,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
   border: 1px solid var(--line-2); border-radius: var(--radius);
   padding: 16px 18px; background: var(--card);
 }
-.month-card[data-level="high"] { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(63,107,85,.08); }
+.month-card[data-level="high"] { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(47,107,79,.08); }
 .month-card header {
   display: flex; align-items: baseline; justify-content: space-between;
   gap: 10px; margin-bottom: 12px; padding-bottom: 10px;
@@ -755,7 +755,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .pt-when { color: var(--text-2); }
 .pt-basis { color: var(--text-3); font-size: 12px; }
 .pt-method { display: inline-block; padding: 1px 8px; border-radius: 5px; font-size: 11.5px; font-weight: 600; }
-.pt-month { color: #3f6b55; background: rgba(63,107,85,.1); }
+.pt-month { color: #2f6b4f; background: rgba(47,107,79,.1); }
 .pt-once { color: var(--gold); background: rgba(138,109,47,.12); }
 .pt-other { color: var(--text-2); background: var(--bg-alt); }
 @media (prefers-color-scheme: dark) { .pt-month { color: #74cba0; } }
@@ -780,7 +780,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .tr-cell { position: relative; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
 .tr-cell i { display: block; width: 100%; border-radius: 4px 4px 0 0; background: var(--accent); opacity: .85; }
 .tr-cell em { position: absolute; font-size: 10.5px; color: var(--text-3); font-style: normal; line-height: 1; }
-.track-flat-row .tr-flat { height: 26px; display: flex; align-items: center; border-radius: 6px; background: rgba(63,107,85,.07); border: 1px dashed var(--accent); padding: 0 12px; }
+.track-flat-row .tr-flat { height: 26px; display: flex; align-items: center; border-radius: 6px; background: rgba(47,107,79,.07); border: 1px dashed var(--accent); padding: 0 12px; }
 .tr-flat span { font-size: 12px; color: var(--accent); }
 .track-axis .tr-cells { height: 20px; }
 .track-axis .tr-cell b { font-size: 11px; color: var(--text-3); font-weight: 400; }
@@ -888,7 +888,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .col-card:hover {
   text-decoration: none; transform: translateY(-2px);
   border-color: var(--accent);
-  box-shadow: 0 18px 36px -20px rgba(63,107,85, .35);
+  box-shadow: 0 18px 36px -20px rgba(47,107,79, .35);
 }
 .col-card-no { font-family: ui-monospace, monospace; font-size: 12px; color: var(--text-3); letter-spacing: .06em; }
 .col-card-title { font-size: 17px; font-weight: 650; letter-spacing: -0.02em; line-height: 1.4; }
@@ -1066,14 +1066,14 @@ footer .links { display: flex; gap: 20px; flex-wrap: wrap; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
 
 /* ---------- 视觉收口 ---------- */
-::selection { background: rgba(63,107,85,.16); }
+::selection { background: rgba(47,107,79,.16); }
 
 h1, h2, h3 { text-wrap: balance; }
 p { text-wrap: pretty; }
 
 .hero {
   position: relative;
-  background: radial-gradient(1000px 460px at 50% -18%, rgba(63,107,85,.05), transparent 62%);
+  background: radial-gradient(1000px 460px at 50% -18%, rgba(47,107,79,.05), transparent 62%);
 }
 @media (prefers-color-scheme: dark) {
   .hero { background: radial-gradient(1000px 460px at 50% -18%, rgba(92,187,138,.08), transparent 62%); }
@@ -1205,12 +1205,12 @@ p { text-wrap: pretty; }
 }
 .role-block.is-on {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(63,107,85,.12);
+  box-shadow: 0 0 0 3px rgba(47,107,79,.12);
 }
 .role-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .role-step {
   font-size: 11.5px; font-weight: 600; color: var(--accent);
-  background: rgba(63,107,85,.09); padding: 2px 8px; border-radius: 6px;
+  background: rgba(47,107,79,.09); padding: 2px 8px; border-radius: 6px;
 }
 .role-head h3 { margin: 0; font-size: 17px; letter-spacing: -.01em; }
 .role-count { margin-left: auto; font-size: 12px; color: var(--text-3); }
@@ -1273,7 +1273,7 @@ p { text-wrap: pretty; }
   margin-left: auto; font-style: normal; font-size: 11px; font-weight: 500;
   padding: 2px 8px; border-radius: 5px;
 }
-.vis-tag.is-visible { color: var(--accent); background: rgba(63,107,85,.08); }
+.vis-tag.is-visible { color: var(--accent); background: rgba(47,107,79,.08); }
 .vis-tag.is-internal { color: var(--gold); background: rgba(138,109,47,.12); }
 @media (prefers-color-scheme: dark) { .vis-tag.is-visible { color: #74cba0; } }
 
@@ -1309,13 +1309,13 @@ p { text-wrap: pretty; }
 .biz-body { min-width: 0; }
 .biz-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
 .biz-title { margin: 0; font-size: 15.5px; font-weight: 600; letter-spacing: -.01em; }
-.biz-seg { font-size: 11.5px; color: var(--accent); background: rgba(63,107,85,.08); padding: 1px 7px; border-radius: 5px; }
+.biz-seg { font-size: 11.5px; color: var(--accent); background: rgba(47,107,79,.08); padding: 1px 7px; border-radius: 5px; }
 .biz-tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 8px; }
 .btag { font-size: 11px; color: var(--text-2); background: var(--bg-alt); border: 1px solid var(--line-2); padding: 1px 7px; border-radius: 5px; }
 .biz-store { color: var(--text-3); background: var(--bg-alt); padding: 2px 8px; border-radius: 6px; }
 .biz-desc { margin: 0 0 8px; font-size: 14px; line-height: 1.6; color: var(--text-2); max-width: 88ch; }
 .biz-meta { display: flex; gap: 8px; flex-wrap: wrap; font-size: 11.5px; }
-.biz-freq { color: var(--accent); background: rgba(63,107,85,.09); padding: 2px 8px; border-radius: 6px; }
+.biz-freq { color: var(--accent); background: rgba(47,107,79,.09); padding: 2px 8px; border-radius: 6px; }
 .biz-basis { color: var(--text-3); background: var(--bg-alt); padding: 2px 8px; border-radius: 6px; }
 
 .rhythm .e { display: grid; gap: 6px; }
@@ -1465,13 +1465,13 @@ body {
 
 /* 按钮：主按钮柔和光环 + 悬停抬升 */
 .btn {
-  box-shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 10px 24px -12px rgba(63,107,85, .45);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 10px 24px -12px rgba(47,107,79, .45);
   transition: transform .18s cubic-bezier(.16, 1, .3, 1), box-shadow .18s cubic-bezier(.16, 1, .3, 1), background .18s ease;
 }
 .btn:hover {
   background: var(--accent);
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(15, 23, 42, .08), 0 14px 30px -10px rgba(63,107,85, .5);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, .08), 0 14px 30px -10px rgba(47,107,79, .5);
 }
 .btn:active { transform: scale(.97); }
 .btn.ghost { border-color: rgba(15, 23, 42, .12); box-shadow: none; }
@@ -1534,7 +1534,7 @@ h2 { letter-spacing: -0.035em; }
   color: var(--accent);
   border-color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: 0 12px 26px -10px rgba(63,107,85, .45);
+  box-shadow: 0 12px 26px -10px rgba(47,107,79, .45);
 }
 .jump button:active { transform: scale(.94); }
 .jump button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -1799,7 +1799,7 @@ const SITE_JS = `(function () {
 /* ------------------------------------------------------------------ 组件 */
 
 const ICON_SHIELD = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" aria-hidden="true">
-  <rect width="200" height="200" rx="44" fill="#3f6b55"/>
+  <rect width="200" height="200" rx="44" fill="#2f6b4f"/>
   <path d="M100 46 L74 57 L74 88 Q74 104 100 112 Q126 104 126 88 L126 57 Z" fill="#fff" opacity=".97"/>
   <path d="M44 132 Q54 112 76 119 Q88 123 93 135 L93 145 Q80 143 66 147 Q50 152 44 132Z" fill="#f59e0b"/>
   <path d="M156 132 Q146 112 124 119 Q112 123 107 135 L107 145 Q120 143 134 147 Q150 152 156 132Z" fill="#f97316"/>
@@ -2048,7 +2048,7 @@ ${image ? '<meta property="og:image" content="' + esc(image) + '">' : ''}
 <meta name="twitter:card" content="summary">
 ${noindex ? '<meta name="robots" content="noindex,follow">' : '<meta name="robots" content="index,follow">'}
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f6f1">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#cfe3d1">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
 <link rel="icon" href="${base}assets/icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="${base}assets/site.css">
@@ -2208,12 +2208,12 @@ function buildMindmap(home = true) {
   out += `<style>
     .mm-root-bg{fill:#1d1d1f}
     .mm-root{font:700 17px var(--font,system-ui);fill:#fff}
-    .mm-branch-bg{fill:var(--accent,#3f6b55)}
+    .mm-branch-bg{fill:var(--accent,#2f6b4f)}
     .mm-branch{font:700 14.5px var(--font,system-ui);fill:#fff}
     .mm-cat{font:700 15px var(--font,system-ui);fill:#fff}
     .mm-grp{font:600 13px var(--font,system-ui);fill:#86868b}
     .mm-leaf{font:400 13.5px var(--font,system-ui);fill:#1d1d1f}
-    .mm-leaf:hover{fill:#3f6b55}
+    .mm-leaf:hover{fill:#2f6b4f}
     .mm-link{fill:none;stroke:#d2d2d7;stroke-width:1.4}
     .mm-link2{fill:none;stroke:#e0e0e5;stroke-width:1.1}
     @media (prefers-color-scheme: dark){

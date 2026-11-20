@@ -230,7 +230,7 @@ const GROUPS = [
 const MINDMAP = [
   {
     label: '国家政策',
-    color: '#0b4f32',
+    color: '#3f6b55',
     groups: [
       { label: '奖优', ids: ['national-scholarship', 'encouragement-scholarship'] },
       { label: '助困', ids: ['national-grant'] },
@@ -268,17 +268,18 @@ const FLOW = [
 
 const CSS = `
 :root {
-  --bg: #ffffff;
-  --bg-alt: #f4f6f4;
-  --card: #ffffff;
-  --text: #14201a;
-  --text-2: #58655f;
-  --text-3: #64748b;
-  --line: #d7dfd9;
-  --line-2: #e8eeea;
-  --accent: #0b4f32;
-  --accent-2: #0a4429;
-  --accent-soft: #7fa891;
+  /* 低饱和暖米白底：减少纯白眩光，长时间阅读更放松（护眼/安静的视觉基调） */
+  --bg: #f7f6f1;
+  --bg-alt: #f0efe8;
+  --card: #fdfcf8;
+  --text: #1c2620;
+  --text-2: #5a665e;
+  --text-3: #6b736c;
+  --line: #dcdcd2;
+  --line-2: #eae9e0;
+  --accent: #3f6b55;
+  --accent-2: #335a47;
+  --accent-soft: #8fae9c;
   --gold: #8a6d2f;
   --amber: #b7791f;
   --green: #1f7a4d;
@@ -303,8 +304,8 @@ const CSS = `
     --text-3: #94a3b8;
     --line: #22332b;
     --line-2: #1a2a22;
-    --accent: #5cbb8a;
-    --accent-2: #74cba0;
+    --accent: #7aa78d;
+    --accent-2: #8fb9a0;
     --accent-soft: #2f6b4c;
     --gold: #d4b46a;
     --amber: #e0a94f;
@@ -713,7 +714,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
   border: 1px solid var(--line-2); border-radius: var(--radius);
   padding: 16px 18px; background: var(--card);
 }
-.month-card[data-level="high"] { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(11,79,50,.08); }
+.month-card[data-level="high"] { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(63,107,85,.08); }
 .month-card header {
   display: flex; align-items: baseline; justify-content: space-between;
   gap: 10px; margin-bottom: 12px; padding-bottom: 10px;
@@ -754,7 +755,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .pt-when { color: var(--text-2); }
 .pt-basis { color: var(--text-3); font-size: 12px; }
 .pt-method { display: inline-block; padding: 1px 8px; border-radius: 5px; font-size: 11.5px; font-weight: 600; }
-.pt-month { color: #0b4f32; background: rgba(11,79,50,.1); }
+.pt-month { color: #3f6b55; background: rgba(63,107,85,.1); }
 .pt-once { color: var(--gold); background: rgba(138,109,47,.12); }
 .pt-other { color: var(--text-2); background: var(--bg-alt); }
 @media (prefers-color-scheme: dark) { .pt-month { color: #74cba0; } }
@@ -779,7 +780,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .tr-cell { position: relative; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
 .tr-cell i { display: block; width: 100%; border-radius: 4px 4px 0 0; background: var(--accent); opacity: .85; }
 .tr-cell em { position: absolute; font-size: 10.5px; color: var(--text-3); font-style: normal; line-height: 1; }
-.track-flat-row .tr-flat { height: 26px; display: flex; align-items: center; border-radius: 6px; background: rgba(11,79,50,.07); border: 1px dashed var(--accent); padding: 0 12px; }
+.track-flat-row .tr-flat { height: 26px; display: flex; align-items: center; border-radius: 6px; background: rgba(63,107,85,.07); border: 1px dashed var(--accent); padding: 0 12px; }
 .tr-flat span { font-size: 12px; color: var(--accent); }
 .track-axis .tr-cells { height: 20px; }
 .track-axis .tr-cell b { font-size: 11px; color: var(--text-3); font-weight: 400; }
@@ -887,7 +888,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .col-card:hover {
   text-decoration: none; transform: translateY(-2px);
   border-color: var(--accent);
-  box-shadow: 0 18px 36px -20px rgba(11, 79, 50, .35);
+  box-shadow: 0 18px 36px -20px rgba(63,107,85, .35);
 }
 .col-card-no { font-family: ui-monospace, monospace; font-size: 12px; color: var(--text-3); letter-spacing: .06em; }
 .col-card-title { font-size: 17px; font-weight: 650; letter-spacing: -0.02em; line-height: 1.4; }
@@ -1065,14 +1066,14 @@ footer .links { display: flex; gap: 20px; flex-wrap: wrap; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
 
 /* ---------- 视觉收口 ---------- */
-::selection { background: rgba(11,79,50,.16); }
+::selection { background: rgba(63,107,85,.16); }
 
 h1, h2, h3 { text-wrap: balance; }
 p { text-wrap: pretty; }
 
 .hero {
   position: relative;
-  background: radial-gradient(1000px 460px at 50% -18%, rgba(11,79,50,.05), transparent 62%);
+  background: radial-gradient(1000px 460px at 50% -18%, rgba(63,107,85,.05), transparent 62%);
 }
 @media (prefers-color-scheme: dark) {
   .hero { background: radial-gradient(1000px 460px at 50% -18%, rgba(92,187,138,.08), transparent 62%); }
@@ -1204,12 +1205,12 @@ p { text-wrap: pretty; }
 }
 .role-block.is-on {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(11,79,50,.12);
+  box-shadow: 0 0 0 3px rgba(63,107,85,.12);
 }
 .role-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .role-step {
   font-size: 11.5px; font-weight: 600; color: var(--accent);
-  background: rgba(11,79,50,.09); padding: 2px 8px; border-radius: 6px;
+  background: rgba(63,107,85,.09); padding: 2px 8px; border-radius: 6px;
 }
 .role-head h3 { margin: 0; font-size: 17px; letter-spacing: -.01em; }
 .role-count { margin-left: auto; font-size: 12px; color: var(--text-3); }
@@ -1272,7 +1273,7 @@ p { text-wrap: pretty; }
   margin-left: auto; font-style: normal; font-size: 11px; font-weight: 500;
   padding: 2px 8px; border-radius: 5px;
 }
-.vis-tag.is-visible { color: var(--accent); background: rgba(11,79,50,.08); }
+.vis-tag.is-visible { color: var(--accent); background: rgba(63,107,85,.08); }
 .vis-tag.is-internal { color: var(--gold); background: rgba(138,109,47,.12); }
 @media (prefers-color-scheme: dark) { .vis-tag.is-visible { color: #74cba0; } }
 
@@ -1308,13 +1309,13 @@ p { text-wrap: pretty; }
 .biz-body { min-width: 0; }
 .biz-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
 .biz-title { margin: 0; font-size: 15.5px; font-weight: 600; letter-spacing: -.01em; }
-.biz-seg { font-size: 11.5px; color: var(--accent); background: rgba(11,79,50,.08); padding: 1px 7px; border-radius: 5px; }
+.biz-seg { font-size: 11.5px; color: var(--accent); background: rgba(63,107,85,.08); padding: 1px 7px; border-radius: 5px; }
 .biz-tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 8px; }
 .btag { font-size: 11px; color: var(--text-2); background: var(--bg-alt); border: 1px solid var(--line-2); padding: 1px 7px; border-radius: 5px; }
 .biz-store { color: var(--text-3); background: var(--bg-alt); padding: 2px 8px; border-radius: 6px; }
 .biz-desc { margin: 0 0 8px; font-size: 14px; line-height: 1.6; color: var(--text-2); max-width: 88ch; }
 .biz-meta { display: flex; gap: 8px; flex-wrap: wrap; font-size: 11.5px; }
-.biz-freq { color: var(--accent); background: rgba(11,79,50,.09); padding: 2px 8px; border-radius: 6px; }
+.biz-freq { color: var(--accent); background: rgba(63,107,85,.09); padding: 2px 8px; border-radius: 6px; }
 .biz-basis { color: var(--text-3); background: var(--bg-alt); padding: 2px 8px; border-radius: 6px; }
 
 .rhythm .e { display: grid; gap: 6px; }
@@ -1464,13 +1465,13 @@ body {
 
 /* 按钮：主按钮柔和光环 + 悬停抬升 */
 .btn {
-  box-shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 10px 24px -12px rgba(11, 79, 50, .45);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 10px 24px -12px rgba(63,107,85, .45);
   transition: transform .18s cubic-bezier(.16, 1, .3, 1), box-shadow .18s cubic-bezier(.16, 1, .3, 1), background .18s ease;
 }
 .btn:hover {
   background: var(--accent);
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(15, 23, 42, .08), 0 14px 30px -10px rgba(11, 79, 50, .5);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, .08), 0 14px 30px -10px rgba(63,107,85, .5);
 }
 .btn:active { transform: scale(.97); }
 .btn.ghost { border-color: rgba(15, 23, 42, .12); box-shadow: none; }
@@ -1533,7 +1534,7 @@ h2 { letter-spacing: -0.035em; }
   color: var(--accent);
   border-color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: 0 12px 26px -10px rgba(11, 79, 50, .45);
+  box-shadow: 0 12px 26px -10px rgba(63,107,85, .45);
 }
 .jump button:active { transform: scale(.94); }
 .jump button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -1798,7 +1799,7 @@ const SITE_JS = `(function () {
 /* ------------------------------------------------------------------ 组件 */
 
 const ICON_SHIELD = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" aria-hidden="true">
-  <rect width="200" height="200" rx="44" fill="#0b4f32"/>
+  <rect width="200" height="200" rx="44" fill="#3f6b55"/>
   <path d="M100 46 L74 57 L74 88 Q74 104 100 112 Q126 104 126 88 L126 57 Z" fill="#fff" opacity=".97"/>
   <path d="M44 132 Q54 112 76 119 Q88 123 93 135 L93 145 Q80 143 66 147 Q50 152 44 132Z" fill="#f59e0b"/>
   <path d="M156 132 Q146 112 124 119 Q112 123 107 135 L107 145 Q120 143 134 147 Q150 152 156 132Z" fill="#f97316"/>
@@ -1808,22 +1809,37 @@ const ICON_SHIELD = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 20
 // 精简：政策卡片不再显示 emoji 图标，标题+描述+分类角标已足够识别
 const iconSVG = (emoji) => ''
 
+/**
+ * 主导航数据源：顶部导航与页脚共用同一套条目，避免两处命名/顺序漂移（防呆）。
+ * link key 用于 aria-current 高亮；target=_blank 的外站链接用 ext 标记。
+ */
+const NAV_ITEMS = (base, jump) => [
+  { label: '资助项目', href: jump('policies'), key: 'policies' },
+  { label: '全年日程', href: base + 'schedule.html', key: 'schedule' },
+  { label: '专栏', href: base + 'column.html', key: 'column' },
+  { label: '站点导图', href: base + 'map.html', key: 'mindmap' },
+  { label: '资助中心', href: base + 'center.html', key: 'center' },
+  { label: '大学生资助数据库', href: base + 'ima.html', key: 'ima' },
+  { label: '关于作者', href: base + 'index.html#author', key: 'author' },
+  { label: '下载软件', href: jump('download'), key: 'download' },
+]
+
 const nav = (base, active, home) => {
   // 首页用页内锚点；其他页面必须回到 index.html 才能滚到对应区块
   const jump = (id) => (home ? '#' + id : base + 'index.html#' + id)
   const link = (href, label, key) =>
     `<a href="${href}"${active === key ? ' aria-current="page"' : ''}>${label}</a>`
+  // 顶部导航：下载软件单独作 CTA 按钮，其余从共享数据源渲染
+  const navLinks = NAV_ITEMS(base, jump)
+    .filter((it) => it.key !== 'download')
+    .map((it) => link(it.href, it.label, it.key))
+    .join('\n      ')
   return `<a class="skip" href="#main">跳到主要内容</a>
 <nav class="nav" aria-label="主导航">
   <div class="wrap">
     <a class="nav-brand" href="${base}index.html">${ICON_SHIELD}CQPUE资助政策</a>
     <div class="nav-links" id="navLinks">
-      ${link(jump('policies'), '资助项目', 'policies')}
-      ${link(base + 'schedule.html', '全年日程', 'schedule')}
-      ${link(base + 'column.html', '专栏', 'column')}
-      ${link(base + 'map.html', '站点导图', 'mindmap')}
-      ${link(base + 'center.html', '资助中心', 'center')}
-      ${link(base + 'ima.html', '大学生资助数据库', 'ima')}
+      ${navLinks}
       <a class="nav-dl" href="${jump('download')}">下载软件</a>
     </div>
     <a class="nav-cta" href="${jump('download')}">下载软件</a>
@@ -1834,19 +1850,18 @@ const nav = (base, active, home) => {
 </nav>`
 }
 
-const footer = (base) => `<footer>
+const footer = (base) => {
+  // 主链接与顶部导航共用 NAV_ITEMS（首页无 base 时用 'index.html#xxx'），保证命名与顺序一致
+  const jump = (id) => base + 'index.html#' + id
+  const mainLinks = NAV_ITEMS(base, jump)
+    .map((it) => `<a href="${it.href}">${it.label}</a>`)
+    .join('\n      ')
+  return `<footer>
   <div class="wrap">
     <div class="links">
-      <a href="${base}index.html#policies">资助项目</a>
-      <a href="${base}map.html">站点导图</a>
-      <a href="${base}schedule.html">全年日程</a>
-      <a href="${base}column.html">学生资助实务专栏</a>
-      <a href="${base}center.html">资助中心 · 业务全景</a>
-      <a href="${base}ima.html">大学生资助数据库</a>
+      ${mainLinks}
       <a href="${base}privacy.html">隐私政策</a>
-      <a href="${base}index.html#author">关于作者</a>
-      <a href="https://aot528800-hash.github.io/me/" target="_blank" rel="noopener"><strong>作者个人主页</strong></a>
-      <a href="${base}index.html#download">软件下载</a>
+      <a href="https://aot528800-hash.github.io/me/" target="_blank" rel="noopener">作者个人主页</a>
     </div>
     <div>本站由周泽维个人整理，<strong>公益整理、无广告、无商业用途</strong>，仅用于学习与研究。</div>
         <div>联系作者：微信 <strong>${SITE.wechat.id}</strong></div>
@@ -1855,6 +1870,7 @@ const footer = (base) => `<footer>
     <div>数据更新：${SITE.updated} · 21 个资助项目 · 13 份政策依据</div>
   </div>
 </footer>`
+}
 
 const WECHAT_LABELS = [
   { test: /gongzhonghao|公众号|mp-|account/i, title: '微信公众号', hint: SITE.wechat.id },
@@ -2032,7 +2048,7 @@ ${image ? '<meta property="og:image" content="' + esc(image) + '">' : ''}
 <meta name="twitter:card" content="summary">
 ${noindex ? '<meta name="robots" content="noindex,follow">' : '<meta name="robots" content="index,follow">'}
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f6f1">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
 <link rel="icon" href="${base}assets/icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="${base}assets/site.css">
@@ -2192,12 +2208,12 @@ function buildMindmap(home = true) {
   out += `<style>
     .mm-root-bg{fill:#1d1d1f}
     .mm-root{font:700 17px var(--font,system-ui);fill:#fff}
-    .mm-branch-bg{fill:var(--accent,#0b4f32)}
+    .mm-branch-bg{fill:var(--accent,#3f6b55)}
     .mm-branch{font:700 14.5px var(--font,system-ui);fill:#fff}
     .mm-cat{font:700 15px var(--font,system-ui);fill:#fff}
     .mm-grp{font:600 13px var(--font,system-ui);fill:#86868b}
     .mm-leaf{font:400 13.5px var(--font,system-ui);fill:#1d1d1f}
-    .mm-leaf:hover{fill:#0b4f32}
+    .mm-leaf:hover{fill:#3f6b55}
     .mm-link{fill:none;stroke:#d2d2d7;stroke-width:1.4}
     .mm-link2{fill:none;stroke:#e0e0e5;stroke-width:1.1}
     @media (prefers-color-scheme: dark){

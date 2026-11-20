@@ -269,14 +269,14 @@ const FLOW = [
 const CSS = `
 :root {
   /* 低饱和暖米白底：减少纯白眩光，长时间阅读更放松（护眼/安静的视觉基调） */
-  --bg: #f7f6f1;
-  --bg-alt: #f0efe8;
-  --card: #fdfcf8;
+  --bg: #f7f6f1;          /* 大面积底：暖米白，减少眩光 */
+  --bg-alt: #eeede5;      /* 分区底：略加深，拉开与页面的层次 */
+  --card: #ffffff;        /* 卡片局部纯白：作为内容容器浮起，不等于大面积白 */
   --text: #1c2620;
   --text-2: #5a665e;
   --text-3: #6b736c;
-  --line: #dcdcd2;
-  --line-2: #eae9e0;
+  --line: #cdd2c8;        /* 边框加深：让容器边界可辨 */
+  --line-2: #dfe3d8;      /* 次级边框 */
   --accent: #3f6b55;
   --accent-2: #335a47;
   --accent-soft: #8fae9c;
@@ -539,7 +539,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); }
 .card {
   display: flex; gap: 14px; align-items: flex-start;
-  background: var(--card); border: 1px solid var(--line-2);
+  background: var(--card); border: 1px solid var(--line);
   border-radius: var(--radius); padding: 20px;
   color: inherit; transition: transform .25s cubic-bezier(.32,.72,0,1), box-shadow .25s, border-color .25s;
 }
@@ -557,8 +557,8 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .card .badge {
   display: inline-flex; align-items: center; gap: 6px;
   margin-top: 10px; padding: 3px 9px; border-radius: 999px;
-  background: var(--bg-alt); color: var(--text-2);
-  font-size: 11px; font-weight: 500;
+  background: rgba(63,107,85,.09); color: var(--accent);   /* 主色淡底+主色字，让分类信息可见 */
+  font-size: 11px; font-weight: 600;
 }
 .badge::before {
   content: ""; width: 5px; height: 5px; border-radius: 50%;
@@ -629,7 +629,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .search-bar input {
   width: 100%; height: 46px; padding: 0 44px 0 44px;
   font-size: 16px; font-family: inherit; color: var(--text);
-  background: var(--bg-alt); border: 1px solid var(--line-2); border-radius: 12px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
   outline: none; transition: border-color .2s, background .2s;
 }
 .search-bar input:focus { border-color: var(--accent); background: var(--card); }
@@ -1481,11 +1481,11 @@ body {
   .btn.ghost:hover { background: var(--bg-alt); border-color: rgba(241, 245, 249, .3); }
 }
 
-/* 卡片：更轻的边框、更柔的阴影 */
-.card { border-color: rgba(15, 23, 42, .07); box-shadow: 0 1px 2px rgba(15, 23, 42, .04); }
+/* 卡片：清晰边框 + 极轻阴影，让白卡从米白底上浮起（层次线索，不靠高饱和） */
+.card { border-color: var(--line); box-shadow: 0 1px 3px rgba(28, 38, 32, .08); }
 .card:hover {
-  border-color: rgba(15, 23, 42, .12);
-  box-shadow: 0 20px 44px -18px rgba(15, 23, 42, .16);
+  border-color: var(--accent-soft);
+  box-shadow: 0 12px 28px -12px rgba(28, 38, 32, .2);
 }
 .card h3 { letter-spacing: -0.025em; }
 @media (prefers-color-scheme: dark) {

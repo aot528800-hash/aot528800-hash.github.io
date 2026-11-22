@@ -1290,3 +1290,20 @@ h2 { letter-spacing: -0.035em; }
 /* P5：标题层级调整后保持原有字号（.flow 由 h4 改 h3、.ima-block 由 h3 改 h2） */
 .flow h3{ margin: 0 0 4px; font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; }
 .ima-block h2{ font-size: 22px; letter-spacing: -.02em; margin: 0 0 12px; }
+
+/* ===== 两站共用语义别名（见 DESIGN.md 第 5 节）=====
+   新组件只用 --ds-*；老代码不动，出现一次改一次。 */
+:root{
+  --ds-bg:var(--bg);
+  --ds-surface:var(--card);
+  --ds-text:var(--text);
+  --ds-text-2:var(--text-2);
+  --ds-text-3:var(--text-3);
+  --ds-line:var(--line);
+  --ds-line-subtle:var(--line-2);
+  --ds-accent:var(--accent);
+  --ds-accent-text:var(--accent);
+  --ds-radius-card:var(--radius);
+  --ds-radius-pill:999px;
+  --ds-max:var(--max);
+}

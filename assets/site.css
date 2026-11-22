@@ -6,7 +6,7 @@
   --card: #f2f8f3;        /* 卡片：极浅绿白，靠边框+阴影浮起，不靠纯白 */
   --text: #1c2620;
   --text-2: #51604f;
-  --text-3: #5f6f5d;
+  --text-3: #4f5c4a;
   --line: #a9bfab;        /* 边框：偏绿灰，边界可辨 */
   --line-2: #c0d3c2;      /* 次级边框 */
   --accent: #2f6b4f;
@@ -654,7 +654,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .steps .n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; display: grid; place-items: center; margin-top: 2px; }
 .steps h4 { margin: 0 0 2px; font-size: 15px; font-weight: 600; }
 .steps p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-2); }
-.steps .pub { margin-top: 6px; font-size: 12.5px; color: #a05a00; }
+.steps .pub { margin-top: 6px; font-size: 12.5px; color: #7a4600; }
 @media (prefers-color-scheme: dark) { .steps .pub { color: #ffb340; } }
 
 .mats { display: grid; gap: 1px; background: var(--line-2); border-radius: var(--radius-sm); overflow: hidden; }
@@ -959,7 +959,7 @@ p { text-wrap: pretty; }
 
 .role-pub {
   margin: 12px 0 0; padding: 8px 12px; border-radius: 8px;
-  background: rgba(255,149,0,.1); font-size: 12.5px; color: #a05a00;
+  background: rgba(255,149,0,.1); font-size: 12.5px; color: #7a4600;
 }
 @media (prefers-color-scheme: dark) { .role-pub { color: #ffb340; } }
 
@@ -1059,7 +1059,7 @@ p { text-wrap: pretty; }
 .risk-item { border: 1px solid var(--line-2); border-radius: 14px; padding: 16px 18px; background: var(--card); }
 .risk-cat {
   display: inline-block; font-size: 11.5px; font-weight: 600;
-  color: #a05a00; background: rgba(255,149,0,.12);
+  color: #7a4600; background: rgba(255,149,0,.12);
   padding: 2px 8px; border-radius: 6px; margin-bottom: 10px;
 }
 @media (prefers-color-scheme: dark) { .risk-cat { color: #ffb340; } }
@@ -1277,3 +1277,16 @@ h2 { letter-spacing: -0.035em; }
 }
 @media print { .jump { display: none; } }
 
+/* ---- 2026-11-22 审计修复 ---- */
+/* P1：≤640px 适用范围条改为可横向滑动的单行，不再挤压重叠 */
+@media (max-width: 640px){
+  /* 换行而不是横向滑动：声明和两个链接都看得见，不用猜有没有右滑 */
+  .scope-bar .wrap{ height: auto; min-height: 34px; flex-wrap: wrap; row-gap: 4px; padding-block: 8px; }
+  .scope-bar .wrap > *{ flex: none; }
+  .scope-bar a{ margin-left: 0; }
+  .scope-bar a.scope-join{ margin-left: 0; }
+  .scope-bar .dot{ display: none; }   /* 手机上省掉分隔点，让三行缩成两行 */
+}
+/* P5：标题层级调整后保持原有字号（.flow 由 h4 改 h3、.ima-block 由 h3 改 h2） */
+.flow h3{ margin: 0 0 4px; font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; }
+.ima-block h2{ font-size: 22px; letter-spacing: -.02em; margin: 0 0 12px; }

@@ -1,49 +1,63 @@
 
 :root {
-  /* 皇家绿护眼底：偏绿的浅绿调，低饱和、亮度适中，长时间阅读不刺眼 */
-  --bg: #cfe3d1;          /* 大面积底：皇家绿浅调，护眼 */
-  --bg-alt: #c3d9c5;      /* 分区底：略深，拉开层次 */
-  --card: #f2f8f3;        /* 卡片：极浅绿白，靠边框+阴影浮起，不靠纯白 */
-  --text: #1c2620;
-  --text-2: #51604f;
-  --text-3: #5f6f5d;
-  --line: #a9bfab;        /* 边框：偏绿灰，边界可辨 */
-  --line-2: #c0d3c2;      /* 次级边框 */
-  --accent: #2f6b4f;
+  /* ── 浅色主题唯一真源 ────────────────────────────────────────────────
+     此前文件里有三份 :root，按先后顺序互相覆盖：
+       第 1 份（顶部，皇家绿 #cfe3d1 系）→ 被第 3 份整体覆盖，是死代码
+       第 2 份（深色，见下）            → 被后面的深色副本覆盖，也是死代码
+       第 3 份（文件末尾"视觉升级"块）  → 这才是浏览器真正渲染的
+     结果是：任何人（或工具）读到第一份都会算错。这里合并成一份，
+     取值一律采用"合并前实际生效"的那套，因此零视觉变化。
+     唯一例外是 --amber：原值 #b7791f 对 #f8fafc 只有 3.48:1，改后 5.94:1。 */
+  --bg: #f8fafc;
+  --bg-alt: #f1f5f9;
+  --card: #ffffff;
+  --text: #0f172a;
+  --text-2: #475569;
+  --text-3: #64748b;      /* 4.55:1 on --bg，刚过 AA 线 */
+  --line: #cbd5e1;
+  --line-2: #e2e8f0;
+  --accent: #2f6b4f;      /* 皇家绿：站点身份色，未变 */
   --accent-2: #265741;
   --accent-soft: #7ba88d;
   --gold: #8a6d2f;
-  --amber: #b7791f;
+  --amber: #7a5c1f;       /* 原 #b7791f 仅 3.48:1，改后 5.94:1 */
   --green: #1f7a4d;
   --red: #9b1c1c;
   --purple: #6b5b95;
-  --radius: 18px;
-  --radius-sm: 12px;
+  /* 实心色块上的文字色。浅色主题压深绿/深红用白字；深色主题压亮绿必须换深字，
+     否则白字对 #4ade80 只有 1.74:1，任何主题下都不该出现。 */
+  --on-accent: #ffffff;
+  --radius: 16px;
+  --radius-sm: 10px;
   --max: 1200px;
-  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-    "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Noto Sans SC", "Microsoft YaHei",
-    system-ui, sans-serif;
+  --font: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Noto Sans SC", "Microsoft YaHei", sans-serif;
   color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #07110c;
-    --bg-alt: #0b1711;
-    --card: #10201a;
-    --text: #eef3ef;
-    --text-2: #a8b5ae;
+    /* 深色主题唯一真源。此前文件里存在两套（#07110c 系 与 #0b1120 系），
+       后者覆盖前者，导致所有按"第一个匹配"取色的工具都在算一套没生效的值。
+       这里合并为一套，取值与合并前"实际生效"的结果完全一致，零视觉变化。 */
+    --bg: #0b1120;
+    --bg-alt: #0f172a;
+    --card: #111c2e;
+    --text: #f1f5f9;
+    --text-2: #94a3b8;
     --text-3: #94a3b8;
-    --line: #22332b;
-    --line-2: #1a2a22;
-    --accent: #7aa78d;
-    --accent-2: #8fb9a0;
-    --accent-soft: #2f6b4c;
+    --line: #334155;
+    --line-2: #1e293b;
+    --accent: #4ade80;
+    --accent-2: #86efac;
+    --accent-soft: #22c55e;
+    /* 以下五项在合并前由第一套提供，未被覆盖，取值原样保留 */
     --gold: #d4b46a;
     --amber: #e0a94f;
     --green: #4ade80;
     --red: #f87171;
     --purple: #b39ddb;
+    --on-accent: #0b1120;   /* 亮绿底改深字：8.9:1，白字仅 1.74:1 */
   }
 }
 
@@ -111,7 +125,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .nav-cta {
   display: inline-flex; align-items: center; gap: 6px;
   height: 30px; padding: 0 14px; border-radius: 15px;
-  background: var(--accent); color: #fff;
+  background: var(--accent); color: var(--on-accent);
   font-size: 12.5px; font-weight: 500; white-space: nowrap;
   transition: background .18s ease;
 }
@@ -121,7 +135,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .nav-new {
   display: inline-flex; align-items: center; margin-left: 6px;
   padding: 1px 7px; border-radius: 999px;
-  background: var(--accent); color: #fff;
+  background: var(--accent); color: var(--on-accent);
   font-size: 10.5px; font-weight: 600; font-style: normal; letter-spacing: 0;
 }
 @media (prefers-color-scheme: dark) { .nav-new { color: #0b1120; } }
@@ -211,6 +225,13 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .scope-bar a { margin-left: auto; color: var(--text-2); white-space: nowrap; }
 .scope-bar a:hover { color: var(--accent); }
 @media (max-width: 640px) { .scope-bar .wrap { gap: 6px; font-size: 11px; } }
+/* 窄屏：原规则是「nowrap + 34px 定高 + overflow:hidden」，手机上一行装不下就互相挤压、
+   被裁掉半行。这里改成允许换行、高度自适应，并去掉行内分隔点，读起来是干净的两行。 */
+@media (max-width: 520px) {
+  .scope-bar .wrap { display: block; height: auto; padding: 8px 16px; font-size: 10.5px; line-height: 1.5; overflow: visible; }
+  .scope-bar .dot { display: none; }
+  .scope-bar a { display: block; margin: 2px 0 0; }
+}
 
 .scope-inline {
   margin: 12px 0 10px; font-size: 12.5px; color: var(--text-3);
@@ -246,7 +267,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   height: 46px; padding: 0 22px; border-radius: 980px;
   font-size: 16px; font-weight: 500; letter-spacing: -0.01em;
-  background: var(--accent); color: #fff; border: none; cursor: pointer;
+  background: var(--accent); color: var(--on-accent); border: none; cursor: pointer;
   transition: background .2s ease, transform .2s ease;
 }
 .btn:hover { background: var(--accent-2); text-decoration: none; }
@@ -266,6 +287,14 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .stats b { display: block; font-size: clamp(28px, 3.4vw, 40px); letter-spacing: -0.035em; font-weight: 700; }
 .stats span { font-size: 12.5px; color: var(--text-2); }
 @media (max-width: 720px) { .stats { grid-template-columns: repeat(3, 1fr); } .stats > div:nth-child(3n+1) { border-left: none; } }
+/* 窄屏：5 个指标在 3 列里排成 3+2，竖分隔线会错位。这里去掉分隔线、拉开行距，
+   变成整齐的 3+2 网格，宁可不画线，也不要画错线。 */
+@media (max-width: 520px) {
+  .stats { row-gap: 18px; margin-top: 44px; }
+  .stats > div { border-left: none; }
+  .hero-actions { flex-direction: column; align-items: stretch; gap: 10px; max-width: 320px; margin: 0 auto; }
+  .hero-actions .btn { width: 100%; }
+}
 
 /* ---------- 卡片 ---------- */
 .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); }
@@ -330,7 +359,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .dl-req .ok, .dl-req .no, .dl-req .dot-i {
   flex: none; width: 18px; height: 18px; border-radius: 50%;
   display: grid; place-items: center; font-size: 10px; font-weight: 700;
-  margin-top: 3px; color: #fff;
+  margin-top: 3px; color: var(--on-accent);
 }
 .dl-req .ok { background: var(--green); }
 .dl-req .no { background: var(--red); }
@@ -353,7 +382,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 
 .dl-btn { width: 100%; height: 46px; }
 .dl-btn svg { width: 17px; height: 17px; }
-.dl-hash { margin: 12px 0 0; font-size: 11.5px; color: var(--text-3); font-family: ui-monospace, Menlo, Consolas, monospace; word-break: break-all; }
+.dl-hash { margin: 12px 0 0; font-size: 12px; color: var(--text-3); font-family: ui-monospace, Menlo, Consolas, monospace; word-break: break-all; }
 .dl-alt { margin: 14px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--text-3); }
 
 /* ---------- 搜索 ---------- */
@@ -395,9 +424,9 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .flow > li::before {
   counter-increment: step; content: counter(step);
   display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
-  background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; margin-bottom: 10px;
+  background: var(--accent); color: var(--on-accent); font-size: 12px; font-weight: 700; margin-bottom: 10px;
 }
-.flow h4 { margin: 0 0 4px; font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; }
+.flow h3 { margin: 0 0 4px; font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; }
 .flow p { margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--text-2); }
 @media (max-width: 900px) { .flow { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .flow { grid-template-columns: 1fr; } }
@@ -435,7 +464,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .lb-col[data-level="mid"] i { background: var(--accent-soft); }
 .lb-col[data-level="high"] i { background: var(--accent); }
 .lb-count { font-size: 11px; color: var(--text-3); margin-bottom: 4px; font-variant-numeric: tabular-nums; }
-.lb-month { position: absolute; bottom: -22px; font-size: 11.5px; color: var(--text-3); white-space: nowrap; }
+.lb-month { position: absolute; bottom: -22px; font-size: 12px; color: var(--text-3); white-space: nowrap; }
 .lb-col[data-level="high"] .lb-month { color: var(--text); font-weight: 600; }
 
 .month-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
@@ -453,7 +482,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
   border-bottom: 1px solid var(--line-2);
 }
 .month-card header b { font-size: 16px; letter-spacing: -.01em; }
-.month-total { font-size: 11.5px; color: var(--text-3); }
+.month-total { font-size: 12px; color: var(--text-3); }
 .month-card[data-level="high"] .month-total { color: var(--accent); font-weight: 600; }
 
 .m-block + .m-block { margin-top: 12px; }
@@ -470,7 +499,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
   content: ""; position: absolute; left: 0; top: 7px;
   width: 4px; height: 4px; border-radius: 50%; background: var(--line);
 }
-.month-card li span { display: block; font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+.month-card li span { display: block; font-size: 12px; color: var(--text-3); margin-top: 1px; }
 .month-card li.is-action::before { background: var(--gold); }
 .month-card li.more { color: var(--text-3); font-style: normal; }
 .month-card li.more::before { background: transparent; }
@@ -482,11 +511,11 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .payout-table { display: grid; gap: 1px; background: var(--line-2); border-radius: 12px; overflow: hidden; }
 .pt-row { display: grid; grid-template-columns: 220px 110px 1fr 240px; background: var(--card); }
 .pt-row > div { padding: 11px 14px; font-size: 13px; line-height: 1.5; }
-.pt-row.pt-head > div { font-size: 11.5px; font-weight: 600; letter-spacing: .04em; color: var(--text-3); background: var(--bg-alt); }
+.pt-row.pt-head > div { font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--text-3); background: var(--bg-alt); }
 .pt-name { font-weight: 500; }
 .pt-when { color: var(--text-2); }
 .pt-basis { color: var(--text-3); font-size: 12px; }
-.pt-method { display: inline-block; padding: 1px 8px; border-radius: 5px; font-size: 11.5px; font-weight: 600; }
+.pt-method { display: inline-block; padding: 1px 8px; border-radius: 5px; font-size: 12px; font-weight: 600; }
 .pt-month { color: #2f6b4f; background: rgba(47,107,79,.1); }
 .pt-once { color: var(--gold); background: rgba(138,109,47,.12); }
 .pt-other { color: var(--text-2); background: var(--bg-alt); }
@@ -535,7 +564,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .pf-line { fill: none; stroke: var(--gold); stroke-width: 2; }
 .pf-dot { fill: var(--gold); }
 .pf-num { font-size: 11px; fill: var(--text-3); }
-.pf-month { font-size: 11.5px; fill: var(--text); }
+.pf-month { font-size: 12px; fill: var(--text); }
 .pf-cum { font-size: 11px; fill: var(--gold); font-weight: 600; }
 .pf-axis { stroke: var(--line); stroke-width: 1; }
 .pf-guide { stroke: var(--gold); stroke-width: 1; stroke-dasharray: 4 4; opacity: .5; }
@@ -577,7 +606,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 
 .cond { display: grid; gap: 8px; }
 .cond li { list-style: none; display: flex; gap: 10px; font-size: 15px; line-height: 1.5; }
-.cond .mark { flex: none; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; color: #fff; margin-top: 2px; }
+.cond .mark { flex: none; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; color: var(--on-accent); margin-top: 2px; }
 .cond .mark.y { background: var(--green); }
 .cond .mark.n { background: var(--red); }
 .cond ul { margin: 0; padding: 0; display: grid; gap: 8px; }
@@ -651,7 +680,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .steps .role:first-child { margin-top: 0; }
 .steps ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
 .steps li { display: flex; gap: 12px; }
-.steps .n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; display: grid; place-items: center; margin-top: 2px; }
+.steps .n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-size: 11px; font-weight: 700; display: grid; place-items: center; margin-top: 2px; }
 .steps h4 { margin: 0 0 2px; font-size: 15px; font-weight: 600; }
 .steps p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-2); }
 .steps .pub { margin-top: 6px; font-size: 12.5px; color: #a05a00; }
@@ -919,7 +948,7 @@ p { text-wrap: pretty; }
   transition: background .18s ease, color .18s ease, border-color .18s ease;
 }
 .role-chip:hover { border-color: var(--accent); color: var(--text); }
-.role-chip.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.role-chip.is-on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .role-chip:active { transform: scale(.97); }
 .rc-icon { font-size: 15px; }
 .rc-name { max-width: 148px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -941,7 +970,7 @@ p { text-wrap: pretty; }
 }
 .role-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .role-step {
-  font-size: 11.5px; font-weight: 600; color: var(--accent);
+  font-size: 12px; font-weight: 600; color: var(--accent);
   background: rgba(47,107,79,.09); padding: 2px 8px; border-radius: 6px;
 }
 .role-head h3 { margin: 0; font-size: 17px; letter-spacing: -.01em; }
@@ -951,7 +980,7 @@ p { text-wrap: pretty; }
 .role-steps li { display: flex; gap: 12px; }
 .role-steps .n {
   flex: none; width: 22px; height: 22px; border-radius: 50%;
-  background: var(--accent); color: #fff; font-size: 11px; font-weight: 700;
+  background: var(--accent); color: var(--on-accent); font-size: 11px; font-weight: 700;
   display: grid; place-items: center; margin-top: 2px;
 }
 .role-steps h4 { margin: 0 0 2px; font-size: 15px; }
@@ -998,7 +1027,7 @@ p { text-wrap: pretty; }
   color: var(--text-2); font: inherit; font-size: 12.5px; cursor: pointer;
 }
 .vis-chip span { font-size: 11px; color: var(--text-3); }
-.vis-chip.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.vis-chip.is-on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .vis-chip.is-on span { color: rgba(255,255,255,.75); }
 
 .vis-tag {
@@ -1019,7 +1048,7 @@ p { text-wrap: pretty; }
 }
 .cat-chip span { font-size: 11px; color: var(--text-3); font-variant-numeric: tabular-nums; }
 .cat-chip:hover { border-color: var(--accent); color: var(--text); }
-.cat-chip.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.cat-chip.is-on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .cat-chip.is-on span { color: rgba(255,255,255,.75); }
 
 .biz-wrap { display: grid; gap: 34px; }
@@ -1041,12 +1070,12 @@ p { text-wrap: pretty; }
 .biz-body { min-width: 0; }
 .biz-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
 .biz-title { margin: 0; font-size: 15.5px; font-weight: 600; letter-spacing: -.01em; }
-.biz-seg { font-size: 11.5px; color: var(--accent); background: rgba(47,107,79,.08); padding: 1px 7px; border-radius: 5px; }
+.biz-seg { font-size: 12px; color: var(--accent); background: rgba(47,107,79,.08); padding: 1px 7px; border-radius: 5px; }
 .biz-tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 8px; }
 .btag { font-size: 11px; color: var(--text-2); background: var(--bg-alt); border: 1px solid var(--line-2); padding: 1px 7px; border-radius: 5px; }
 .biz-store { color: var(--text-3); background: var(--bg-alt); padding: 2px 8px; border-radius: 6px; }
 .biz-desc { margin: 0 0 8px; font-size: 14px; line-height: 1.6; color: var(--text-2); max-width: 88ch; }
-.biz-meta { display: flex; gap: 8px; flex-wrap: wrap; font-size: 11.5px; }
+.biz-meta { display: flex; gap: 8px; flex-wrap: wrap; font-size: 12px; }
 .biz-freq { color: var(--accent); background: rgba(47,107,79,.09); padding: 2px 8px; border-radius: 6px; }
 .biz-basis { color: var(--text-3); background: var(--bg-alt); padding: 2px 8px; border-radius: 6px; }
 
@@ -1058,7 +1087,7 @@ p { text-wrap: pretty; }
 @media (max-width: 900px) { .risk-grid { grid-template-columns: 1fr; } }
 .risk-item { border: 1px solid var(--line-2); border-radius: 14px; padding: 16px 18px; background: var(--card); }
 .risk-cat {
-  display: inline-block; font-size: 11.5px; font-weight: 600;
+  display: inline-block; font-size: 12px; font-weight: 600;
   color: #a05a00; background: rgba(255,149,0,.12);
   padding: 2px 8px; border-radius: 6px; margin-bottom: 10px;
 }
@@ -1152,21 +1181,9 @@ p { text-wrap: pretty; }
   .role-chip.is-on { background: #eee; color: #000; }
   .prose table { font-size: 9pt; }
 }
-/* ===== 视觉升级（dsh-ui-ux-pro-max：institution navy + funding green，Slate 中性，柔和阴影） ===== */
-:root {
-  --bg: #f8fafc;
-  --bg-alt: #f1f5f9;
-  --card: #ffffff;
-  --text: #0f172a;
-  --text-2: #475569;
-  --text-3: #64748b;
-  --line: #cbd5e1;
-  --line-2: #e2e8f0;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --font: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-}
+/* 视觉升级（institution navy + funding green，Slate 中性，柔和阴影）
+   原本这里是第三份 :root，整套覆盖了文件顶部的浅色令牌，导致顶部那份永远不生效。
+   取值已合并到文件顶部的 :root，此处只保留说明，不再重复声明变量。 */
 
 body {
   -webkit-font-smoothing: antialiased;
@@ -1174,21 +1191,9 @@ body {
   font-feature-settings: "tnum" 1, "cv11" 1;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0b1120;
-    --bg-alt: #0f172a;
-    --card: #111c2e;
-    --text: #f1f5f9;
-    --text-2: #94a3b8;
-    --text-3: #94a3b8;
-    --line: #334155;
-    --line-2: #1e293b;
-    --accent: #4ade80;
-    --accent-2: #86efac;
-    --accent-soft: #22c55e;
-  }
-}
+/* 深色令牌重复定义已合并到文件开头的 :root 块（见 --bg: #0b1120 那段）。
+   此处原有一份完整副本，取值与之相同、且覆盖了开头那份，是"变量名唯一但定义不唯一"
+   的典型陷阱：打开文件先看到的那套并没有生效。 */
 
 /* 导航：更细的描边、更稳的字号 */
 .nav { border-bottom-color: rgba(15, 23, 42, .06); }

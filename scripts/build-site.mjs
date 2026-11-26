@@ -24,6 +24,8 @@ const CENTER_KEYS = Object.keys(CENTER)
 const [BIZ_LIST, BIZ_DIST, BIZ_RHYTHM, BIZ_ARCHIVE, BIZ_RISK] = CENTER_KEYS.map((k) => CENTER[k])
 
 const OUT = 'site'
+// 社交预览封面：1200×630，微信/微博/Twitter 转发时显示，源文件在 assets/og-cover.png
+const OG_COVER = '/assets/og-cover.png'
 const SITE = {
   name: 'CQPUE资助政策',
   tagline: '把学生资助政策讲清楚',
@@ -268,64 +270,50 @@ const FLOW = [
 
 const CSS = `
 :root {
-  /* ── 浅色主题唯一真源 ────────────────────────────────────────────────
-     此前文件里有三份 :root，按先后顺序互相覆盖：
-       第 1 份（顶部，皇家绿 #cfe3d1 系）→ 被第 3 份整体覆盖，是死代码
-       第 2 份（深色，见下）            → 被后面的深色副本覆盖，也是死代码
-       第 3 份（文件末尾"视觉升级"块）  → 这才是浏览器真正渲染的
-     结果是：任何人（或工具）读到第一份都会算错。这里合并成一份，
-     取值一律采用"合并前实际生效"的那套，因此零视觉变化。
-     唯一例外是 --amber：原值 #b7791f 对 #f8fafc 只有 3.48:1，改后 5.94:1。 */
-  --bg: #f8fafc;
-  --bg-alt: #f1f5f9;
-  --card: #ffffff;
-  --text: #0f172a;
-  --text-2: #475569;
-  --text-3: #64748b;      /* 4.55:1 on --bg，刚过 AA 线 */
-  --line: #cbd5e1;
-  --line-2: #e2e8f0;
-  --accent: #2f6b4f;      /* 皇家绿：站点身份色，未变 */
+  /* 皇家绿护眼底：偏绿的浅绿调，低饱和、亮度适中，长时间阅读不刺眼 */
+  --bg: #cfe3d1;          /* 大面积底：皇家绿浅调，护眼 */
+  --bg-alt: #c3d9c5;      /* 分区底：略深，拉开层次 */
+  --card: #f2f8f3;        /* 卡片：极浅绿白，靠边框+阴影浮起，不靠纯白 */
+  --text: #1c2620;
+  --text-2: #51604f;
+  --text-3: #4f5c4a;
+  --line: #a9bfab;        /* 边框：偏绿灰，边界可辨 */
+  --line-2: #c0d3c2;      /* 次级边框 */
+  --accent: #2f6b4f;
   --accent-2: #265741;
   --accent-soft: #7ba88d;
   --gold: #8a6d2f;
-  --amber: #7a5c1f;       /* 原 #b7791f 仅 3.48:1，改后 5.94:1 */
+  --amber: #7a5c1f;
   --green: #1f7a4d;
   --red: #9b1c1c;
   --purple: #6b5b95;
-  /* 实心色块上的文字色。浅色主题压深绿/深红用白字；深色主题压亮绿必须换深字，
-     否则白字对 #4ade80 只有 1.74:1，任何主题下都不该出现。 */
-  --on-accent: #ffffff;
-  --radius: 16px;
-  --radius-sm: 10px;
+  --radius: 18px;
+  --radius-sm: 12px;
   --max: 1200px;
-  --font: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Noto Sans SC", "Microsoft YaHei",
+    system-ui, sans-serif;
   color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* 深色主题唯一真源。此前文件里存在两套（#07110c 系 与 #0b1120 系），
-       后者覆盖前者，导致所有按"第一个匹配"取色的工具都在算一套没生效的值。
-       这里合并为一套，取值与合并前"实际生效"的结果完全一致，零视觉变化。 */
-    --bg: #0b1120;
-    --bg-alt: #0f172a;
-    --card: #111c2e;
-    --text: #f1f5f9;
-    --text-2: #94a3b8;
+    --bg: #07110c;
+    --bg-alt: #0b1711;
+    --card: #10201a;
+    --text: #eef3ef;
+    --text-2: #a8b5ae;
     --text-3: #94a3b8;
-    --line: #334155;
-    --line-2: #1e293b;
-    --accent: #4ade80;
-    --accent-2: #86efac;
-    --accent-soft: #22c55e;
-    /* 以下五项在合并前由第一套提供，未被覆盖，取值原样保留 */
+    --line: #22332b;
+    --line-2: #1a2a22;
+    --accent: #7aa78d;
+    --accent-2: #8fb9a0;
+    --accent-soft: #2f6b4c;
     --gold: #d4b46a;
     --amber: #e0a94f;
     --green: #4ade80;
     --red: #f87171;
     --purple: #b39ddb;
-    --on-accent: #0b1120;   /* 亮绿底改深字：8.9:1，白字仅 1.74:1 */
   }
 }
 
@@ -493,13 +481,6 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .scope-bar a { margin-left: auto; color: var(--text-2); white-space: nowrap; }
 .scope-bar a:hover { color: var(--accent); }
 @media (max-width: 640px) { .scope-bar .wrap { gap: 6px; font-size: 11px; } }
-/* 窄屏：原规则是「nowrap + 34px 定高 + overflow:hidden」，手机上一行装不下就互相挤压、
-   被裁掉半行。这里改成允许换行、高度自适应，并去掉行内分隔点，读起来是干净的两行。 */
-@media (max-width: 520px) {
-  .scope-bar .wrap { display: block; height: auto; padding: 8px 16px; font-size: 10.5px; line-height: 1.5; overflow: visible; }
-  .scope-bar .dot { display: none; }
-  .scope-bar a { display: block; margin: 2px 0 0; }
-}
 
 .scope-inline {
   margin: 12px 0 10px; font-size: 12.5px; color: var(--text-3);
@@ -555,14 +536,6 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .stats b { display: block; font-size: clamp(28px, 3.4vw, 40px); letter-spacing: -0.035em; font-weight: 700; }
 .stats span { font-size: 12.5px; color: var(--text-2); }
 @media (max-width: 720px) { .stats { grid-template-columns: repeat(3, 1fr); } .stats > div:nth-child(3n+1) { border-left: none; } }
-/* 窄屏：5 个指标在 3 列里排成 3+2，竖分隔线会错位。这里去掉分隔线、拉开行距，
-   变成整齐的 3+2 网格，宁可不画线，也不要画错线。 */
-@media (max-width: 520px) {
-  .stats { row-gap: 18px; margin-top: 44px; }
-  .stats > div { border-left: none; }
-  .hero-actions { flex-direction: column; align-items: stretch; gap: 10px; max-width: 320px; margin: 0 auto; }
-  .hero-actions .btn { width: 100%; }
-}
 
 /* ---------- 卡片 ---------- */
 .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); }
@@ -694,7 +667,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
   display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
   background: var(--accent); color: var(--on-accent); font-size: 12px; font-weight: 700; margin-bottom: 10px;
 }
-.flow h3 { margin: 0 0 4px; font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; }
+.flow h4 { margin: 0 0 4px; font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; }
 .flow p { margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--text-2); }
 @media (max-width: 900px) { .flow { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .flow { grid-template-columns: 1fr; } }
@@ -951,7 +924,7 @@ h2 { font-size: clamp(27px, 3.4vw, 40px); line-height: 1.14; letter-spacing: -0.
 .steps .n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-size: 11px; font-weight: 700; display: grid; place-items: center; margin-top: 2px; }
 .steps h4 { margin: 0 0 2px; font-size: 15px; font-weight: 600; }
 .steps p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-2); }
-.steps .pub { margin-top: 6px; font-size: 12.5px; color: #a05a00; }
+.steps .pub { margin-top: 6px; font-size: 12.5px; color: #7a4600; }
 @media (prefers-color-scheme: dark) { .steps .pub { color: #ffb340; } }
 
 .mats { display: grid; gap: 1px; background: var(--line-2); border-radius: var(--radius-sm); overflow: hidden; }
@@ -1256,7 +1229,7 @@ p { text-wrap: pretty; }
 
 .role-pub {
   margin: 12px 0 0; padding: 8px 12px; border-radius: 8px;
-  background: rgba(255,149,0,.1); font-size: 12.5px; color: #a05a00;
+  background: rgba(255,149,0,.1); font-size: 12.5px; color: #7a4600;
 }
 @media (prefers-color-scheme: dark) { .role-pub { color: #ffb340; } }
 
@@ -1356,7 +1329,7 @@ p { text-wrap: pretty; }
 .risk-item { border: 1px solid var(--line-2); border-radius: 14px; padding: 16px 18px; background: var(--card); }
 .risk-cat {
   display: inline-block; font-size: 12px; font-weight: 600;
-  color: #a05a00; background: rgba(255,149,0,.12);
+  color: #7a4600; background: rgba(255,149,0,.12);
   padding: 2px 8px; border-radius: 6px; margin-bottom: 10px;
 }
 @media (prefers-color-scheme: dark) { .risk-cat { color: #ffb340; } }
@@ -1449,9 +1422,21 @@ p { text-wrap: pretty; }
   .role-chip.is-on { background: #eee; color: #000; }
   .prose table { font-size: 9pt; }
 }
-/* 视觉升级（institution navy + funding green，Slate 中性，柔和阴影）
-   原本这里是第三份 :root，整套覆盖了文件顶部的浅色令牌，导致顶部那份永远不生效。
-   取值已合并到文件顶部的 :root，此处只保留说明，不再重复声明变量。 */
+/* ===== 视觉升级（dsh-ui-ux-pro-max：institution navy + funding green，Slate 中性，柔和阴影） ===== */
+:root {
+  --bg: #f8fafc;
+  --bg-alt: #f1f5f9;
+  --card: #ffffff;
+  --text: #0f172a;
+  --text-2: #475569;
+  --text-3: #64748b;
+  --line: #cbd5e1;
+  --line-2: #e2e8f0;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
 
 body {
   -webkit-font-smoothing: antialiased;
@@ -1459,9 +1444,21 @@ body {
   font-feature-settings: "tnum" 1, "cv11" 1;
 }
 
-/* 深色令牌重复定义已合并到文件开头的 :root 块（见 --bg: #0b1120 那段）。
-   此处原有一份完整副本，取值与之相同、且覆盖了开头那份，是"变量名唯一但定义不唯一"
-   的典型陷阱：打开文件先看到的那套并没有生效。 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1120;
+    --bg-alt: #0f172a;
+    --card: #111c2e;
+    --text: #f1f5f9;
+    --text-2: #94a3b8;
+    --text-3: #94a3b8;
+    --line: #334155;
+    --line-2: #1e293b;
+    --accent: #4ade80;
+    --accent-2: #86efac;
+    --accent-soft: #22c55e;
+  }
+}
 
 /* 导航：更细的描边、更稳的字号 */
 .nav { border-bottom-color: rgba(15, 23, 42, .06); }
@@ -1550,6 +1547,63 @@ h2 { letter-spacing: -0.035em; }
 }
 @media print { .jump { display: none; } }
 
+/* ---- 2026-11-22 审计修复 ---- */
+/* P1：≤640px 适用范围条改为可横向滑动的单行，不再挤压重叠 */
+@media (max-width: 640px){
+  /* 换行而不是横向滑动：声明和两个链接都看得见，不用猜有没有右滑 */
+  .scope-bar .wrap{ height: auto; min-height: 34px; flex-wrap: wrap; row-gap: 4px; padding-block: 8px; }
+  .scope-bar .wrap > *{ flex: none; }
+  .scope-bar a{ margin-left: 0; }
+  .scope-bar a.scope-join{ margin-left: 0; }
+  .scope-bar .dot{ display: none; }   /* 手机上省掉分隔点，让三行缩成两行 */
+}
+/* P5：标题层级调整后保持原有字号（.flow 由 h4 改 h3、.ima-block 由 h3 改 h2） */
+.flow h3{ margin: 0 0 4px; font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; }
+.ima-block h2{ font-size: 22px; letter-spacing: -.02em; margin: 0 0 12px; }
+
+/* ===== 两站共用语义别名（见 DESIGN.md 第 5 节）=====
+   新组件只用 --ds-*；老代码不动，出现一次改一次。 */
+:root{
+  --ds-bg:var(--bg);
+  --ds-surface:var(--card);
+  --ds-text:var(--text);
+  --ds-text-2:var(--text-2);
+  --ds-text-3:var(--text-3);
+  --ds-line:var(--line);
+  --ds-line-subtle:var(--line-2);
+  --ds-accent:var(--accent);
+  --ds-accent-text:var(--accent);
+  --ds-radius-card:var(--radius);
+  --ds-radius-pill:999px;
+  --ds-max:var(--max);
+}
+
+
+/* ==========================================================================
+   2026-11-26 质量修复（追加覆盖，不改动以上任何既有规则）
+   1) --on-accent：实心色块上的文字色。深色主题的 --accent/--green 是亮绿 #4ade80，
+      白字压上去只有 1.74:1，必须换深字；浅色主题压深绿仍用白字（6.29:1）。
+   2) 窄屏修复：顶部提示条改普通文本流（原 nowrap+定高+hidden 会挤压裁切）；
+      首页按钮竖排满宽（原 2+1 且文字被截断）；数字条去掉错位分隔线。
+   ========================================================================== */
+:root { --on-accent: #ffffff; }
+
+@media (prefers-color-scheme: dark) {
+  :root { --on-accent: #0b1120; }
+}
+
+/* 流程步骤改为 h3 后的视觉保持一致 */
+.flow h3 { margin: 0 0 4px; font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; }
+
+@media (max-width: 520px) {
+  .scope-bar .wrap { display: block; height: auto; padding: 8px 16px; font-size: 10.5px; line-height: 1.5; overflow: visible; }
+  .scope-bar .dot { display: none; }
+  .scope-bar a { display: block; margin: 2px 0 0; }
+  .stats { row-gap: 18px; margin-top: 44px; }
+  .stats > div { border-left: none; }
+  .hero-actions { flex-direction: column; align-items: stretch; gap: 10px; max-width: 320px; margin: 0 auto; }
+  .hero-actions .btn { width: 100%; }
+}
 `
 
 /* ------------------------------------------------------------------ 交互脚本 */
@@ -1842,7 +1896,7 @@ const nav = (base, active, home) => {
   return `<a class="skip" href="#main">跳到主要内容</a>
 <nav class="nav" aria-label="主导航">
   <div class="wrap">
-    <a class="nav-brand" href="${base}index.html">${ICON_SHIELD}CQPUE资助政策</a>
+    <a class="nav-brand" href="${base}index.html"${home ? ' aria-current="page"' : ''}>${ICON_SHIELD}CQPUE资助政策</a>
     <div class="nav-links" id="navLinks">
       ${navLinks}
       <a class="nav-dl" href="${jump('download')}">下载软件</a>
@@ -1980,13 +2034,13 @@ function renderIma() {
 
   <div class="ima-block">
     <div class="ima-text">
-      <h3>里面有什么</h3>
+      <h2>里面有什么</h2>
       <ul class="ima-list">
         <li><b>全国高校公众号文章</b>：${IMA_SCHOOLS}高校学生资助相关的推文、通知与经验稿</li>
         <li><b>政策文件原文</b>：国家、重庆市与学校公开的资助政策全文</li>
         <li><b>历年通知与整理稿</b>：按项目归档的办理口径、时间节点与材料要求</li>
       </ul>
-      <h3>怎么用</h3>
+      <h2>怎么用</h2>
       <ol class="ima-steps">
         <li><span>1</span>用微信扫描右侧二维码</li>
         <li><span>2</span>在 IMA 里确认「加入知识库」</li>
@@ -2048,10 +2102,16 @@ const layout = ({ title, description, path = '', base = '', active, home = false
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${pageUrl(path)}">
-<meta property="og:locale" content="zh_CN">
-${image ? '<meta property="og:image" content="' + esc(image) + '">' : ''}
-<meta name="twitter:card" content="summary">
-${noindex ? '<meta name="robots" content="noindex,follow">' : '<meta name="robots" content="index,follow">'}
+${extraHead.includes('og:image')
+  ? `<meta property="og:locale" content="zh_CN">
+
+<meta name="twitter:card" content="summary">`
+  : `<meta property="og:image" content="${esc(image || SITE.url + OG_COVER)}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc(SITE.name + ' · ' + SITE.tagline)}"><meta name="twitter:card" content="summary_large_image"><meta property="og:locale" content="zh_CN">
+`}
+<meta name="robots" content="${noindex ? 'noindex,follow' : 'index,follow'}">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#cfe3d1">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
@@ -2434,7 +2494,7 @@ const SOFTWARE = [
     size: SITE.apk.size,
     file: SITE.apk.file,
     sha256: SITE.apk.sha256,
-    fallback: SITE.apk.url,
+    fallback: 'downloads/' + SITE.apk.file,
     btn: '下载安卓安装包',
     points: [
       { k: 'ok', t: '21 个资助项目、办理流程、材料清单全部内置，断网也能查' },
@@ -2453,7 +2513,7 @@ const SOFTWARE = [
     size: SITE.numcheck.size,
     file: SITE.numcheck.file,
     sha256: SITE.numcheck.sha256,
-    fallback: SITE.numcheck.url,
+    fallback: 'downloads/' + SITE.numcheck.file,
     btn: '下载 Windows 便携版（ZIP）',
     points: [
       { k: 'ok', t: '身份证、银行卡、手机号三类号码离线批量校验，结果可导出 Excel / CSV' },
@@ -2705,7 +2765,7 @@ function renderIndex() {
       <button class="clr" id="qclear" aria-label="清除" hidden>✕</button>
     </div>
 
-    <div id="results">
+    <div id="results" aria-live="polite" aria-busy="false">
       ${policySections}
     </div>
     <div id="noresult" class="empty" hidden>没有找到相关项目，试试「国奖」「贷款」「勤工」。</div>
@@ -3298,6 +3358,18 @@ if (MISSING_DL.length) console.warn('⚠ 缺少安装包，下载按钮会 404�
 writeFileSync(join(OUT, 'assets/site.css'), CSS, 'utf8')
 writeFileSync(join(OUT, 'assets/icon.svg'), ICON_SHIELD, 'utf8')
 writeFileSync(join(OUT, 'assets/site.js'), SITE_JS, 'utf8')
+
+// 社交预览封面：源文件在 assets/og-cover.png，有就复制，没有就提示（不生成占位图）
+if (existsSync('assets/og-cover.png')) {
+  copyFileSync('assets/og-cover.png', join(OUT, 'assets/og-cover.png'))
+} else {
+  console.warn('⚠ 缺少 assets/og-cover.png，社交转发会退化成文字卡')
+}
+
+// 设计令牌说明随站发布（两站共用一份，源自 assets/DESIGN.md）
+if (existsSync('assets/DESIGN.md')) {
+  copyFileSync('assets/DESIGN.md', join(OUT, 'DESIGN.md'))
+}
 writeFileSync(join(OUT, '.nojekyll'), '', 'utf8')
 writeFileSync(join(OUT, 'index.html'), renderIndex(), 'utf8')
 writeFileSync(join(OUT, '404.html'), render404(), 'utf8')
